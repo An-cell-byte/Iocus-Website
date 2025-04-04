@@ -7,7 +7,7 @@ document.getElementById("login-form").addEventListener("submit", function(e) {
 
     if(correo == "Jaime" && contrasena == "1234") {
         document.getElementById("login-message").innerText = "Datos verificados correctamente.";
-        setTimeout(() => { window.location.href = "file:///D:/TEC/Semestre%204/Periodo%201/Construcci%C3%B3n%20de%20software%20y%20toma%20de%20decisiones/Reto/Iocus-Website-dev/Iocus-Website-dev/coursescreen.html"; }, 500); // Redirect after 0.5s
+        setTimeout(() => { window.location.href = "coursescreen.html"; }, 500); // Redirect after 0.5s
     }
 
 
