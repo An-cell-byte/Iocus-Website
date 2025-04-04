@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>PantallaCurso</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="estetica.css"/>
+    <link rel="stylesheet" href="transitions.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .content-section {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="w3-sidebar w3-light-gray w3-border w3-bar-block" style="width: 12%">
+        <img src="IMG2whirlpool.jpg" alt="Avatar" style="width:80%" class="w3-bar-item">
+
+        <!-- Menú lateral con los enlaces de navegación -->
+        <a href="javascript:void(0)" onclick="showSection('cuenta')" class="fa fa-id-card w3-bar-item w3-button"> Mi cuenta</a>
+        <a href="javascript:void(0)" onclick="showSection('cursos')" class="fa fa-wrench w3-bar-item w3-button"> Cursos</a>
+        <a href="javascript:void(0)" onclick="showSection('calificacion')" class="fa fa-file-text w3-bar-item w3-button"> Calificación</a>
+        <a href="javascript:void(0)" onclick="showSection('videojuego')" class="fa fa-gamepad w3-bar-item w3-button"> Videojuego</a>
+        <a href="javascript:void(0)" onclick="showSection('analitica')" class="fa fa-code w3-bar-item w3-button"> Página de analítica</a>
+
+        <!-- Nuevos enlaces agregados -->
+        <a href="javascript:void(0)" onclick="showSection('ayuda')" class="fa fa-question-circle w3-bar-item w3-button"> Ayuda</a>
+        <!-- Logout en la parte inferior -->
+        <a href="file:///C:/Users/sborb/Desktop/Universidad/4to%20semestre/Construcci%C3%B3n%20de%20software%20y%20toma%20de%20decisiones/Proyecto/P%C3%A1gina%20web/index.html"  class="fa fa-sign-out w3-bar-item w3-button"> Logout</a>
+    </div>
+
+    <!-- Página de contenido -->
+    <div style="margin-left:15%">
+
+        <!-- Sección Mi Cuenta -->
+        <!-- Sección Mi Cuenta -->
+        <div id="cuenta" class="content-section w3-container section-content">
+          <h1 class="section-header">Mi Cuenta</h1>
+          <p class="section-description">Aquí puedes ver y gestionar los detalles de tu cuenta.</p>
+          <div class="container mt-4">
+              <div class="row">
+                  <div class="col-md-4">
+                      <!-- Imagen de perfil -->
+                      <div class="card">
+                          <img src="IMG2whirlpool.jpg" class="card-img-top" alt="Avatar" />
+                          <div class="card-body text-center">
+                              <h4 class="card-title">Juan Perez</h4>
+                              <p class="card-text text-muted">Estudiante de ingeniería</p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="col-md-8">
+                      <!-- Información de la cuenta -->
+                      <div class="card">
+                          <div class="card-header">
+                              <h5 class="card-title">Datos de la Cuenta</h5>
+                          </div>
+                          <div class="card-body">
+                              <ul class="list-group">
+                                  <li class="list-group-item"><strong>Nombre de Usuario:</strong> Juan Perez</li>
+                                  <li class="list-group-item"><strong>Biografía:</strong> Estudiante de ingeniería en Whirlpool, interesado en tecnología y automatización.</li>
+                                  <li class="list-group-item"><strong>Fuente de Contacto:</strong> juanperez@whirlpool.com</li>
+                              </ul>
+                          </div>
+                      </div>
+
+                      <!-- Botón de edición de perfil -->
+                      <div class="mt-3 text-center">
+                          <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#editProfileModal">Editar Perfil</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Modal para editar el perfil -->
+          <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h5 class="modal-title" id="editProfileModalLabel">Editar Perfil</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+                          <form>
+                              <div class="form-group">
+                                  <label for="username">Nombre de Usuario</label>
+                                  <input type="text" class="form-control" id="username" value="Juan Perez">
+                              </div>
+                              <div class="form-group">
+                                  <label for="bio">Biografía</label>
+                                  <textarea class="form-control" id="bio" rows="3">Estudiante de ingeniería en Whirlpool, interesado en tecnología y automatización.</textarea>
+                              </div>
+                              <div class="form-group">
+                                  <label for="contact">Fuente de Contacto</label>
+                                  <input type="email" class="form-control" id="contact" value="juanperez@whirlpool.com">
+                              </div>
+                          </form>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                          <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+
+        <!-- Sección Cursos -->
+        <div id="cursos" class="content-section w3-container section-content">
+          <h1 class="section-header">Cursos</h1>
+          <div class="w3-row">
+              <div class="w3-col s6">
+                  <h2>Mis Cursos Inscritos</h2>
+                  <ul class="w3-ul">
+                      <li>Curso de Electrónica Básica</li>
+                      <li>Curso de Programación Avanzada</li>
+                      <li>Curso de Redes y Comunicaciones</li>
+                  </ul>
+              </div>
+              <div class="w3-col s6">
+                  <h2>Añadir Curso</h2>
+                  <button class="w3-button w3-blue">Añadir un nuevo curso</button>
+              </div>
+          </div>
+      </div>
+
+        <!-- Sección Calificación -->
+        <div id="calificacion" class="content-section w3-container section-content">
+          <h1 class="section-header">Calificación</h1>
+          <p class="section-description">Aquí puedes ver tus calificaciones y el progreso de tus cursos.</p>
+          <div class="w3-card-4">
+              <div class="w3-container">
+                  <h4>Gráfico de Calificación</h4>
+                  <!-- Aquí debería ir un gráfico, ejemplo con una librería JS como Chart.js -->
+                  <canvas id="calificacionChart" width="400" height="200"></canvas>
+                  <h4>Tabla de Calificación</h4>
+                  <table class="w3-table-all">
+                      <thead>
+                          <tr>
+                              <th>Tarea</th>
+                              <th>Calificación</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>Tarea 1</td>
+                              <td>80%</td>
+                          </tr>
+                          <tr>
+                              <td>Tarea 2</td>
+                              <td>90%</td>
+                          </tr>
+                          <tr>
+                              <td>Tarea 3</td>
+                              <td>85%</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+        <!-- Sección Videojuego -->
+        <div id="videojuego" class="content-section w3-container section-content">
+          <h1 class="section-header">Videojuego</h1>
+          <p class="section-description">Accede a materiales interactivos o videojuegos relacionados con los cursos.</p>
+          <button class="w3-button w3-green">Jugar Videojuego</button>
+      </div>
+
+        <!-- Sección Página de Analítica -->
+        <div id="analitica" class="content-section w3-container section-content">
+          <h1 class="section-header">Página de Analítica</h1>
+          <p class="section-description">Accede a estadísticas y análisis sobre tu progreso en los cursos.</p>
+          <a href="https://www.analitica-whirlpool.com" class="w3-button w3-blue">Ir a la página de analítica</a>
+      </div>
+
+        <!-- Sección Ayuda -->
+        <div id="ayuda" class="content-section w3-container section-content">
+          <h1 class="section-header">Ayuda</h1>
+          <p class="section-description">Aquí puedes obtener información sobre cómo utilizar las otras secciones.</p>
+          <div class="w3-card-4">
+              <div class="w3-container">
+                  <h4>Mi Cuenta</h4>
+                  <p>Accede a tus datos personales, biografía y contacto en la sección de "Mi Cuenta".</p>
+                  <h4>Cursos</h4>
+                  <p>Consulta los cursos en los que estás inscrito y añade nuevos cursos en la sección de "Cursos".</p>
+                  <h4>Calificación</h4>
+                  <p>Mira tus calificaciones y el progreso de las tareas realizadas en "Calificación".</p>
+                  <h4>Videojuego</h4>
+                  <p>Accede a materiales interactivos en la sección de "Videojuego".</p>
+                  <h4>Analítica</h4>
+                  <p>Accede a tus estadísticas y datos sobre el progreso en "Página de Analítica".</p>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <script>
+        // Función para mostrar la sección correspondiente
+        function showSection(sectionId) {
+            // Ocultar todas las secciones
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section) {
+                section.style.display = 'none';
+            });
+
+            // Mostrar la sección seleccionada
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        // Mostrar la sección "cursos" por defecto cuando se carga la página
+        window.onload = function() {
+            showSection('cursos');
+        };
+    </script>
+
+</body>
+</html>
