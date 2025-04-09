@@ -75,7 +75,7 @@
 			</nav>
 
 			<main class="content">
-				<div class="container-fluid p-0">
+				<div class="container-fluid p-0" id="contenedor-cursos">
 
 					<h1 class="h3 mb-3">Cursos inscritos</h1>
 
@@ -110,7 +110,7 @@
 										<input class="form-control form-control-lg" type="password" name="password" placeholder="Ingresa tu clave de acceso" />
 									</div>
 									<div class="d-grid gap-2 mt-3">
-										<a href="coursescreen.html" class="btn btn-lg btn-primary">Añadir Curso</a> <!--Onclick botton para añadir funcionalidades-->
+										<button onclick="añadirCurso()" class="btn btn-lg btn-primary">Añadir Curso</button>
 									</div>
 								</div>
 								<div class="card-body">
@@ -359,6 +359,35 @@
 			});
 		});
 	</script>
+
+	<script>
+		function añadirCurso() {
+			// Crear nuevo bloque de curso
+			const nuevoCurso = document.createElement("div");
+			nuevoCurso.className = "row mt-3";
+			nuevoCurso.innerHTML = `
+				<div class="col-12">
+					<div class="card">
+						<div class="card-header">
+							<h5 class="card-title mb-0">
+								<a href="nuevo_curso.html">Curso nuevo</a>
+							</h5>
+						</div>
+						<div class="card-body">
+							<p> </p>
+						</div>
+					</div>
+				</div>
+			`;
+
+			// Seleccionar el contenedor correcto por ID
+			const contenedor = document.getElementById("contenedor-cursos");
+			contenedor.appendChild(nuevoCurso);
+		}
+	</script>
+
+
+
 
 </body>
 
