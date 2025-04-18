@@ -14,7 +14,7 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/" />
 
-	<title>Interfaz de administrador</title>
+	<title>Interfaz de estudiante </title>
 
 	<link href="css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -24,39 +24,41 @@
 	<div class="wrapper">
 		<nav id="sidebar" class="sidebar js-sidebar">
 			<div class="sidebar-content js-simplebar">
-				<a class="sidebar-brand" href="vistaAdministrador.html">
+				<a class="sidebar-brand" href="coursescreen.html">
           <span class="align-middle">Administrador</span>
         </a>
 
 				<ul class="sidebar-nav">
 					<li class="sidebar-header">
-						Componentes 
+						Componentes
 					</li>
 
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="pages-profile2.html">
-              <i class="align-middle" data-feather="user"></i> <span class="align-middle">Mi cuenta</span>
+						<a class="sidebar-link" href="">
+              <i class="align-middle" data-feather="file-plus"></i> <span class="align-middle">Contenidos</span>
+            </a>
+					</li>
+
+					<li class="sidebar-item active">
+						<a class="sidebar-link" href="">
+              <i class="align-middle" data-feather="zap"></i> <span class="align-middle">Quizzes</span>
+            </a>
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="">
+              <i class="align-middle" data-feather="activity"></i> <span class="align-middle">Calificaciones</span>
             </a>
 					</li>
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="vistaAdministrador.html">
-              <i class="align-middle" data-feather="book"></i> <span class="align-middle">Cursos</span>
+              <i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Regresar</span>
             </a>
 					</li>
+				</ul>
 
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="ui-typography2.html">
-              <i class="align-middle" data-feather="align-left"></i> <span class="align-middle">Ayuda</span>
-            </a>
-					</li>
-
-					<li class="sidebar-item">
-						<a class="sidebar-link" href="../index.html">
-              	<i class="align-middle" data-feather="log-in"></i> <span class="align-middle">Cerrar sesión</span>
-            </a>
-					</li>
-
+				
 			</div>
 		</nav>
 
@@ -69,62 +71,57 @@
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
 						
-						
+						<li class="nav-item dropdown">
+							<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-bs-toggle="dropdown">
+                <i class="align-middle" data-feather="settings"></i>
+              </a>
+
+							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                <img src="img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" /> <span class="text-dark">Charles Hall</span>
+              </a>
+							<div class="dropdown-menu dropdown-menu-end">
+								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle me-1" data-feather="user"></i> Perfil</a>
+								<a class="dropdown-item" href="coursescreen.html"><i class="align-middle me-1" data-feather="pie-chart"></i> Página de inicio</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="index.html">Cerrar sesión</a>
+							</div>
+						</li>
 					</ul>
 				</div>
 			</nav>
 
 			<main class="content">
-				<div class="container-fluid p-0" id="contenedor-cursos">
+				<div class="container-fluid p-0">
 
-					<h1 class="adicion-curso">Administrar cursos</h1>
-					
+					<h1 class="h3 mb-3">Contenidos del Curso</h1>
 
-					<div class="row">
-						<div class="col-12">
-							<div class="card">
-								<div class="card-header">
-									<h5 class="card-title mb-0">
-										<a href="curso_tecnicos2.html">
-											Capacitación de técnicos
-										</a>
-									</h5>
-								</div>
-								<div class="card-body">
-								</div>
-							</div>
+
+				<div class="container-fluid p-0">
+					<div class="card">
+						<div class="card-header">
+							<h1 class="card-title mb-0">Selección de archivo</h1>
+						</div>
+						<div class="card-body">
+							<form method="post" enctype="multipart/form-data">
+								<input id="myFile" name="filename" type="file">
+								<br /><br />
+								<button class="btn btn-primary">Subir archivo</button>
+							</form>
 						</div>
 					</div>
-
 				</div>
 
 				<div class="container-fluid p-0">
-
-					<h1 class="h3 mb-3">Crear Cursos</h1>
-
-					<div class="row">
-						<div class="col-12">
-							<div class="card">
-								<div class="card-header">
-									<div class="mb-3">
-										<label class="form-label">Nombre del curso </label>
-										<input class="form-control form-control-lg" type="password" name="password" placeholder="Ingresa el nombre del curso" />
-									</div>
-									<div class="mb-3">
-										<label class="form-label">Clave de acceso </label>
-										<input class="form-control form-control-lg" type="password" name="password" placeholder="Crear una clave de acceso" />
-									</div>
-									<div class="d-grid gap-2 mt-3">
-										<button onclick="añadirCurso()" class="btn btn-lg btn-primary">Añadir Curso</button>
-									</div>
-								</div>
-								<div class="card-body">
-								</div>
-							</div>
+					<div class="card">
+						<div class="card-header">
+							<h1 class="card-title mb-0">Archivo subido</h1>
 						</div>
+						<ul id="fileList">
+							<!-- Aquí se mostrarán los archivos subidos -->
+						</ul>
 					</div>
-
 				</div>
+
 			</main>
 
 			<footer class="footer">
@@ -132,8 +129,24 @@
 					<div class="row text-muted">
 						<div class="col-6 text-start">
 							<p class="mb-0">
-								<a class="text-muted" target="_blank"><strong>Whirlpool-Página de Capacitación</strong></a>								&copy;
+								<a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>AdminKit</strong></a> - <a class="text-muted" href="https://adminkit.io/" target="_blank"><strong>Bootstrap Admin Template</strong></a>								&copy;
 							</p>
+						</div>
+						<div class="col-6 text-end">
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Support</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Help Center</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Privacy</a>
+								</li>
+								<li class="list-inline-item">
+									<a class="text-muted" href="https://adminkit.io/" target="_blank">Terms</a>
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>
@@ -366,32 +379,20 @@
 	</script>
 
 	<script>
-		function añadirCurso() {
-			// Crear nuevo bloque de curso
-			const h1=document.querySelector(".adicion-curso");
-			const nuevoCurso = document.createElement("div");
-			nuevoCurso.innerHTML = `
-				<div class="col-12">
-					<div class="card">
-						<div class="card-header ">
-							<h5 class="card-title mb-0">
-								<a href="nuevo_curso.html">Curso nuevo</a>
-							</h5>
-						</div>
-						<div class="card-body">
-							<p> </p>
-						</div>
-					</div>
-				</div>
-			`;
-
-			nuevoCurso.classList.add("Div-code");
-			h1.appendChild(nuevoCurso);
-		}
+		// Cargar archivos subidos cuando se cargue la página
+		window.onload = () => {
+		fetch('/files')
+			.then(res => res.json())
+			.then(files => {
+			const list = document.getElementById('fileList');
+			files.forEach(file => {
+				const li = document.createElement('li');
+				li.innerHTML = `<a href="/uploads/${file}" target="_blank">${file}</a>`;
+				list.appendChild(li);
+			});
+			});
+		};
 	</script>
-
-
-
 
 </body>
 
