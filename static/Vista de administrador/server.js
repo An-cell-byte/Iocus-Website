@@ -6,6 +6,8 @@ const cors = require('cors');
 const app = express();
 const PORT = 8000;
 
+
+
 // Configurar almacenamiento
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
