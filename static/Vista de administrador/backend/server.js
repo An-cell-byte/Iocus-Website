@@ -16,7 +16,10 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*', 
+  methods: ['GET', 'POST'],
+}));
 app.use('/uploads', express.static('uploads'));
 
 // Ruta para subir archivos
