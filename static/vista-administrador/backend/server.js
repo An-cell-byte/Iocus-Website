@@ -38,11 +38,18 @@ app.use('/uploads', express.static('uploads'));
 
 // Ruta para subir archivos
 app.post('/upload', upload.single('archivo'), (req, res) => {
-  upload.single('archivo')(req, res, function (err) {
-    if (err) return res.status(400).send(err.message);
+  try {
+    console.log(req.file); // 👈 Esto te muestra en consola si multer recibió el archivo
+    if (!req.file) {
+      return res.status(400).send("No se recibió ningún archivo.");
+    }
     res.send('Archivo subido correctamente.');
-  });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error interno al procesar el archivo.");
+  }
 });
+
 
 // Ruta para obtener lista de archivos
 app.get('/files', (req, res) => {
