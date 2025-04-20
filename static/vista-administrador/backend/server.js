@@ -17,7 +17,7 @@ const upload = multer({ storage });
 
 // Middleware
 app.use(cors({
-  origin: 'http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io/', 
+  origin: 'http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io', 
   methods: ['GET', 'POST'],
   
 }));
