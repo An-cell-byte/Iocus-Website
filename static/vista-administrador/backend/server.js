@@ -17,9 +17,11 @@ const upload = multer({ storage });
 
 // Middleware
 app.use(cors({
-  origin: '*', 
+  origin: 'http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io/', 
   methods: ['GET', 'POST'],
+  
 }));
+
 app.use('/uploads', express.static('uploads'));
 
 // Ruta para subir archivos
