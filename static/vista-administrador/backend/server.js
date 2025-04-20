@@ -6,7 +6,10 @@ const cors = require('cors');
 const app = express();
 const PORT = 8003;
 
-
+// Asegurar que la carpeta uploads exista
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
 
 // Configurar almacenamiento
 const storage = multer.diskStorage({
