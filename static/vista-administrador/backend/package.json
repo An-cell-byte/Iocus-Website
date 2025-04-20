@@ -33,7 +33,7 @@
     "dist"
   ],
   "scripts": {
-    "start": "node server.js"
+    "start": "mkdir -p uploads && chmod 777 uploads && node server.js"
   },
   "browserslist": [
     ">= 0.5%",
