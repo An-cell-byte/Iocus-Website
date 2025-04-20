@@ -18,12 +18,8 @@
   },
   "homepage": "https://github.com/An-cell-byte/Iocus-Website#readme",
   "dependencies": {
-    "babel-loader": "^10.0.0",
     "cors": "^2.8.5",
-    "cross-env": "^7.0.3",
     "express": "^5.1.0",
-    "multer": "^1.4.5-lts.2",
-    "webpack": "^5.99.6",
-    "webpack-cli": "^6.0.1"
+    "multer": "^1.4.5-lts.2"
   }
 }
