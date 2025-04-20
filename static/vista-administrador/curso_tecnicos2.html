@@ -102,7 +102,7 @@
 							<h1 class="card-title mb-0">Selección de archivo </h1>
 						</div>
 						<div class="card-body">
-							<form action="http://4.172.252.35:8000/project/pgkwsko8sgcw84c8c008gocc/environment/p00sw4gs088sgowow4o8g4s4/new?type=public&destination=ykogocwss008k0g4w0k4gcws&server_id=0/upload" method="POST" enctype="multipart/form-data">
+							<form action="http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/upload" method="POST" enctype="multipart/form-data">
 								<input id="myFile" name="archivo" type="file">
 								<br /><br />
 								<button class="btn btn-primary" type="submit">Subir archivo</button>
@@ -381,13 +381,13 @@
 	<script>
 		// Cargar archivos subidos cuando se cargue la página
 		window.onload = () => {
-		fetch('/files')
+		fetch('http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/files')
 			.then(res => res.json())
 			.then(files => {
 			const list = document.getElementById('fileList');
 			files.forEach(file => {
 				const li = document.createElement('li');
-				li.innerHTML = `<a href="/uploads/${file}" target="_blank">${file}</a>`;
+				li.innerHTML = `<a href="http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/uploads/${file}" target="_blank">${file}</a>`;
 				list.appendChild(li);
 			});
 			});
