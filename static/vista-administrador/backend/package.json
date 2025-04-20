@@ -33,10 +33,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.js --progress",
-    "watch": "webpack --config webpack.config.js --watch --progress",
-    "start": "node server.js",
-    "prepublishOnly": "cross-env NODE_ENV=production webpack --progress --config webpack.config.js"
+    "start": "node server.js"
   },
   "browserslist": [
     ">= 0.5%",
