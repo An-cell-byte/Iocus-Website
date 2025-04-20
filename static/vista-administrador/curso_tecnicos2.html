@@ -380,7 +380,7 @@
 
 	<script>
 		// Cargar archivos subidos cuando se cargue la página
-		window.onload = () => {
+		document.addEventListener("DOMContentLoaded", function() {
 		fetch('http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/files')
 			.then(res => res.json())
 			.then(files => {
@@ -391,7 +391,7 @@
 				list.appendChild(li);
 			});
 			});
-		};
+		});
 	</script>
 
 </body>
