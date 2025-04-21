@@ -89,7 +89,7 @@
 				<div class="container-fluid p-0">
 					<div class="card">
 						<div class="card-header">
-							<h1 class="card-title mb-0">Selección de archivo </h1>
+							<h1 class="card-title mb-0">Selección de archivos </h1>
 						</div>
 						<div class="card-body">
 							<form action="http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/upload" id="uploadForm" method="POST" enctype="multipart/form-data">
@@ -104,7 +104,7 @@
 				<div class="container-fluid p-0">
 					<div class="card">
 						<div class="card-header">
-							<h1 class="card-title mb-0">Archivo subido</h1>
+							<h1 class="card-title mb-0">Archivos subidos</h1>
 						</div>
 						<ul id="fileList">
 							<!-- Aquí se mostrarán los archivos subidos -->
@@ -365,9 +365,9 @@
 				list.appendChild(li);
 			});
 			});
-			// ✅ Interceptar el submit del formulario para subir archivos sin redirección
+			// Interceptar el submit del formulario para subir archivos sin redirección
 			document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-				e.preventDefault(); // 🛑 Evita que la página se recargue
+				e.preventDefault(); // Evita que la página se recargue
 				const formData = new FormData();
 				const archivo = document.querySelector('input[name="archivo"]').files[0];
 				if (!archivo) {

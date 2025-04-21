@@ -77,54 +77,49 @@
 			<main class="content">
 				<div class="container-fluid p-0" id="contenedor-cursos">
 
-					<h1 class="adicion-curso">Administrar cursos</h1>
-					
+					<h1 style="font-size: 28px;" class="adicion-curso">Administración de Cursos</h1>
+				</div>
 
-					<div class="row">
-						<div class="col-12">
-							<div class="card">
-								<div class="card-header">
-									<h5 class="card-title mb-0">
-										<a href="curso_tecnicos2.html">
-											Capacitación de técnicos
-										</a>
-									</h5>
-								</div>
-								<div class="card-body">
-								</div>
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<div class="card">
+							<img class="card-img-top" src="tecnicos_electrodomesticos.png" alt="Unsplash">
+							<div class="card-header">
+								<h5 style="font-size: 16px;" class="card-title mb-0">Curso de capacitación de técnicos</h5>
+							</div>
+							<div class="card-body">
+								<p class="card-text" style="font-size: 16px; text-align: justify;">Curso diseñado para capacitar y desarrollar las competencias esperadas en el personal de Whirlpool.</p>
+								<a style="font-size: 16px;" href="curso_tecnicos2.html" class="card-link">Ingresar al curso</a>
 							</div>
 						</div>
 					</div>
 
-				</div>
+					<div class="container-fluid p-0">
 
-				<div class="container-fluid p-0">
+						<h1 class="h3 mb-3" style="font-size: 28px;">Creación de Cursos</h1>
 
-					<h1 class="h3 mb-3">Crear Cursos</h1>
-
-					<div class="row">
-						<div class="col-12">
-							<div class="card">
-								<div class="card-header">
-									<div class="mb-3">
-										<label class="form-label">Nombre del curso </label>
-										<input class="form-control form-control-lg" id="Course_name" type="password" name="password" placeholder="Ingresa el nombre del curso" />
+						<div class="row">
+							<div class="col-12">
+								<div class="card">
+									<div class="card-header">
+										<div class="mb-3">
+											<label style="font-size: 16px;" class="form-label">Nombre del curso </label>
+											<input class="form-control form-control-lg" id="Course_name" name="password" placeholder="Ingresa el nombre del curso" />
+										</div>
+										<div class="mb-3">
+											<label style="font-size: 16px;" class="form-label">Clave de acceso </label>
+											<input style="font-size: 16px;"class="form-control form-control-lg" id="ClaveAccesso" name="password" placeholder="Crear una clave de acceso" />
+										</div>
+										<div class="d-grid gap-2 mt-3">
+											<button onclick="añadirCurso()" style="font-size: 16px;" class="btn btn-lg btn-primary">Añadir Curso</button>
+										</div>
 									</div>
-									<div class="mb-3">
-										<label class="form-label">Clave de acceso </label>
-										<input class="form-control form-control-lg" id="ClaveAccesso" type="password" name="password" placeholder="Crear una clave de acceso" />
+									<div class="card-body">
 									</div>
-									<div class="d-grid gap-2 mt-3">
-										<button onclick="añadirCurso()" class="btn btn-lg btn-primary">Añadir Curso</button>
-									</div>
-								</div>
-								<div class="card-body">
 								</div>
 							</div>
 						</div>
 					</div>
-
-				</div>
 			</main>
 
 			<footer class="footer">
@@ -369,17 +364,21 @@
 		function añadirCurso() {
 			// Crear nuevo bloque de curso
 			const h1=document.querySelector(".adicion-curso");
+			const nombreCurso = document.getElementById('Course_name').value.trim();
+    		const titulo = nombreCurso !== '' ? nombreCurso : 'Curso de capacitación de técnicos';
 			const nuevoCurso = document.createElement("div");
 			nuevoCurso.innerHTML = `
-				<div class="col-12">
-					<div class="card">
-						<div class="card-header ">
-							<h5 class="card-title mb-0">
-								<a href="nuevo_curso.html">Curso nuevo</a>
-							</h5>
-						</div>
-						<div class="card-body">
-							<p> </p>
+				<div class="row">
+					<div class="col-12 col-md-6">
+						<div class="card">
+							<img class="card-img-top" src="tecnicos_electrodomesticos.png" alt="Unsplash">
+							<div class="card-header">
+								<h5 style="font-size: 16px;" class="card-title mb-0">${titulo}</h5>
+							</div>
+							<div class="card-body">
+								<p class="card-text" style="font-size: 16px; text-align: justify;">Curso diseñado para capacitar y desarrollar las competencias esperadas en el personal de Whirlpool.</p>
+								<a style="font-size: 16px;" href="curso_tecnicos2.html" class="card-link">Ingresar al curso</a>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -387,6 +386,7 @@
 
 			nuevoCurso.classList.add("Div-code");
 			h1.appendChild(nuevoCurso);
+			document.getElementById('Course_name').value = '';
 		}
 	</script>
 
