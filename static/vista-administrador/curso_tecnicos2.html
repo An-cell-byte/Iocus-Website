@@ -92,7 +92,7 @@
 							<h1 class="card-title mb-0">Selección de archivo </h1>
 						</div>
 						<div class="card-body">
-							<form action="http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/upload" method="POST" enctype="multipart/form-data">
+							<form action="http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/upload" id="uploadForm" method="POST" enctype="multipart/form-data">
 								<input id="myFile" name="archivo" type="file">
 								<br /><br />
 								<button class="btn btn-primary" type="submit">Subir archivo</button>
@@ -365,6 +365,34 @@
 				list.appendChild(li);
 			});
 			});
+			// ✅ Interceptar el submit del formulario para subir archivos sin redirección
+			document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+				e.preventDefault(); // 🛑 Evita que la página se recargue
+				const formData = new FormData();
+				const archivo = document.querySelector('input[name="archivo"]').files[0];
+				if (!archivo) {
+					alert('Por favor selecciona un archivo.');
+					return;
+				}
+				formData.append('archivo', archivo);
+				try {
+					const res = await fetch('http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/upload', {
+					method: 'POST',
+					body: formData
+					});
+
+					const texto = await res.text();
+					alert(texto);
+
+					// Opcional: recargar la lista de archivos después de subir
+					location.reload();
+				} catch (err) {
+					console.error(err);
+					alert('Error al subir el archivo.');
+				}
+
+			});
+		
 		});
 	</script>
 
