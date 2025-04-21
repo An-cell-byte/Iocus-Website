@@ -107,8 +107,8 @@
 											<input class="form-control form-control-lg" id="Course_name" name="password" placeholder="Ingresa el nombre del curso" />
 										</div>
 										<div class="mb-3">
-											<label style="font-size: 16px;" class="form-label">Clave de acceso </label>
-											<input style="font-size: 16px;"class="form-control form-control-lg" id="ClaveAccesso" name="password" placeholder="Crear una clave de acceso" />
+											<label style="font-size: 16px;" class="form-label">Descripción del curso </label>
+											<input style="font-size: 16px;"class="form-control form-control-lg" id="course_description" name="password" placeholder="Crear una clave de acceso" />
 										</div>
 										<div class="d-grid gap-2 mt-3">
 											<button onclick="añadirCurso()" style="font-size: 16px;" class="btn btn-lg btn-primary">Añadir Curso</button>
@@ -366,6 +366,10 @@
 			const h1=document.querySelector(".adicion-curso");
 			const nombreCurso = document.getElementById('Course_name').value.trim();
     		const titulo = nombreCurso !== '' ? nombreCurso : 'Curso de capacitación de técnicos';
+
+			const descripcion_curso = document.getElementById('course_description').value.trim();
+    		const titulo2 = descripcion_curso !== '' ? descripcion_curso : 'Descripción del curso de capacitación de técnicos';
+
 			const nuevoCurso = document.createElement("div");
 			nuevoCurso.innerHTML = `
 				<div class="row">
@@ -376,8 +380,8 @@
 								<h5 style="font-size: 16px;" class="card-title mb-0">${titulo}</h5>
 							</div>
 							<div class="card-body">
-								<p class="card-text" style="font-size: 16px; text-align: justify;">Curso diseñado para capacitar y desarrollar las competencias esperadas en el personal de Whirlpool.</p>
-								<a style="font-size: 16px;" href="curso_tecnicos2.html" class="card-link">Ingresar al curso</a>
+								<p class="card-text" style="font-size: 16px; text-align: justify;">${titulo2}</p>
+								<a style="font-size: 16px;" href="curso_tecnicos3.html" class="card-link">Ingresar al curso</a>
 							</div>
 						</div>
 					</div>
