@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: ["chttp://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"], // Allow requests only from your frontend
+    origin: ["http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"], // Allow requests only from your frontend
     methods: ["POST", "GET"],
     credentials: true, 
     allowedHeaders: ["Content-Type"]
@@ -70,7 +70,7 @@ app.post("/verify", (req, res) => {
   pool.query(query, [correo], (err, results) => {
       if (err) {
           console.error(err);
-          return res.status(500).json({ success: false, message: "Error en Database." });
+          return res.status(500).json({ success: false, message: "Error." });
       }
 
       if (results.length === 0) {
@@ -95,16 +95,16 @@ app.post("/verify", (req, res) => {
                       redirectPath = "/coursescreen.html";
                       break;
                   case "capacitador":
-                      redirectPath = "/curso_tecnicos.html";
+                      redirectPath = "/vista-estudiante/coursescreen.html";
                       break;
                   case "supervisor":
-                      redirectPath = "/vistaAdministrador.html";
+                      redirectPath = "/vista-administrador/vistaAdministrador.html";
                       break;
                   default:
-                      return res.status(403).json({ success: false, message: "Tipo de usuario no permitido." });
+                      return res.status(403).json({ success: false, message: "Usuario no Registrado." });
               }
 
-              return res.redirect('http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io${redirectPath}');
+              return res.redirect('http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io');
           } else {
               res.status(401).json({ success: false, message: "Correo o Contraseña Inválida." });
           }
@@ -121,13 +121,13 @@ app.get("/", (req, res) => {
     if (host.startsWith("inicio.")) {
       // Ruta protegida (inicio.capacitatec.whirlpool.com)
       if (req.session.user) {
-        res.sendFile(path.join(__dirname, "../cursosInicio/coursescreen.html"));
+        res.sendFile(path.join(__dirname, "/vista-estudiante/coursescreen.html"));
       } else {
-        res.redirect("capacitatec.whirlpool.com");
+        res.redirect("http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io");
       }
     } else {
       // Ruta pública
-      res.sendFile(path.join(__dirname, "../cursosSitio/index.html"));
+      res.sendFile(path.join(__dirname, "http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"));
     }
   });
 
@@ -175,8 +175,3 @@ app.get("/logout", (req, res) => {
     });
   });
 
-  // Servidor
-const PORT = process.env.PORT||3000;
-app.listen(PORT, () => {
-    console.log('SERVER STARTING ON ${PORT}')
-})
