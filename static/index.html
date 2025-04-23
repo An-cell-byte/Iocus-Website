@@ -68,6 +68,43 @@ Coolify esté corriendo.
 
 	<script src="js/app.js"></script>
 
+	<script>
+		
+		document.getElementById("loginForm").addEventListener("submit", async function(event) {
+			event.preventDefault();
+
+			// Obtiene los valores 
+			const correo = document.getElementById("email").value;
+			const contrasena = document.getElementById("password").value;
+
+			// POST al backend
+			try {
+				const response = await fetch("http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io/verify", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({ correo, contrasena })
+				});
+
+				// Manejo de la respuesta
+				const result = await response.json();
+
+				if (response.ok) {
+					// Si la autenticación es exitosa, redirigir según el tipo de usuario
+					window.location.href = result.redirectPath || "/"; 
+				} else {
+					
+					alert(result.message || "Ocurrió un error.");
+				}
+			} catch (error) {
+				console.error("Error en la solicitud:", error);
+				alert("Hubo un problema al procesar tu solicitud.");
+			}
+		});
+	</script>
+
+
 </body>
 
 </html>

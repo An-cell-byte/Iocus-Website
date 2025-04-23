@@ -57,9 +57,9 @@ const limiter = rateLimit({
 });
 
 
-app.post("/verify", (req, res) => {
+app.post("/verify", limiter, (req, res) => {
   const { correo, contrasena } = req.body;
-  console.log("Received request:", req.body);
+  console.log("Solicitud recibida:", req.body);
 
   if (!correo || !contrasena) {
       return res.status(400).json({ message: "Favor de llenar todos los campos." });
@@ -70,7 +70,7 @@ app.post("/verify", (req, res) => {
   pool.query(query, [correo], (err, results) => {
       if (err) {
           console.error(err);
-          return res.status(500).json({ success: false, message: "Error." });
+          return res.status(500).json({ success: false, message: "Error al acceder a la base de datos." });
       }
 
       if (results.length === 0) {
@@ -92,19 +92,19 @@ app.post("/verify", (req, res) => {
               let redirectPath;
               switch (tipoUsuario) {
                   case "usuario":
-                      redirectPath = "/coursescreen.html";
-                      break;
-                  case "capacitador":
                       redirectPath = "/vista-estudiante/coursescreen.html";
                       break;
-                  case "supervisor":
+                  case "capacitador":
                       redirectPath = "/vista-administrador/vistaAdministrador.html";
                       break;
+                  case "supervisor":
+                      redirectPath = "/";
+                      break;
                   default:
-                      return res.status(403).json({ success: false, message: "Usuario no Registrado." });
+                      return res.status(403).json({ success: false, message: "Usuario no registrado." });
               }
 
-              return res.redirect('http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io');
+              return res.redirect(`http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io${redirectPath}`);
           } else {
               res.status(401).json({ success: false, message: "Correo o Contraseña Inválida." });
           }
@@ -112,66 +112,30 @@ app.post("/verify", (req, res) => {
   });
 });
 
-
-app.use("/verify", limiter);
-
-// ruta principal para capacitatec.whirlpool.com (index.html)
 app.get("/", (req, res) => {
-    const host = req.headers.host;
-    if (host.startsWith("inicio.")) {
-      // Ruta protegida (inicio.capacitatec.whirlpool.com)
-      if (req.session.user) {
-        res.sendFile(path.join(__dirname, "/vista-estudiante/coursescreen.html"));
-      } else {
-        res.redirect("http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io");
-      }
+  const host = req.headers.host;
+  if (host.startsWith("inicio.")) {
+    // Ruta protegida
+    if (req.session.user) {
+      res.sendFile(path.join(__dirname, "/vista-estudiante/coursescreen.html"));
     } else {
-      // Ruta pública
-      res.sendFile(path.join(__dirname, "http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"));
+      res.redirect("http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io");
     }
-  });
-
-//Form Submission
-app.post("/verify", (req, res) => {
-    const { correo, contrasena } = req.body;
-    console.log("Received request:", req.body);
-    
-    if (!correo || !contrasena) {
-        return res.status(400).json({ message: "Favor de llenar todos los campos." });
-    }
-
-    const query = "SELECT contrasena FROM usuarios WHERE correo = ?";
-    
-    pool.query(query, [correo], (err, results) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({ success: false, message: "Error en Database." });
-        }
-    
-        if (results.length === 0) {
-          return res.status(401).json({ success: false, message: "Correo o Contraseña Inválida." });
-        }
-    
-        bcrypt.compare(contrasena, results[0].contrasena, (err, match) => {
-          if (err) {
-            console.error(err);
-            return res.status(500).json({ success: false, message: "Error verificando contraseña." });
-          }
-    
-          if (match) {
-            req.session.user = { correo };
-            return res.redirect("inicio.capacitatec.whirlpool.com");
-          } else {
-            res.status(401).json({ success: false, message: "Correo o Contraseña Inválida." });
-          }
-        });
-      });
-    });
+  } else {
+    // Ruta pública
+    res.sendFile(path.join(__dirname, "http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"));
+  }
+});
 
 // Logout
 app.get("/logout", (req, res) => {
-    req.session.destroy(() => {
-      res.redirect("/");
-    });
+  req.session.destroy(() => {
+    res.redirect("/");
   });
+});
 
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`API corriendo en puerto ${PORT}`);
+});
