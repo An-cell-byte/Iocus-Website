@@ -41,7 +41,7 @@ Coolify esté corriendo.
 						<div class="card">
 							<div class="card-body">
 								<div class="m-sm-3">
-									<form id= "login-form" method="POST">
+									<form id= "login-form" method="POST" action="http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/verify">
 										<div class="mb-3">
 											<label class="form-label">Nombre de usuario</label>
 											<input id="correo" class="form-control form-control-lg" type="email" name="email" placeholder="Ingresa tu nombre de usuario" />
@@ -83,7 +83,7 @@ Coolify esté corriendo.
 
 			// POST al backend
 			try {
-				const response = await fetch("http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io:3000/verify", {
+				const response = await fetch("http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/verify", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
