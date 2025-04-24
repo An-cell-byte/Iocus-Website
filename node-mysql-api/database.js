@@ -112,6 +112,10 @@ app.post("/verify", limiter, (req, res) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.send('Servidor corriendo correctamente 🚀');
+});
+
 app.get("/", (req, res) => {
   const host = req.headers.host;
   if (host.startsWith("inicio.")) {
