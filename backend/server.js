@@ -77,14 +77,6 @@ app.get('/api/protegido', verificarToken, (req, res) => {
   res.json({ mensaje: 'Acceso permitido', usuario: req.user });
 });
 
-// Logout
-app.get("/logout", (req, res) => {
-  req.session.destroy(() => {
-    res.redirect("/");
-  });
-});
-
-
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
