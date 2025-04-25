@@ -51,13 +51,13 @@
         updateBannerVisibility();
       }
 
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "Build/game.loader.js";
+      var buildUrl = "Build/";
+      var loaderUrl = buildUrl + "game.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "Build/game.data",
-        frameworkUrl: buildUrl + "Build/game.framework.js",
-        codeUrl: buildUrl + "Build/game.wasm",
+        dataUrl: buildUrl + "game.data",
+        frameworkUrl: buildUrl + "game.framework.js",
+        codeUrl: buildUrl + "game.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "MySecondProject",
