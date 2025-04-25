@@ -81,38 +81,102 @@
 			</nav>
 
 			<main class="content">
-				<div class="container-fluid p-0">
-
-					<h1 class="h3 mb-3">Contenidos del Curso</h1>
-
-
-				<div class="container-fluid p-0">
-					<div class="card">
-						<div class="card-header">
-							<h1 class="card-title mb-0">Selección de archivos </h1>
-						</div>
-						<div class="card-body">
-							<form action="http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/upload" id="uploadForm" method="POST" enctype="multipart/form-data">
-								<input id="myFile" name="archivo" type="file">
-								<br /><br />
-								<button class="btn btn-primary" type="submit">Subir archivo</button>
-							</form>
-						</div>
-					</div>
-				</div>
-
-				<div class="container-fluid p-0">
-					<div class="card">
-						<div class="card-header">
-							<h1 class="card-title mb-0">Archivos subidos</h1>
-						</div>
-						<ul id="fileList">
-							<!-- Aquí se mostrarán los archivos subidos -->
-						</ul>
-					</div>
-				</div>
-
-			</main>
+                <div class="container-fluid p-0">
+                  <h1 class="h3 mb-3">Crear un Quiz</h1>
+              
+                  <form id="quiz-form">
+                    <div id="questions-container"></div>
+              
+                    <button type="button" class="btn btn-primary my-3" onclick="addQuestion()">Agregar Pregunta</button>
+              
+                    <div class="mb-3">
+                      <label for="quiz-bar-type" class="form-label">Tipo de barra</label>
+                      <select class="form-select" id="quiz-bar-type">
+                        <option value="0">Desactivada</option>
+                        <option value="1">Bonificaciones</option>
+                        <option value="2">Estricto</option>
+                      </select>
+                    </div>
+              
+                    <div class="mb-3">
+                      <label for="quiz-time" class="form-label">Tiempo del quiz (segundos)</label>
+                      <input type="number" class="form-control" id="quiz-time" required>
+                    </div>
+              
+                    <button type="submit" class="btn btn-success">Guardar Quiz</button>
+                  </form>
+                </div>
+              
+                <script>
+                  let questionCount = 0;
+              
+                  function addQuestion() {
+                    const container = document.getElementById("questions-container");
+                    const questionId = `question-${questionCount}`;
+                    const html = `
+                      <div class="card my-3 p-3" id="${questionId}">
+                        <div class="mb-2">
+                          <label class="form-label">Pregunta:</label>
+                          <input type="text" class="form-control" name="question" required>
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label">Opciones (máx 4)</label>
+                          <div class="option-container"></div>
+                          <button type="button" class="btn btn-sm btn-secondary mt-1" onclick="addOption('${questionId}')">Agregar opción</button>
+                        </div>
+                        <div class="mb-2">
+                          <label class="form-label">Índices de respuestas correctas (separados por coma)</label>
+                          <input type="text" class="form-control" name="correctIndexes" placeholder="Ej: 0,2">
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeQuestion('${questionId}')">Eliminar Pregunta</button>
+                      </div>
+                    `;
+                    container.insertAdjacentHTML("beforeend", html);
+                    questionCount++;
+                  }
+              
+                  function addOption(questionId) {
+                    const container = document.querySelector(`#${questionId} .option-container`);
+                    if (container.children.length >= 4) return alert("Máximo 4 opciones");
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.className = "form-control mb-1";
+                    input.name = "option";
+                    input.required = true;
+                    container.appendChild(input);
+                  }
+              
+                  function removeQuestion(id) {
+                    document.getElementById(id).remove();
+                  }
+              
+                  document.getElementById("quiz-form").addEventListener("submit", function (e) {
+                    e.preventDefault();
+              
+                    const questions = Array.from(document.querySelectorAll("#questions-container > .card")).map(card => {
+                      const questionText = card.querySelector("input[name='question']").value;
+                      const options = Array.from(card.querySelectorAll("input[name='option']")).map(input => input.value);
+                      const correctIndexes = card.querySelector("input[name='correctIndexes']").value
+                        .split(',')
+                        .map(i => parseInt(i.trim()))
+                        .filter(i => !isNaN(i));
+              
+                      return { question: questionText, options, correctIndexes };
+                    });
+              
+                    const quiz = {
+                      type: parseInt(document.getElementById("quiz-bar-type").value),
+                      time: parseInt(document.getElementById("quiz-time").value),
+                      questions
+                    };
+              
+                    // Aquí se podría POSTear a una API backend o guardar localmente
+                    console.log(JSON.stringify(quiz, null, 2));
+                    alert("Quiz generado en consola (proximamente se integrará con API/backend)");
+                  });
+                </script>
+            </main>
+              
 
 			<footer class="footer">
 				<div class="container-fluid">
@@ -352,49 +416,7 @@
 		});
 	</script>
 
-	<script>
-		// Cargar archivos subidos cuando se cargue la página
-		document.addEventListener("DOMContentLoaded", function() {
-		fetch('http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/files')
-			.then(res => res.json())
-			.then(files => {
-			const list = document.getElementById('fileList');
-			files.forEach(file => {
-				const li = document.createElement('li');
-				li.innerHTML = `<a href="http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/uploads/${file}" target="_blank">${file}</a>`;
-				list.appendChild(li);
-			});
-			});
-			// Interceptar el submit del formulario para subir archivos sin redirección
-			document.getElementById('uploadForm').addEventListener('submit', async (e) => {
-				e.preventDefault(); // Evita que la página se recargue
-				const formData = new FormData();
-				const archivo = document.querySelector('input[name="archivo"]').files[0];
-				if (!archivo) {
-					alert('Por favor selecciona un archivo.');
-					return;
-				}
-				formData.append('archivo', archivo);
-				try {
-					const res = await fetch('http://s8wgo84csw8kgc0cko0ocwsk.4.172.252.35.sslip.io/upload', {
-					method: 'POST',
-					body: formData
-					});
-
-					const texto = await res.text();
-					alert(texto);
-
-					// Opcional: recargar la lista de archivos después de subir
-					location.reload();
-				} catch (err) {
-					console.error(err);
-					alert('Error al subir el archivo.');
-				}
-
-			});
-		
-		});
-	</script>
+	
 
 </body>
 
