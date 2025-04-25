@@ -2,6 +2,7 @@ import express from 'express';
 import {PORT} from './config.js';
 
 const app = express();
+app.use(express.json()); // Middleware para parsear el cuerpo de la peticion a JSON
 
 app.get('/', (req, res) => {
   res.send('Prueba de servidor Express con ESM!');
@@ -10,7 +11,8 @@ app.get('/', (req, res) => {
 app.post('/login', (req, res) => {});
 app.post('/register', (req, res) => {
     const { username, password } = req.body; //cuerpo de la peticion
-    console.log(req.body); //imprime el cuerpo de la peticion
+
+    console.log({username, password}); //imprime el cuerpo de la peticion
 
     try {
         const id = UserRepository.create({ username, password });
