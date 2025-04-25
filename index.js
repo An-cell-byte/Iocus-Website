@@ -8,7 +8,17 @@ app.get('/', (req, res) => {
 });
 
 app.post('/login', (req, res) => {});
-app.post('/register', (req, res) => {});
+app.post('/register', (req, res) => {
+    const { username, password } = req.body; //cuerpo de la peticion
+    console.log(req.body); //imprime el cuerpo de la peticion
+
+    try {
+        const id = UserRepository.create({ username, password });
+        res.send({ id });
+    }catch (error) {
+        res.status(400).send({ error: error.message }); 
+    }
+});
 app.post('/logout', (req, res) => {});
 
 app.get('/protected', (req, res) => {});

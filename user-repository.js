@@ -28,6 +28,14 @@ export class UserRepository {
         if (user) {
             throw new Error('user already exists')
         }
+        const id = crypto.randomUUID()
+        User.create({
+            _id: id,
+            username,
+            password
+        }).save()
+    
+        return id
     }
     static login ({username, password}){}
 }
