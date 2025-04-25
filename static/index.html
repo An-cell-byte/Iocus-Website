@@ -87,7 +87,7 @@ Coolify esté corriendo.
 
 			// POST al backend
 			try {
-				const response = await fetch("http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/verify", {
+				const response = await fetch("http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/login", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
@@ -98,18 +98,27 @@ Coolify esté corriendo.
 				// Manejo de la respuesta
 				const result = await response.json();
 
-				if (response.ok) {
+				if (response.ok && result.success) {
+					localStorage.setItem("token", result.token);
+
+					case "estudiante":
+            		window.location.href = "vista-estudiante/coursescreen.html";
+            		break;
+
+
 					// Si la autenticación es exitosa, redirigir según el tipo de usuario
-					window.location.href = result.redirectPath || "/"; 
-				} else {
-					
-					alert(result.message || "Ocurrió un error.");
-				}
-			} catch (error) {
-				console.error("Error en la solicitud:", error);
-				alert("Hubo un problema al procesar tu solicitud.");
-			}
-		});
+
+				default:
+            	alert("Tipo de usuario no reconocido.");
+        		}
+      		} else {
+        		alert(result.error || "Correo o contraseña incorrectos.");
+      		}
+    		} catch (error) {
+      		console.error("Error en la solicitud:", error);
+      		alert("Hubo un problema al procesar tu solicitud.");
+    		}
+  		});
 	</script>
 
 -->

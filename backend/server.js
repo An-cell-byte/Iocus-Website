@@ -15,7 +15,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors({
-    origin: ["http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"], // Allow requests only from your frontend
+    origin: ["zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"],
     methods: ["POST", "GET"],
     credentials: true, 
     allowedHeaders: ["Content-Type"]
@@ -43,7 +43,7 @@ app.post("/login", (req, res) => {
   }
 
   const query = "SELECT contrasena, tipo FROM usuarios WHERE correo = ?";
-  db.query(query, [correo, contrasena], async (err, results) => {
+  db.query(query, [correo], async (err, results) => {
       if (err) {
           console.error('Error en la consulta', err);
           return res.status(500).json({ error: "Error al acceder a la base de datos." });
@@ -61,7 +61,7 @@ app.post("/login", (req, res) => {
       return res.status(401).json({ error: "Correo o Contraseña Inválida." });
     }
 
-    const token = jwt.sign({ correo, tipoUsuario }, process.env.SECRET_KEY, { expiresIn: "1h" });
+    const token = jwt.sign({ correo: usuario.correo, tipo: usuario.tipo }, SECRET_KEY, { expiresIn: '1h' });
 
     return res.status(200).json({
       success: true,
