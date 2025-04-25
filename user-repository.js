@@ -23,6 +23,11 @@ export class UserRepository {
         if (password.length < 6) {
             throw new Error('password must be at least 6 characters long')
         }
+        //check if user exists
+        const user = User.findOne({ username })
+        if (user) {
+            throw new Error('user already exists')
+        }
     }
     static login ({username, password}){}
 }
