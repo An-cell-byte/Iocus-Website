@@ -15,7 +15,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors({
-    origin: ["zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"],
+    origin: ["http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"],
     methods: ["POST", "GET"],
     credentials: true, 
     allowedHeaders: ["Content-Type"]
