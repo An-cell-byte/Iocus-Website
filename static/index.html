@@ -53,7 +53,11 @@ Coolify esté corriendo.
 										
 										<div class="d-grid gap-2 mt-3">
 											<!--Cambiar el 'a' tag  por un 'bottont' cuando quieran hacerse pruebas con el inicio de sesión-->
+<<<<<<< HEAD
 											<a href="vista-administrador/vistaAdministrador.html" class="btn btn-lg btn-primary" type="submit">Inicio de sesión </a>
+=======
+											<a href="vista-estudiante/coursescreen.html" class="btn btn-lg btn-primary" type="submit">Inicio de sesión </a>
+>>>>>>> d34e1f6e0b71117f9c9da3e30a28f7d99daa4906
 										</div>
 									</form>
 								</div>
@@ -83,7 +87,7 @@ Coolify esté corriendo.
 
 			// POST al backend
 			try {
-				const response = await fetch("http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/verify", {
+				const response = await fetch("http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/login", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
@@ -94,18 +98,27 @@ Coolify esté corriendo.
 				// Manejo de la respuesta
 				const result = await response.json();
 
-				if (response.ok) {
+				if (response.ok && result.success) {
+					localStorage.setItem("token", result.token);
+
+					case "estudiante":
+            		window.location.href = "vista-estudiante/coursescreen.html";
+            		break;
+
+
 					// Si la autenticación es exitosa, redirigir según el tipo de usuario
-					window.location.href = result.redirectPath || "/"; 
-				} else {
-					
-					alert(result.message || "Ocurrió un error.");
-				}
-			} catch (error) {
-				console.error("Error en la solicitud:", error);
-				alert("Hubo un problema al procesar tu solicitud.");
-			}
-		});
+
+				default:
+            	alert("Tipo de usuario no reconocido.");
+        		}
+      		} else {
+        		alert(result.error || "Correo o contraseña incorrectos.");
+      		}
+    		} catch (error) {
+      		console.error("Error en la solicitud:", error);
+      		alert("Hubo un problema al procesar tu solicitud.");
+    		}
+  		});
 	</script>
 
 -->
