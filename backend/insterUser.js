@@ -1,3 +1,4 @@
+/* 
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 
@@ -46,3 +47,4 @@ async function insertUsers() {
 }
 
 insertUsers();
+*/
