@@ -1,0 +1,22 @@
+[
+  {
+    "question": "¿Quién escribió Harry Potter?",
+    "correctAnswerIndex": "1",
+    "answers": [
+      "Mario Vargas Llosa",
+      "J.K. Rowling",
+      "Julio Cortázar",
+      "Pablo Neruda"
+    ]
+  },
+  {
+    "question": "¿Qué lenguaje NO se utiliza principalmente para desarrollo web?",
+    "correctAnswerIndex": "3",
+    "answers": [
+      "Python",
+      "C++",
+      "JavaScript",
+      "Scratch"
+    ]
+  }
+]
