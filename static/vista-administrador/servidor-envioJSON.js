@@ -36,3 +36,28 @@ app.post('/guardar-json', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
+
+app.get('/archivos', (req, res) => {
+    const rutaDirectorio = path.join(__dirname, 'videojuego', 'quiz'); // Ajusta esta ruta si es necesario
+    fs.readdir(rutaDirectorio, (err, archivos) => {
+        if (err) {
+            return res.status(500).send('Error leyendo archivos');
+        }
+        // Filtramos solo los archivos .json
+        const archivosJson = archivos.filter(archivo => archivo.endsWith('.json'));
+        res.json(archivosJson); // Devolvemos la lista de archivos .json
+    });
+});
+
+app.get('/descargar/:archivo', (req, res) => {
+    const nombreArchivo = req.params.archivo;
+    const rutaArchivo = path.join(__dirname, 'videojuego', 'quiz', nombreArchivo);
+
+    // Verificamos si el archivo existe
+    fs.access(rutaArchivo, fs.constants.F_OK, (err) => {
+        if (err) {
+            return res.status(404).send('Archivo no encontrado');
+        }
+        res.sendFile(rutaArchivo); // Enviamos el archivo como respuesta
+    });
+});
