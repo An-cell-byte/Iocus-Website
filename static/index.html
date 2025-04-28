@@ -65,7 +65,7 @@ Coolify esté corriendo.
                     <form
                       id="login-form"
                       method="POST"
-                      action="http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/verify"
+                      action="http://akgosk4w0kkk4k8wcocg4wg8.4.172.252.35.sslip.io/login"
                     >
                       <div class="mb-3">
                         <label class="form-label">Nombre de usuario</label>
@@ -73,7 +73,7 @@ Coolify esté corriendo.
                           id="correo"
                           class="form-control form-control-lg"
                           type="email"
-                          name="email"
+                          name="correo"
                           placeholder="Ingresa tu nombre de usuario"
                         />
                       </div>
@@ -83,7 +83,7 @@ Coolify esté corriendo.
                           id="contrasena"
                           class="form-control form-control-lg"
                           type="password"
-                          name="password"
+                          name="contrasena"
                           placeholder="Ingresa tu contraseña"
                         />
                       </div>
@@ -91,12 +91,11 @@ Coolify esté corriendo.
                       <div class="d-grid gap-2 mt-3">
                         <!--Cambiar el 'a' tag  por un 'bottont' cuando quieran hacerse pruebas con el inicio de sesión-->
 
-                        <a
-                          href="./vista-administrador/vistaAdministrador.html"
+                        <button
                           class="btn btn-lg btn-primary"
                           type="submit"
                           >Inicio de sesión
-                        </a>
+                        </button>
                       </div>
                     </form>
                   </div>
@@ -112,7 +111,7 @@ Coolify esté corriendo.
     <script type="module" src="/src/main.js"></script>
     <script src="js/app.js"></script>
 
-    <!-- Dejar de hacer comentario cuando se quieran hacer pruebas con el inicio de sesion usando las credenciales.
+    <!- Dejar de hacer comentario cuando se quieran hacer pruebas con el inicio de sesion usando las credenciales. -->
 	
 	
 	<script>
@@ -126,7 +125,7 @@ Coolify esté corriendo.
 
 			// POST al backend
 			try {
-				const response = await fetch("http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/login", {
+				const response = await fetch("http://akgosk4w0kkk4k8wcocg4wg8.4.172.252.35.sslip.i/login", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
@@ -159,7 +158,5 @@ Coolify esté corriendo.
     		}
   		});
 	</script>
-
--->
   </body>
 </html>
