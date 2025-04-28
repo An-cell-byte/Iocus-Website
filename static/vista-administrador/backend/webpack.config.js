@@ -1,3 +1,5 @@
+import react from '@vitejs/plugin-react';
+export default { plugins: [react()] };
 const path = require('path');
 
 module.exports = {
