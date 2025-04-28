@@ -1,117 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!--Tomar en cuenta el directorio node-mysql-api almacenado en Windows (C:) (mantenemos la carpeta acá en VS, por si requerimos hacer cambios y subirlos al repositorio), así como la base de datos de MySQL 
+
+<!--Tomar en cuenta el directorio node-mysql-api almacenado en Windows (C:) (mantenemos la carpeta acá en VS, por si requerimos hacer cambios y subirlos al repositorio), así como la base de datos de MySQL 
 con los respectivos datos del servidor de Coolify. Solo podrás abrir la base de datos de MySQL enlazada a Coolify cuando
 Coolify esté corriendo.  
 -->
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta
-      name="description"
-      content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5"
-    />
-    <meta name="author" content="AdminKit" />
-    <meta
-      name="keywords"
-      content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web"
-    />
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5">
+	<meta name="author" content="AdminKit">
+	<meta name="keywords" content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="shortcut icon" href="img/icons/icon-48x48.png" />
 
-    <link
-      rel="canonical"
-      href="https://demo-basic.adminkit.io/pages-sign-in.html"
-    />
+	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-sign-in.html" />
 
-    <title>Inicio de sesión</title>
-    <link rel="stylesheet" href="/src/css/app.css" />
-    <link href="css/app.css" rel="stylesheet" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
-  </head>
+	<title>Inicio de sesión </title>
+	<link rel="stylesheet" href="/src/css/app.css" />
+	<link href="css/app.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
 
-  <body>
-    <!-- Contenido -->
-    <main class="d-flex w-100">
-      <div class="container d-flex flex-column">
-        <div class="row vh-100">
-          <div
-            class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100"
-          >
-            <div class="d-table-cell align-middle">
-              <!--Imagen LOGO-->
-              <div class="text-center mt-4">
-                <img
-                  src="img/IMG2whirlpool.jpg"
-                  alt="Avatar"
-                  style="top: 500px; width: 40%"
-                  class="margin-top"
-                />
-                <br /><br /><br />
-              </div>
-              <!--Fin de imagen LOGO-->
-              <!--Cuadro inicio de sesión -->
-              <div class="card">
-                <div class="card-body">
-                  <div class="m-sm-3">
-                    <form
-                      id="login-form"
-                      method="POST"
-                      action="http://akgosk4w0kkk4k8wcocg4wg8.4.172.252.35.sslip.io/login"
-                    >
-                      <div class="mb-3">
-                        <label class="form-label">Nombre de usuario</label>
-                        <input
-                          id="correo"
-                          class="form-control form-control-lg"
-                          type="email"
-                          name="correo"
-                          placeholder="Ingresa tu nombre de usuario"
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input
-                          id="contrasena"
-                          class="form-control form-control-lg"
-                          type="password"
-                          name="contrasena"
-                          placeholder="Ingresa tu contraseña"
-                        />
-                      </div>
+<body>
+	<!-- Contenido -->
+	<main class="d-flex w-100">
+		<div class="container d-flex flex-column">
+			<div class="row vh-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
+						<!--Imagen LOGO-->
+						<div class="text-center mt-4">
+							<img src="img/IMG2whirlpool.jpg" alt="Avatar" style="top:500px; width:40%" class="margin-top">
+							<br><br><br>
+						</div>
+						<!--Fin de imagen LOGO-->
+						<!--Cuadro inicio de sesión -->
+						<div class="card">
+							<div class="card-body">
+								<div class="m-sm-3">
+									<form id= "login-form" method="POST" action="http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/verify">
+										<div class="mb-3">
+											<label class="form-label">Nombre de usuario</label>
+											<input id="correo" class="form-control form-control-lg" type="email" name="email" placeholder="Ingresa tu nombre de usuario" />
+										</div>
+										<div class="mb-3">
+											<label class="form-label">Contraseña</label>
+											<input id="contrasena" class="form-control form-control-lg" type="password" name="password" placeholder="Ingresa tu contraseña" />
+										</div>
+										
+										<div class="d-grid gap-2 mt-3">
+											<!--Cambiar el 'a' tag  por un 'bottont' cuando quieran hacerse pruebas con el inicio de sesión-->
 
-                      <div class="d-grid gap-2 mt-3">
-                        <!--Cambiar el 'a' tag  por un 'bottont' cuando quieran hacerse pruebas con el inicio de sesión-->
+											<a href="vista-administrador/curso_tecnicos2.html" class="btn btn-lg btn-primary" type="submit">Inicio de sesión </a>
 
-                        <button
-                          class="btn btn-lg btn-primary"
-                          type="submit"
-                          >Inicio de sesión
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <!--Fin de cuadro inicio de sesión -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Fin de contenido -->
-    </main>
-    <script type="module" src="/src/main.js"></script>
-    <script src="js/app.js"></script>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+						<!--Fin de cuadro inicio de sesión -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Fin de contenido -->
+	</main>
+	<script type="module" src="/src/main.js"></script>
+	<script src="js/app.js"></script>
 
-    <!- Dejar de hacer comentario cuando se quieran hacer pruebas con el inicio de sesion usando las credenciales. -->
+	<!-- Dejar de hacer comentario cuando se quieran hacer pruebas con el inicio de sesion usando las credenciales.
 	
 	
 	<script>
@@ -125,7 +85,7 @@ Coolify esté corriendo.
 
 			// POST al backend
 			try {
-				const response = await fetch("http://akgosk4w0kkk4k8wcocg4wg8.4.172.252.35.sslip.i/login", {
+				const response = await fetch("http://mgg08go48os4wwkkwgk84w4k.4.172.252.35.sslip.io/login", {
 					method: "POST",
 					headers: {
 						"Content-Type": "application/json"
@@ -158,5 +118,10 @@ Coolify esté corriendo.
     		}
   		});
 	</script>
-  </body>
+
+-->
+
+
+</body>
+
 </html>
