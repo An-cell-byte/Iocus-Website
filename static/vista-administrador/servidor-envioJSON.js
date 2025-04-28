@@ -37,8 +37,8 @@ app.listen(PORT, () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
 
-app.get('/archivos', (req, res) => {
-    const rutaDirectorio = path.join(__dirname, 'videojuego', 'quiz'); // Ajusta esta ruta si es necesario
+app.get('/quiz', (req, res) => {
+    const rutaDirectorio = path.join(__dirname, 'videojuego'); // Ajusta esta ruta si es necesario
     fs.readdir(rutaDirectorio, (err, archivos) => {
         if (err) {
             return res.status(500).send('Error leyendo archivos');
