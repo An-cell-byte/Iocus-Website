@@ -91,10 +91,8 @@ Coolify esté corriendo.
                       <div class="d-grid gap-2 mt-3">
                         <!--Cambiar el 'a' tag  por un 'bottont' cuando quieran hacerse pruebas con el inicio de sesión-->
 
-                        <button
-                          class="btn btn-lg btn-primary"
-                          type="submit" href="static/vista-administrador/vistaAdministrador.html"
-                          >Inicio de sesión
+                        <button class="btn btn-lg btn-primary" type="submit">
+                          Inicio de sesión
                         </button>
                       </div>
                     </form>
@@ -108,57 +106,54 @@ Coolify esté corriendo.
       </div>
       <!-- Fin de contenido -->
     </main>
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="./main.js"></script>
     <script src="js/app.js"></script>
 
-    <!-- Dejar de hacer comentario cuando se quieran hacer pruebas con el inicio de sesion usando las credenciales. 
-	
-	
-	<script>
-		
-		document.getElementById("login-form").addEventListener("submit", async function(event) {
-			event.preventDefault();
+    <!-- Dejar de hacer comentario cuando se quieran hacer pruebas con el inicio de sesion usando las credenciales. -->
 
-			// Obtiene los valores 
-			const correo = document.getElementById("correo").value;
-			const contrasena = document.getElementById("contrasena").value;
+    <script>
 
-			// POST al backend
-			try {
-				const response = await fetch("http://akgosk4w0kkk4k8wcocg4wg8.4.172.252.35.sslip.i/login", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({ correo, contrasena })
-				});
+      document.getElementById("login-form").addEventListener("submit", async function(event) {
+      	event.preventDefault();
 
-				// Manejo de la respuesta
-				const result = await response.json();
+      	// Obtiene los valores
+      	const correo = document.getElementById("correo").value;
+      	const contrasena = document.getElementById("contrasena").value;
 
-				if (response.ok && result.success) {
-					localStorage.setItem("token", result.token);
+      	// POST al backend
+      	try {
+      		const response = await fetch("http://akgosk4w0kkk4k8wcocg4wg8.4.172.252.35.sslip.i/login", {
+      			method: "POST",
+      			headers: {
+      				"Content-Type": "application/json"
+      			},
+      			body: JSON.stringify({ correo, contrasena })
+      		});
 
-					case "estudiante":
-            		window.location.href = "vista-estudiante/coursescreen.html";
-            		break;
+      		// Manejo de la respuesta
+      		const result = await response.json();
+
+      		if (response.ok && result.success) {
+      			localStorage.setItem("token", result.token);
+
+      			case "estudiante":
+                		window.location.href = "vista-estudiante/coursescreen.html";
+                		break;
 
 
-					// Si la autenticación es exitosa, redirigir según el tipo de usuario
+      			// Si la autenticación es exitosa, redirigir según el tipo de usuario
 
-				default:
-            	alert("Tipo de usuario no reconocido.");
+      		default:
+                	alert("Tipo de usuario no reconocido.");
+            		}
+          		} else {
+            		alert(result.error || "Correo o contraseña incorrectos.");
+          		}
+        		} catch (error) {
+          		console.error("Error en la solicitud:", error);
+          		alert("Hubo un problema al procesar tu solicitud.");
         		}
-      		} else {
-        		alert(result.error || "Correo o contraseña incorrectos.");
-      		}
-    		} catch (error) {
-      		console.error("Error en la solicitud:", error);
-      		alert("Hubo un problema al procesar tu solicitud.");
-    		}
-  		});
-	</script>
-
-	-->
+      		});
+    </script>
   </body>
 </html>
