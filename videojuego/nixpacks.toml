@@ -1,7 +1,7 @@
 [phases.setup]
 nixPkgs = ["nodejs", "npm"]
 
-[phases.install]
+[phases.build]
 cmds = ["npm install"]
 
 [start]
