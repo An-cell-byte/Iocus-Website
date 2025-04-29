@@ -110,7 +110,7 @@ app.put("/api/capacitaciones", (req, res) => {
 
   // Consulta SQL para insertar
   const sql = `
-    INSERT INTO capacitacion (titulo, descripcion, id_capacitador, fecha)
+    INSERT INTO capacitaciones (titulo, descripcion, id_capacitador, fecha)
     VALUES (?, ?, ?, ?)
   `;
 
