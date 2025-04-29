@@ -103,7 +103,6 @@
 
     <script>
       /* 1️⃣ URL base */
-      const API_BASE = "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io";
 
       /* 2️⃣ Capturamos el submit del formulario */
       document
@@ -122,7 +121,7 @@
 
           try {
             /* 4️⃣ Llamada a la API */
-            const url = `${API_BASE}/usario/${encodeURIComponent(
+            const url = `http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${encodeURIComponent(
               user
             )}/${encodeURIComponent(pass)}`;
             const res = await fetch(url);
@@ -138,7 +137,6 @@
 
             /* 6️⃣ Guardamos sesión (opcional: pide al backend un token real) */
             localStorage.setItem("usuario", JSON.stringify(data));
-            localStorage.setItem("loginTime", Date.now());
 
             /* 7️⃣ Redirección según rol */
             if (data.tipo === "capacitador") {
