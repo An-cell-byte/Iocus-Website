@@ -37,6 +37,54 @@ app.get("/api/capacitaciones", (req, res) => {
   });
 });
 
+// obtiene correo del usuario
+app.get("/api/usuarios/:id/correo", (req, res) => {
+  const id = req.params.id;
+  db.query(
+    "SELECT correo FROM usuarios WHERE correo = ?",
+    [id],
+    (err, resultados) => {
+      if (err) return res.status(500).send("Error en la base de datos");
+      if (resultados.length === 0)
+        return res.status(404).send("Usuario no encontrado");
+
+      res.json({ correo: resultados[0].correo });
+    }
+  );
+});
+
+// obtiene contraseña del usuario
+app.get("/api/usuarios/:id/contrasena", (req, res) => {
+  const id = req.params.id;
+  db.query(
+    "SELECT contrasena FROM usuarios WHERE contraseña = ?",
+    [id],
+    (err, resultados) => {
+      if (err) return res.status(500).send("Error en la base de datos");
+      if (resultados.length === 0)
+        return res.status(404).send("Usuario no encontrado");
+
+      res.json({ contrasena: resultados[0].contrasena });
+    }
+  );
+});
+
+// obtiene tipos de usuario
+app.get("/api/usuarios/:id/tipo", (req, res) => {
+  const id = req.params.id;
+  db.query(
+    "SELECT tipo FROM usuarios WHERE tipo = ?",
+    [id],
+    (err, resultados) => {
+      if (err) return res.status(500).send("Error en la base de datos");
+      if (resultados.length === 0)
+        return res.status(404).send("Usuario no encontrado");
+
+      res.json({ tipo: resultados[0].tipo });
+    }
+  );
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
