@@ -6,7 +6,7 @@ export default function CursoGrid() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/cursos") // mismo dominio => sin CORS extra
+    fetch("backendlink.io") // mismo dominio => sin CORS extra
       .then((r) => r.json())
       .then((data) => {
         setCursos(data);

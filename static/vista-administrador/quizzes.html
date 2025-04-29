@@ -47,7 +47,7 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="">
-              <i class="align-middle" data-feather="activity"></i> <span class="align-middle">Calificaciones</span>
+              <i class="align-middle" data-feather="activity"></i> <span class="align-middle">Calificaciones </span>
             </a>
 					</li>
 
@@ -240,23 +240,43 @@
 						}
 					});
 
+					/*
+					const datos={}
+					rows.each(function(index){
+						var obj ={
+							qInputs:qInputs,
+							a1Inputs:a1Inputs,
+							a2Inputs:a2Inputs,
+							a3Inputs:a3Inputs,
+							a4Inputs:a4Inputs
+						};
+						datos.push(obj);
+					})
+					*/
+					/*
 					const datos={
-						qInputs:qInputs,
-						a1Inputs:a1Inputs,
-						a2Inputs:a2Inputs,
-						a3Inputs:a3Inputs,
-						a4Inputs:a4Inputs
-					};
+						question:qInputs,
+						correctAnswerIndex:,
+						answers:[a1Inputs,a2Inputs,a3Inputs,a4Inputs]
+						
+					}*/
+					
+					const datosStr=JSON.stringify(datos, null,2);
+					/*
+					const fs=require('fs');
+					const outputFolder=path.join(__dirname, 'componentes');
+					const outputPath=path.join(outputFolder,`Quiz${Date.now()}.json`);
+					
 
-					const datos2={
-						qInputs:qInputs, 
-						a1Inputs:a1Inputs,
-						a2Inputs:a2Inputs,
-						a3Inputs:a3Inputs,
-						a4Inputs:a4Inputs
-					};
-
-					const datosStr=JSON.stringify(datos);
+					fs.writeFile(outputPath, datosStr, (err) => {
+						if(err){
+							console.error('Error al crear package.json', err);
+						} else{
+							console.log('package.json creado exitosamente en ${outputPath}');
+						}
+					});
+					*/
+					
 					const blob=new Blob([datosStr],{type:"application/json"});
 					const url=URL.createObjectURL(blob);
 					const a=document.createElement("a");
@@ -287,7 +307,7 @@
 
 
 				  file_num++;
-
+				
                 </script>
             </main>
               
