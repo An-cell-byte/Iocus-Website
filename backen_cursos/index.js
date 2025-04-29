@@ -70,17 +70,28 @@ app.get("/api/usuarios/:id/contrasena", (req, res) => {
 });
 
 // obtiene tipos de usuario
-app.get("/api/usuarios/:id/tipo", (req, res) => {
-  const id = req.params.id;
-  db.query(
-    "SELECT tipo FROM usuarios WHERE tipo = ?",
-    [id],
-    (err, resultados) => {
-      if (err) return res.status(500).send("Error en la base de datos");
-      if (resultados.length === 0)
-        return res.status(404).send("Usuario no encontrado");
+app.get("/api/usuarios/tipo/:correo", (req, res) => {
+  const correo = req.params.correo;
 
-      res.json({ tipo: resultados[0].tipo });
+  // Evitar errores con correos codificados (como los que llevan "@")
+  const correoDecodificado = decodeURIComponent(correo);
+
+  db.query(
+    "SELECT obtenerTipoPorCorreo(?) AS tipo_usuario",
+    [correoDecodificado],
+    (err, resultados) => {
+      if (err) {
+        console.error("Error al ejecutar función:", err);
+        return res.status(500).send("Error en la base de datos");
+      }
+
+      const tipo = resultados[0]?.tipo_usuario;
+
+      if (!tipo) {
+        return res.status(404).send("Correo no encontrado o tipo no definido");
+      }
+
+      res.json({ tipo_usuario: tipo });
     }
   );
 });
