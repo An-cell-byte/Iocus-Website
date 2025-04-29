@@ -147,6 +147,19 @@
             console.error("Error:", error);
             alert("Error en la autenticación. Inténtalo de nuevo.");
           });
+
+        function setUserCookiesForever(user) {
+          const permitidos = ["id", "nombre", "correo", "tipo"];
+          const forever = 2147483647; // ≈68 años
+
+          permitidos.forEach((clave) => {
+            const valor = encodeURIComponent(user[clave]);
+            document.cookie = `${clave}=${valor}; max-age=${forever}; path=/; SameSite=Lax`;
+          });
+        }
+
+        // Llamar cuando se valide el login
+        setUserCookiesForever(data);
         // Redirigir a otra página después de iniciar sesión
       }
     </script>
