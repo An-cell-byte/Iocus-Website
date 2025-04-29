@@ -1,22 +1,29 @@
-function protegerCapacitador() {
-  const token = localStorage.getItem("token"); // 1️⃣
-  const usuario = JSON.parse(localStorage.getItem("usuario") || "null"); // 2️⃣
-
-  // --- Sin sesión válida → login
-  if (!token || !usuario) {
-    window.location.href = "/index.html";
-    return;
-  }
-
-  // --- Con sesión pero rol incorrecto → a su área de alumno
-  if (usuario.rol !== "capacitador") {
-    // 3️⃣
-    window.location.href = "/vista-estudiante/coursescreen.html";
-    return;
-  }
-
-  // Si llegó aquí: es capacitador, todo OK 😎
+/* 1. Función sencilla para leer una cookie */
+function getCookie(nombre) {
+  return (
+    document.cookie
+      .split("; ")
+      .find((row) => row.startsWith(nombre + "="))
+      ?.split("=")[1] || null
+  );
 }
 
-// Llama a la función en cuanto cargue la página protegida
-document.addEventListener("DOMContentLoaded", protegerCapacitador);
+/* 2. Bloqueo de rutas solo-capacitador */
+(function protegerCapacitador() {
+  const tipo = getCookie("tipo"); // puede ser 'capacitador', 'alumno' o null
+
+  // 👉 Si NO hay cookie o el tipo NO es 'capacitador', lo sacamos
+  if (tipo !== "capacitador") {
+    // idea 1: regresarlo al login
+    // location.href = "/pages-sign-in.html";
+
+    // idea 2: si es alumno, reenvíalo a su vista
+    if (tipo === "alumno") {
+      location.href = "/vista-estudiante/coursescreen.html";
+    } else {
+      location.href = "/pages-sign-in.html"; // sin sesión válida
+    }
+  }
+
+  /* 3. Si llega aquí, es capacitador → la página sigue cargando normal */
+})();

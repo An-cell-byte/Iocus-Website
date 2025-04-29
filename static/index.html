@@ -102,57 +102,39 @@
     </main>
 
     <script>
-      /* 1️⃣ URL base */
+      async function handleLogin(e) {
+        e.preventDefault(); // evita refresco
+        const user = correo.value.trim();
+        const pass = contrasena.value.trim();
+        if (!user || !pass) return alert("Faltan datos");
 
-      /* 2️⃣ Capturamos el submit del formulario */
-      document
-        .getElementById("login-form")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault(); // ← detiene el refresh
+        const url = `http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${encodeURIComponent(
+          user
+        )}/${encodeURIComponent(pass)}`;
 
-          /* 3️⃣ Datos del usuario */
-          const user = document.getElementById("correo").value.trim();
-          const pass = document.getElementById("contrasena").value.trim();
+        try {
+          const res = await fetch(url);
+          if (!res.ok) return alert("Credenciales inválidas");
 
-          if (!user || !pass) {
-            alert("Completa ambos campos");
-            return;
+          const data = await res.json(); // ← {id, tipo, …}
+
+          /* 👇 2 líneas nuevas: crea cookies válidas 1 día */
+          document.cookie = `uid=${data.id}; path=/; max-age=86400; SameSite=Lax`;
+          document.cookie = `tipo=${data.tipo}; path=/; max-age=86400; SameSite=Lax`;
+
+          /* redirección según rol */
+          if (data.tipo === "capacitador") {
+            location.href = "/vista-administrador/vistaAdministrador.html";
+          } else if (data.tipo === "alumno") {
+            location.href = "/vista-estudiante/coursescreen.html";
+          } else {
+            location.href = "/no-autorizado.html";
           }
-
-          try {
-            /* 4️⃣ Llamada a la API */
-            const url = `http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${encodeURIComponent(
-              user
-            )}/${encodeURIComponent(pass)}`;
-            const res = await fetch(url);
-            console.log("api response", res);
-
-            if (!res.ok) {
-              const msg = await res.text();
-              alert(`Error: ${msg}`);
-              return;
-            }
-
-            /* 5️⃣ Respuesta OK */
-            const data = await res.json(); // {id, nombre, correo, contrasena, tipo}
-
-            /* 6️⃣ Guardamos sesión (opcional: pide al backend un token real) */
-            localStorage.setItem("usuario", JSON.stringify(data));
-
-            /* 7️⃣ Redirección según rol */
-            if (data.tipo === "capacitador") {
-              window.location.href =
-                "/vista-administrador/vistaAdministrador.html";
-            } else if (data.tipo === "alumno") {
-              window.location.href = "/vista-estudiante/coursescreen.html";
-            } else {
-              window.location.href = "/no-autorizado.html";
-            }
-          } catch (err) {
-            console.error(err);
-            alert("No se pudo contactar al servidor. Intenta más tarde.");
-          }
-        });
+        } catch (err) {
+          console.error(err);
+          alert("Servidor fuera de línea");
+        }
+      }
     </script>
   </body>
 </html>
