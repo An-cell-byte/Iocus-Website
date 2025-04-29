@@ -125,6 +125,7 @@
               user
             )}/${encodeURIComponent(pass)}`;
             const res = await fetch(url);
+            console.log("api response", res);
 
             if (!res.ok) {
               const msg = await res.text();

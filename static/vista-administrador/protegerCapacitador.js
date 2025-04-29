@@ -4,7 +4,7 @@ function protegerCapacitador() {
 
   // --- Sin sesión válida → login
   if (!token || !usuario) {
-    window.location.href = "/login.html";
+    window.location.href = "/index.html";
     return;
   }
 

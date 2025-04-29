@@ -4,7 +4,7 @@ function protegerAlumno() {
 
   // --- No hay sesión válida → fuera
   if (!token || !usuario) {
-    window.location.href = "/login.html";
+    window.location.href = "/index.html";
     return;
   }
 
