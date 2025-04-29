@@ -6,8 +6,7 @@ const bodyParser = require("body-parser");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs')
 const db = require("./database");
-const authRoutes = require('./auth'); // Importa el módulo de autenticación
-const path = require('path');
+
 
 
 const app = express();
@@ -16,7 +15,6 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 // middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({
     origin: ["http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"],
@@ -25,16 +23,9 @@ app.use(cors({
     allowedHeaders: ["Content-Type"]
 }));
 
-// Usar el módulo de autenticación
-app.use('/auth', authRoutes);
-
-// Servir archivos estáticos (index.html y vistaAdministrador.html)
-app.use(express.static(path.join(__dirname, '../static')));
-
 
 function verificarToken(req, res, next) {
   const token = req.headers['authorization'];
-
   if (!token) return res.status(403).json({ error: 'Token requerido' });
 
   jwt.verify(token, SECRET_KEY, (err, userData) => {
@@ -44,7 +35,20 @@ function verificarToken(req, res, next) {
     next();
   });
 }
+
+
+app.get('/', (req, res) => {
+  res.redirect('/login');
+});
+
+app.get('/login', (req, res) => {
+  res.render('login');
+});
+
 // Session config
+app.get('/restricted', verificarToken, (req, res) => {
+  res.send(`¡Área restringida! Bienvenido ${req.user.correo}, tipo: ${req.user.tipo}.`);
+});
 
 app.post("/login", (req, res) => {
   const { correo, contrasena } = req.body;
@@ -53,39 +57,18 @@ app.post("/login", (req, res) => {
       return res.status(400).json({ message: "Favor de llenar todos los campos." });
   }
 
-  const query = "SELECT contrasena, tipo FROM usuarios WHERE correo = ?";
+  const query = "SELECT correo, contrasena, tipo FROM usuarios WHERE correo = ?";
   db.query(query, [correo], async (err, results) => {
-      if (err) {
-          console.error('Error en la consulta', err);
-          return res.status(500).json({ error: "Error al acceder a la base de datos." });
-      }
+    if (err) return res.status(500).json({ error: "Error de base de datos" });
+    if (results.length === 0) return res.status(401).json({ error: "Usuario no encontrado" });
 
-      if (results.length === 0) {
-          return res.status(401).json({ error: "Correo o Contraseña Inválida." });
-      }
+    const user = results[0];
+    const match = await bcrypt.compare(password, user.contrasena);
+    if (!match) return res.status(401).json({ error: "Contraseña incorrecta" });
 
-      const hashedPassword = results[0].contrasena;
-      const tipoUsuario = results[0].tipo;
-
-      const match = await bcrypt.compare(contrasena, hashedPassword);
-    if (!match) {
-      return res.status(401).json({ error: "Correo o Contraseña Inválida." });
-    }
-
-    const token = jwt.sign({ correo: usuario.correo, tipo: usuario.tipo }, SECRET_KEY, { expiresIn: '1h' });
-
-    return res.status(200).json({
-      success: true,
-      message: "Inicio de sesión exitoso.",
-      tipoUsuario,
-      token
-
-     });
+    const token = jwt.sign({ correo: user.correo, tipo: user.tipo }, SECRET_KEY, { expiresIn: '1h' });
+    res.json({ success: true, message: "Inicio de sesión exitoso", token });
   });
-});
-
-app.get('/api/protegido', verificarToken, (req, res) => {
-  res.json({ mensaje: 'Acceso permitido', usuario: req.user });
 });
 
 app.listen(PORT, () => {
