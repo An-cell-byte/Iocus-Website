@@ -112,7 +112,8 @@
       
           try {
             const response = await fetch("http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io", {
-              method: "POST",
+              method: ["POST", "GET"],
+              mode: "cors",
               headers: {
                 "Content-Type": "application/json",
               },
