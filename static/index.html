@@ -59,7 +59,6 @@
                   <div class="m-sm-3">
                     <form
                       id="login-form"
-                      method="POST"
                     >
                       <div class="mb-3">
                         <label class="form-label">Nombre de usuario</label>
@@ -133,7 +132,7 @@
               } else if (data.userType === "estudiante") {
                 window.location.href = "vista-estudiante/vistaEstudiante.html";
               } else {
-                window.location.href = "vista-invitado/vistaInvitado.html";
+                alert("Tipo de usuario no reconocido");
               }
             } else {
               alert("Correo o contraseña incorrectos");
