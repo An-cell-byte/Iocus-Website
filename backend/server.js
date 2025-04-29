@@ -20,7 +20,7 @@ app.use(cors({
     origin: ["http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"],
     methods: ["POST", "GET"],
     credentials: true, 
-    allowedHeaders: ["Content-Type"]
+    allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 
