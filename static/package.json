@@ -33,11 +33,11 @@
     "dist"
   ],
   "scripts": {
-    "dev": "node --watch index.js",
+    "node:dev": "node --watch index.js",
     "start": "node index.js",
-    "vite:dev": "vite",
+    "dev": "vite",
     "build": "vite build",
-    "vite:preview": "vite preview",
+    "preview": "vite preview",
     "webpack:build": "cross-env NODE_ENV=production webpack --config webpack.config.js --progress",
     "webpack:watch": "webpack --config webpack.config.js --watch --progress",
     "webpack:start": "webpack serve --config webpack.config.js --progress",
