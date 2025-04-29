@@ -82,11 +82,7 @@
                       <div class="d-grid gap-2 mt-3">
                         <!-- Para pruebas rápidas usa el enlace;
 												  al pasar a producción cambia por <button type="submit"> -->
-                        <button
-                          class="btn btn-lg btn-primary"
-                          type="submit"
-                          onclick="handleLogin()"
-                        >
+                        <button class="btn btn-lg btn-primary" type="submit">
                           Inicio de sesión
                         </button>
                       </div>
@@ -102,38 +98,23 @@
     </main>
 
     <script>
-      async function handleLogin(e) {
-        e.preventDefault(); // evita refresco
-        const user = correo.value.trim();
-        const pass = contrasena.value.trim();
-        if (!user || !pass) return alert("Faltan datos");
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", handleLogin);
+      function handleLogin() {
+        event.preventDefault(); // Evita el envío del formulario por defecto
 
-        const url = `http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${encodeURIComponent(
-          user
-        )}/${encodeURIComponent(pass)}`;
+        const correo = document.getElementById("correo").value;
+        const contrasena = document.getElementById("contrasena").value;
 
-        try {
-          const res = await fetch(url);
-          if (!res.ok) return alert("Credenciales inválidas");
+        // Aquí puedes agregar la lógica para enviar los datos al servidor
+        // Por ejemplo, usando fetch o XMLHttpRequest
 
-          const data = await res.json(); // ← {id, tipo, …}
+        console.log("Correo:", correo);
+        console.log("Contraseña:", contrasena);
 
-          /* 👇 2 líneas nuevas: crea cookies válidas 1 día */
-          document.cookie = `uid=${data.id}; path=/; max-age=86400; SameSite=Lax`;
-          document.cookie = `tipo=${data.tipo}; path=/; max-age=86400; SameSite=Lax`;
-
-          /* redirección según rol */
-          if (data.tipo === "capacitador") {
-            location.href = "/vista-administrador/vistaAdministrador.html";
-          } else if (data.tipo === "alumno") {
-            location.href = "/vista-estudiante/coursescreen.html";
-          } else {
-            location.href = "/no-autorizado.html";
-          }
-        } catch (err) {
-          console.error(err);
-          alert("Servidor fuera de línea");
-        }
+        // Redirigir a otra página después de iniciar sesión
+        window.location.href = "vistaAdministrador.html";
       }
     </script>
   </body>
