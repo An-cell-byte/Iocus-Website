@@ -6,8 +6,6 @@ const bodyParser = require("body-parser");
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs')
 const db = require("./database");
-const authRoutes = require('./auth'); // Importa el módulo de autenticación
-const path = require('path');
 
 
 const app = express();
@@ -16,7 +14,6 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 // middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors({
     origin: ["http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io"],
@@ -24,12 +21,6 @@ app.use(cors({
     credentials: true, 
     allowedHeaders: ["Content-Type"]
 }));
-
-// Usar el módulo de autenticación
-app.use('/auth', authRoutes);
-
-// Servir archivos estáticos (index.html y vistaAdministrador.html)
-app.use(express.static(path.join(__dirname, '../static')));
 
 
 function verificarToken(req, res, next) {
