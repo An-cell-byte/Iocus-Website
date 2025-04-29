@@ -27,7 +27,7 @@ db.connect((err) => {
 
 // obtiene todos los cursos
 app.get("/api/capacitaciones", (req, res) => {
-  db.query("SELECT * FROM capacitacion", (err, resultados) => {
+  db.query("SELECT * FROM capacitaciones", (err, resultados) => {
     if (err) {
       console.error(err);
       res.status(500).send("Error en el servidor");
