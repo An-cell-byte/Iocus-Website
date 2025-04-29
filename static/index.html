@@ -102,57 +102,58 @@
     </main>
 
     <script>
-      /* ========= FUNCIÓN login() QUE YA HICIMOS ========= */
+      /* 1️⃣ URL base */
       const API_BASE = "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io";
-      async function login(user, password) {
-        try {
-          // 1️⃣ Llamada al backend
-          const url = `${API_BASE}/usario/${encodeURIComponent(
-            user
-          )}/${encodeURIComponent(password)}`;
-          const res = await fetch(url);
 
-          // 2️⃣ Manejo de errores
-          if (!res.ok) {
-            const msg = await res.text();
-            alert(`Error: ${msg}`);
+      /* 2️⃣ Capturamos el submit del formulario */
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault(); // ← detiene el refresh
+
+          /* 3️⃣ Datos del usuario */
+          const user = document.getElementById("correo").value.trim();
+          const pass = document.getElementById("contrasena").value.trim();
+
+          if (!user || !pass) {
+            alert("Completa ambos campos");
             return;
           }
 
-          // 3️⃣ Usuario válido
-          const data = await res.json(); // Aquí viene correo, rol, etc.
-          const token = crypto.randomUUID(); // Token “rápido” (o usa el que devuelva tu API)
+          try {
+            /* 4️⃣ Llamada a la API */
+            const url = `${API_BASE}/usario/${encodeURIComponent(
+              user
+            )}/${encodeURIComponent(pass)}`;
+            const res = await fetch(url);
 
-          // 4️⃣ Guardar sesión
-          localStorage.setItem("token", token);
-          localStorage.setItem("usuario", JSON.stringify(data));
-          localStorage.setItem("loginTime", Date.now());
+            if (!res.ok) {
+              const msg = await res.text();
+              alert(`Error: ${msg}`);
+              return;
+            }
 
-          console.log("usuario correcto");
+            /* 5️⃣ Respuesta OK */
+            const data = await res.json(); // {id, nombre, correo, contrasena, tipo}
 
-          /* 5️⃣ Redirección según rol  */
-          // Supongamos que data.rol vale 'capacitador' o 'alumno'
-          if (data.rol === "capacitador") {
-            window.location.href =
-              "/vista-administrador/vistaAdministrador.html";
-          } else if (data.rol === "alumno") {
-            window.location.href = "/vista-estudiante/coursescreen.html";
-          } else {
-            // Rol desconocido → página genérica o error
-            window.location.href = "/no-autorizado.html";
+            /* 6️⃣ Guardamos sesión (opcional: pide al backend un token real) */
+            localStorage.setItem("usuario", JSON.stringify(data));
+            localStorage.setItem("loginTime", Date.now());
+
+            /* 7️⃣ Redirección según rol */
+            if (data.tipo === "capacitador") {
+              window.location.href =
+                "/vista-administrador/vistaAdministrador.html";
+            } else if (data.tipo === "alumno") {
+              window.location.href = "/vista-estudiante/coursescreen.html";
+            } else {
+              window.location.href = "/no-autorizado.html";
+            }
+          } catch (err) {
+            console.error(err);
+            alert("No se pudo contactar al servidor. Intenta más tarde.");
           }
-        } catch (e) {
-          console.error("Fallo al contactar al servidor:", e);
-          alert("No se pudo contactar al servidor. Intenta más tarde.");
-        }
-      }
-
-      /* ========= AQUÍ LLAMAMOS A login() ========= */
-      async function handleLogin() {
-        const user = document.getElementById("correo").value.trim();
-        const pass = document.getElementById("contrasena").value.trim();
-        login(user, pass); // ← aquí llamas a la función
-      }
+        });
     </script>
   </body>
 </html>
