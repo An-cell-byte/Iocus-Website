@@ -101,63 +101,58 @@
       document
         .getElementById("login-form")
         .addEventListener("submit", handleLogin);
-      function handleLogin() {
-        event.preventDefault(); // Evita el envío del formulario por defecto
 
-        const correo = document.getElementById("correo").value;
-        const contrasena = document.getElementById("contrasena").value;
+      async function handleLogin(e) {
+        e.preventDefault(); // ← ahora sí tenemos el evento
 
-        // Aquí puedes agregar la lógica para enviar los datos al servidor
-        // Por ejemplo, usando fetch o XMLHttpRequest
+        const correo = document.getElementById("correo").value.trim();
+        const contrasena = document.getElementById("contrasena").value.trim();
 
-        console.log("Correo:", correo);
-        console.log("Contraseña:", contrasena);
-        console.log(
-          "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${correo}/${contrasena}"
-        );
-        /*console.log(
-          "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/" +
-            correo +
-            "/" +
-            contrasena
-        );*/
-        fetch(
-          "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/" +
-            encodeURIComponent(correo) +
-            "/" +
-            encodeURIComponent(contrasena)
-        )
-          .then((response) => {
-            if (!response.ok) throw new Error("Error en la autenticación");
-            return response.json(); // ← aquí ya tengo el objeto {id, nombre, …}
-          })
-          .then((usuario) => {
-            setUserCookiesForever(usuario); // 👈 ahora sí
-            // redirige según el rol
-            if (usuario.tipo === "capacitador") {
-              location.href = "/vista-administrador/vistaAdministrador.html";
-            } else if (usuario.tipo === "alumno") {
-              location.href = "/vista-estudiante/coursescreen.html";
-            } else {
-              location.href = "/no-autorizado.html";
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            alert("Error en la autenticación. Inténtalo de nuevo.");
-          });
-
-        function setUserCookiesForever(user) {
-          const claves = ["id", "nombre", "correo", "tipo"];
-          const forever = 2147483647; // ≈ 68 años
-
-          claves.forEach((c) => {
-            const valor = encodeURIComponent(user[c]);
-            document.cookie = `${c}=${valor}; max-age=${forever}; path=/; SameSite=Lax`;
-          });
+        if (!correo || !contrasena) {
+          return alert("Completa ambos campos");
         }
 
-        // Redirigir a la página de inicio después de iniciar sesión
+        const url = `http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${encodeURIComponent(
+          correo
+        )}/${encodeURIComponent(contrasena)}`;
+
+        try {
+          const res = await fetch(url); // ⏳ esperamos la respuesta
+          if (!res.ok) throw new Error("Credenciales incorrectas");
+
+          const usuario = await res.json(); // 🎉 {id, nombre, correo, tipo, …}
+          console.log("Respuesta API:", usuario);
+
+          if (!usuario.id) {
+            alert("Respuesta inválida del servidor");
+            return;
+          }
+
+          setUserCookiesForever(usuario);
+
+          // redirección por rol
+          if (usuario.tipo === "capacitador") {
+            location.href = "/vista-administrador/vistaAdministrador.html";
+          } else if (usuario.tipo === "alumno") {
+            location.href = "/vista-estudiante/coursescreen.html";
+          } else {
+            location.href = "/no-autorizado.html";
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Error en la autenticación. Inténtalo de nuevo.");
+        }
+      }
+
+      /* ------ cookies “para siempre” (≈ 68 años) ------ */
+      function setUserCookiesForever(user) {
+        const claves = ["id", "nombre", "correo", "tipo"];
+        const forever = 2147483647; // segundos
+
+        claves.forEach((c) => {
+          const valor = encodeURIComponent(user[c]);
+          document.cookie = `${c}=${valor}; max-age=${forever}; path=/; SameSite=Lax`;
+        });
       }
     </script>
   </body>
