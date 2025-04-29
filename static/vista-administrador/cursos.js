@@ -3,10 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 1. Traemos los cursos del backend
   async function obtenerCursos() {
+    // obtener id de capacitador desde la cookie
+    const idCapacitador = getCookie("id");
+    if (!idCapacitador) {
+      root.innerHTML = "<p>Debes iniciar sesión para ver los cursos.</p>";
+      return;
+    }
     try {
       // ❗ Cambia la URL por la de tu API real
       const respuesta = await fetch(
-        "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/api/capacitacioness"
+        "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/cursos/usuario/" +
+          idCapacitador
       );
 
       // por si el servidor responde con error 4xx/5xx

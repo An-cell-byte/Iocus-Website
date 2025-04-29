@@ -30,6 +30,21 @@ db.connect((err) => {
   }
 });
 
+app.get("/cursos/usuario/:id", (req, res) => {
+  const id = req.params.id;
+  db.query(
+    "SELECT * FROM cursos WHERE id_usuario = ?",
+    [id],
+    (err, resultados) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error en la base de datos");
+      }
+      res.json(resultados);
+    }
+  );
+});
+
 app.get("/usario/:user/:password", (req, res) => {
   const { user, password } = req.params;
   db.query(

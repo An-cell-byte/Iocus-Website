@@ -22,10 +22,10 @@ function getCookie(nombre) {
       window.location.replace("/vista-estudiante/coursescreen.html");
     } else {
       // Sin sesión o cookie corrupta
-      window.location.replace("/pages-sign-in.html");
+      window.location.replace("/index.html");
     }
     return; // detenemos el resto del script
   }
 
-  /* 3. Si llega aquí, SÍ es capacitador → la página puede cargar normal */
+  /* 3. Si llega aquí, SÍ es capvacitador → la página puede cargar normal */
 })();
