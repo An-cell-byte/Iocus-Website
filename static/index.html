@@ -113,14 +113,33 @@
         console.log("Correo:", correo);
         console.log("Contraseña:", contrasena);
         console.log(
-          "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/",
-          correo,
-          "/",
-          contrasena
+          'http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${correo}/${contrasena}'
         );
-        //fetch("http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${correo}/${contrasena}" )
+        console.log('http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/'+correo+'/'+contrasena);
+        fetch('http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${correo}/${contrasena}', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Error en la autenticación");
+            }
+          })
+          .then((data) => {
+            console.log("Respuesta del servidor:", data);
+            // Aquí puedes manejar la respuesta del servidor
+            // Por ejemplo, redirigir al usuario a otra página
+            window.location.href = "vistaAdministrador.html"; // Cambia esto a la URL de tu página de destino
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("Error en la autenticación. Inténtalo de nuevo.");
+          });
         // Redirigir a otra página después de iniciar sesión
-      }
     </script>
   </body>
 </html>
