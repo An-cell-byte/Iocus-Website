@@ -121,19 +121,26 @@
             "/" +
             contrasena
         );*/
-        const datos = fetch(
+        fetch(
           "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/" +
-            correo +
+            encodeURIComponent(correo) +
             "/" +
-            contrasena,
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
+            encodeURIComponent(contrasena)
         )
           .then((response) => {
             if (!response.ok) throw new Error("Error en la autenticación");
-            return response.json(); // ← aquí ya viene un objeto
+            return response.json(); // ← aquí ya tengo el objeto {id, nombre, …}
+          })
+          .then((usuario) => {
+            setUserCookiesForever(usuario); // 👈 ahora sí
+            // redirige según el rol
+            if (usuario.tipo === "capacitador") {
+              location.href = "/vista-administrador/vistaAdministrador.html";
+            } else if (usuario.tipo === "alumno") {
+              location.href = "/vista-estudiante/coursescreen.html";
+            } else {
+              location.href = "/no-autorizado.html";
+            }
           })
           .catch((error) => {
             console.error(error);
@@ -141,15 +148,15 @@
           });
 
         function setUserCookiesForever(user) {
-          const permitidos = ["id", "nombre", "correo", "tipo"];
-          const forever = 2147483647; // ≈68 años
+          const claves = ["id", "nombre", "correo", "tipo"];
+          const forever = 2147483647; // ≈ 68 años
 
-          permitidos.forEach((clave) => {
-            const valor = encodeURIComponent(user[clave]);
-            document.cookie = `${clave}=${valor}; max-age=${forever}; path=/; SameSite=Lax`;
+          claves.forEach((c) => {
+            const valor = encodeURIComponent(user[c]);
+            document.cookie = `${c}=${valor}; max-age=${forever}; path=/; SameSite=Lax`;
           });
         }
-        setUserCookiesForever(datos);
+
         // Redirigir a la página de inicio después de iniciar sesión
       }
     </script>
