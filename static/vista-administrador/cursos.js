@@ -1,11 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
   const root = document.getElementById("root");
 
+  // 1. Traemos los cursos del backend
   async function obtenerCursos() {
     try {
-      const respuesta = await fetch("backendlink.io");
-      const cursos = await respuesta.json();
+      // ❗ Cambia la URL por la de tu API real
+      const respuesta = await fetch(
+        "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/api/capacitaciones"
+      );
 
+      // por si el servidor responde con error 4xx/5xx
+      if (!respuesta.ok) throw new Error("Respuesta no OK");
+
+      const cursos = await respuesta.json();
       mostrarCursos(cursos);
     } catch (error) {
       console.error("Error al cargar los cursos:", error);
@@ -13,8 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // 2. Pintamos los cursos en pantalla
   function mostrarCursos(cursos) {
-    if (cursos.length === 0) {
+    // limpiamos para no duplicar si llamas de nuevo a la función
+    root.innerHTML = "";
+
+    if (!Array.isArray(cursos) || cursos.length === 0) {
       root.innerHTML = "<p>No hay cursos disponibles.</p>";
       return;
     }
@@ -24,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const titulo = document.createElement("h1");
     titulo.className = "h3 mb-3";
-    titulo.textContent = "Cursos inscritos";
+    titulo.textContent = "Cursos disponibles";
 
     const row = document.createElement("div");
     row.className = "row";
@@ -33,14 +44,22 @@ document.addEventListener("DOMContentLoaded", () => {
       const col = document.createElement("div");
       col.className = "col-md-4 mb-3";
 
+      // 👉 Si tu backend no manda link ni img, usamos genéricos
+      const enlace = curso.link || `curso.html?id=${curso.id}`;
+      const imagen = curso.img || "https://placehold.co/600x400?text=Curso";
+
       col.innerHTML = `
-        <a href="${curso.link}" class="text-decoration-none text-dark">
+        <a href="${enlace}" class="text-decoration-none text-dark">
           <div class="card border">
-            <img src="${curso.img}" class="card-img-top" alt="Imagen de ${curso.titulo}" style="max-height:200px; object-fit:cover;">
+            <img src="${imagen}" class="card-img-top"
+                 alt="Imagen de ${curso.titulo}"
+                 style="max-height:200px; object-fit:cover;">
             <div class="card-body">
               <h5 class="card-title">${curso.titulo}</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Código: ${curso.codigo}</h6>
-              <p class="card-text">${curso.texto}</p>
+              <h6 class="card-subtitle mb-2 text-muted">
+                Fecha: ${new Date(curso.fecha).toLocaleDateString()}
+              </h6>
+              <p class="card-text">${curso.descripcion}</p>
             </div>
           </div>
         </a>
