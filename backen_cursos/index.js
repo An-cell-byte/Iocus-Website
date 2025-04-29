@@ -99,10 +99,12 @@ app.get("/api/usuarios/tipo/:correo", (req, res) => {
 app.put("/api/capacitaciones", (req, res) => {
   const { titulo, descripcion, id_capacitador, fecha } = req.body;
 
+  // Validación: no deben venir campos vacíos
   if (!titulo || !descripcion || !id_capacitador || !fecha) {
     return res.status(400).json({ error: "Faltan campos obligatorios" });
   }
 
+  // Consulta SQL para insertar
   const sql = `
     INSERT INTO capacitacion (titulo, descripcion, id_capacitador, fecha)
     VALUES (?, ?, ?, ?)
@@ -110,10 +112,11 @@ app.put("/api/capacitaciones", (req, res) => {
 
   db.query(sql, [titulo, descripcion, id_capacitador, fecha], (err, result) => {
     if (err) {
-      console.error("Error detallado:", err.sqlMessage); // 👈 Aquí verás el error real
-      return res.status(500).json({ error: err.sqlMessage }); // Mostrar error exacto
+      console.error("Error detallado:", err.sqlMessage); // Verás aquí el error real en consola
+      return res.status(500).json({ error: err.sqlMessage }); // Mostrar mensaje real al frontend
     }
 
+    // Respuesta exitosa
     res.status(201).json({
       mensaje: "Capacitación agregada exitosamente",
       id_insertado: result.insertId,
