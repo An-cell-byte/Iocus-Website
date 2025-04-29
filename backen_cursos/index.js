@@ -30,6 +30,26 @@ db.connect((err) => {
   }
 });
 
+app.get("/usario/:user/:password", (req, res) => {
+  const { user, password } = req.params;
+  db.query(
+    "SELECT * FROM usuarios WHERE correo = ? AND contrasena = ?",
+    [user, password],
+    (err, resultados) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error en la base de datos");
+      }
+      if (resultados.length === 0) {
+        return res
+          .status(404)
+          .send("Usuario no encontrado o contraseña incorrecta");
+      }
+      res.json(resultados[0]);
+    }
+  );
+});
+
 // obtiene todos los cursos
 app.get("/api/capacitacioness", (req, res) => {
   db.query("SELECT * FROM capacitaciones", (err, resultados) => {
