@@ -124,14 +124,22 @@
 
     <!-- Core JS -->
     <script src="js/app.js"></script>
-    <script>
+ <script>
   function añadirCurso() {
     const titulo = document.getElementById("Course_name").value;
     const descripcion = document.getElementById("course_description").value;
-    
-    // Valor fijo o dinámico: ID del capacitador
-    const id_capacitador = 1; // puedes cambiar esto por quien esté logueado
-    const fecha = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+    // ID del capacitador fijo = 99
+    const id_capacitador = 99;
+
+    // Fecha y hora actual en formato correcto
+    const ahora = new Date();
+    const fecha = ahora.getFullYear() + "-" +
+      String(ahora.getMonth() + 1).padStart(2, '0') + "-" +
+      String(ahora.getDate()).padStart(2, '0') + " " +
+      String(ahora.getHours()).padStart(2, '0') + ":" +
+      String(ahora.getMinutes()).padStart(2, '0') + ":" +
+      String(ahora.getSeconds()).padStart(2, '0');
 
     if (!titulo || !descripcion) {
       alert("Completa todos los campos");
@@ -154,7 +162,7 @@
       .then((data) => {
         console.log("Curso añadido:", data);
         alert("Curso añadido exitosamente");
-        // limpiar inputs
+        // Limpiar los inputs
         document.getElementById("Course_name").value = "";
         document.getElementById("course_description").value = "";
       })
