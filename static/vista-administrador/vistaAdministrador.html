@@ -73,7 +73,7 @@
             <!--div de cursos existentes-->
             <div id="root"></div>
 
-            <script type="module" src="./main.jsx"></script>
+            <script type="module" src="/admin.jsx"></script>
 
             <!-- ===== Crear curso ===== -->
             <h2 class="h3 mb-3 mt-4">Creación de Cursos</h2>
@@ -137,16 +137,16 @@
     <!-- Script: Añadir curso dinámicamente -->
     <script>
       // Verificar si el usuario está autenticado
-      fetch('/auth/restricted', { method: 'GET' })
+      fetch("/auth/restricted", { method: "GET" })
         .then((response) => {
           if (!response.ok) {
             // Si no está autenticado, redirigir al inicio de sesión
-            window.location.href = '../index.html';
+            window.location.href = "../index.html";
           }
         })
         .catch((error) => {
-          console.error('Error al verificar la sesión:', error);
-          window.location.href = '../index.html';
+          console.error("Error al verificar la sesión:", error);
+          window.location.href = "../index.html";
         });
     </script>
   </body>

@@ -64,13 +64,13 @@
                     >
                       <div class="mb-3">
                         <label class="form-label">Nombre de usuario</label>
-                          <input
-                            id="correo"
-                            class="form-control form-control-lg"
-                            type="email"
-                            name="correo"
-                            placeholder="Ingresa tu nombre de usuario"
-                          />
+                        <input
+                          id="correo"
+                          class="form-control form-control-lg"
+                          type="email"
+                          name="correo"
+                          placeholder="Ingresa tu nombre de usuario"
+                        />
                       </div>
                       <div class="mb-3">
                         <label class="form-label">Contraseña</label>
@@ -86,11 +86,9 @@
                       <div class="d-grid gap-2 mt-3">
                         <!-- Para pruebas rápidas usa el enlace;
 												  al pasar a producción cambia por <button type="submit"> -->
-                            <button
-                            class="btn btn-lg btn-primary"
-                            type="submit"
-                            >Inicio de sesión
-                          </button>
+                        <button class="btn btn-lg btn-primary" type="submit">
+                          Inicio de sesión
+                        </button>
                       </div>
                     </form>
                   </div>
@@ -108,42 +106,47 @@
     <script type="module" src="js/app.js"></script>
 
     <!-- Dejar de hacer comentario cuando se quieran hacer pruebas con el inicio de sesion usando las credenciales. -->
-    
-	<script>
-    document.getElementById("login-form").addEventListener("submit", async function(event) {
-	    event.preventDefault();
-	    // Obtiene los valores 
-	    const correo = document.getElementById("correo").value;
-	    const contrasena = document.getElementById("contrasena").value;
-	    // POST al backend
-	    try {
-	    	const response = await fetch("http://akgosk4w0kkk4k8wcocg4wg8.4.172.252.35.sslip.i/login", {
-	    		method: "POST",
-	    		headers: {
-	    			"Content-Type": "application/json"
-	    		},
-	    		body: JSON.stringify({ correo, contrasena })
-	    	});
-	    	// Manejo de la respuesta
-	    	const result = await response.json();
-	    	if (response.ok && result.success) {
-	    		localStorage.setItem("token", result.token);
-          // Si la autenticación es exitosa, redirigir según el tipo de usuario
-          switch (result.userType) {
-            case "estudiante":
+
+    <script>
+      document
+        .getElementById("login-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          // Obtiene los valores
+          const correo = document.getElementById("correo").value;
+          const contrasena = document.getElementById("contrasena").value;
+          // POST al backend
+          try {
+            const response = await fetch(
+              "http://akgosk4w0kkk4k8wcocg4wg8.4.172.252.35.sslip.i/login",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ correo, contrasena }),
+              }
+            );
+            // Manejo de la respuesta
+            const result = await response.json();
+            if (response.ok && result.success) {
+              localStorage.setItem("token", result.token);
+              // Si la autenticación es exitosa, redirigir según el tipo de usuario
+              switch (result.userType) {
+                case "estudiante":
                   window.location.href = "vista-estudiante/coursescreen.html";
                   break;
-            default:
+                default:
                   alert("Tipo de usuario no reconocido.");
+              }
+            } else {
+              alert(result.error || "Correo o contraseña incorrectos.");
+            }
+          } catch (error) {
+            console.error("Error en la solicitud:", error);
+            alert("Hubo un problema al procesar tu solicitud.");
           }
-        } else {
-          alert(result.error || "Correo o contraseña incorrectos.");
-        }
-      } catch (error) {
-      console.error("Error en la solicitud:", error);
-      alert("Hubo un problema al procesar tu solicitud.");
-      }
-      });
-	</script>
-</body>
+        });
+    </script>
+  </body>
 </html>
