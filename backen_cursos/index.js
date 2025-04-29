@@ -25,6 +25,18 @@ db.connect((err) => {
   }
 });
 
+// obtiene todos los cursos
+app.get("/api/capacitaciones", (req, res) => {
+  db.query("SELECT * FROM capacitacion", (err, resultados) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Error en el servidor");
+    } else {
+      res.json(resultados);
+    }
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
