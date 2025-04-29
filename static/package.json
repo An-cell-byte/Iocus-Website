@@ -34,7 +34,7 @@
   ],
   "scripts": {
     "vite:dev": "vite",
-    "vite:build": "vite build",
+    "build": "vite build",
     "vite:preview": "vite preview",
     "webpack:build": "cross-env NODE_ENV=production webpack --config webpack.config.js --progress",
     "webpack:watch": "webpack --config webpack.config.js --watch --progress",
