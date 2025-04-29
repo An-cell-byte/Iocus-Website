@@ -128,23 +128,29 @@
             contrasena,
           {
             method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
           }
         )
           .then((response) => {
-            if (response.ok) {
-              return response.json();
+            if (!response.ok) throw new Error("Error en la autenticación");
+            return response.json(); // ← aquí ya viene un objeto
+          })
+          .then((user) => {
+            // ← ‘user’ ES tu JSON
+            setUserCookiesForever(user); // 1. guardamos cookies
+
+            // 2. redirigimos según el tipo
+            if (user.tipo === "capacitador") {
+              window.location.href =
+                "vista-administrador/vistaAdministrador.html";
+            } else if (user.tipo === "alumno") {
+              window.location.href = "vista-estudiante/coursescreen.html";
             } else {
-              throw new Error("Error en la autenticación");
+              alert("Tipo de usuario desconocido");
             }
           })
-          .then((data) => {
-            const datos = JSON.parse(data);
-          })
           .catch((error) => {
-            console.error("Error:", error);
+            console.error(error);
             alert("Error en la autenticación. Inténtalo de nuevo.");
           });
 
@@ -157,10 +163,6 @@
             document.cookie = `${clave}=${valor}; max-age=${forever}; path=/; SameSite=Lax`;
           });
         }
-
-        // Llamar cuando se valide el login
-        setUserCookiesForever(datos);
-        // Redirigir a otra página después de iniciar sesión
       }
     </script>
   </body>
