@@ -1,29 +1,31 @@
-/* 1. Función sencilla para leer una cookie */
+/* protegerCapacitador.js
+   Bloquea el acceso a páginas exclusivas de capacitadores */
+
+/* 1. Función para leer y decodificar una cookie */
 function getCookie(nombre) {
-  return (
-    document.cookie
-      .split("; ")
-      .find((row) => row.startsWith(nombre + "="))
-      ?.split("=")[1] || null
-  );
+  const fila = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith(nombre + "="));
+
+  // Si existe la cookie → devuelve el valor decodificado; si no, null
+  return fila ? decodeURIComponent(fila.split("=")[1]) : null;
 }
 
-/* 2. Bloqueo de rutas solo-capacitador */
+/* 2. IIFE que protege toda la página */
 (function protegerCapacitador() {
-  const tipo = getCookie("tipo"); // puede ser 'capacitador', 'alumno' o null
+  const tipo = getCookie("tipo"); // 'capacitador', 'alumno' o null
 
-  // 👉 Si NO hay cookie o el tipo NO es 'capacitador', lo sacamos
+  // Si no es capacitador, lo sacamos ⬇
   if (tipo !== "capacitador") {
-    // idea 1: regresarlo al login
-    // location.href = "/pages-sign-in.html";
-
-    // idea 2: si es alumno, reenvíalo a su vista
     if (tipo === "alumno") {
-      location.href = "/vista-estudiante/coursescreen.html";
+      // Usuario logueado pero sin permisos
+      window.location.replace("/vista-estudiante/coursescreen.html");
     } else {
-      location.href = "/pages-sign-in.html"; // sin sesión válida
+      // Sin sesión o cookie corrupta
+      window.location.replace("/pages-sign-in.html");
     }
+    return; // detenemos el resto del script
   }
 
-  /* 3. Si llega aquí, es capacitador → la página sigue cargando normal */
+  /* 3. Si llega aquí, SÍ es capacitador → la página puede cargar normal */
 })();
