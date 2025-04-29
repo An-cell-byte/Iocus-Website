@@ -31,7 +31,7 @@ db.connect((err) => {
 });
 
 // obtiene todos los cursos
-app.get("/api/capacitaciones", (req, res) => {
+app.get("/api/capacitacioness", (req, res) => {
   db.query("SELECT * FROM capacitaciones", (err, resultados) => {
     if (err) {
       console.error(err);

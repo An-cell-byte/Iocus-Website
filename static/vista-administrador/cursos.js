@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       // ❗ Cambia la URL por la de tu API real
       const respuesta = await fetch(
-        "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/api/capacitaciones"
+        "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/api/capacitacioness"
       );
 
       // por si el servidor responde con error 4xx/5xx
