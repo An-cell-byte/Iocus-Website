@@ -72,7 +72,7 @@
           <div class="container-fluid p-0">
             <!--div de cursos existentes-->
             <div id="root"></div>
-            <script src="js/cursos.js"></script>
+            <script src="cursos.js"></script>
 
             <!-- ===== Crear curso ===== -->
             <h2 class="h3 mb-3 mt-4">Creación de Cursos</h2>
@@ -91,14 +91,6 @@
                   <input
                     class="form-control form-control-lg"
                     id="course_description"
-                    placeholder="Ingresa la descripción del curso"
-                  />
-                </div>
-                <div id="codedecurso" class="mb-3">
-                  <label class="form-label">ID del curso</label>
-                  <input
-                    class="form-control form-control-lg"
-                    id="course_id"
                     placeholder="Ingresa la descripción del curso"
                   />
                 </div>
@@ -132,6 +124,47 @@
 
     <!-- Core JS -->
     <script src="js/app.js"></script>
+    <script>
+  function añadirCurso() {
+    const titulo = document.getElementById("Course_name").value;
+    const descripcion = document.getElementById("course_description").value;
+    
+    // Valor fijo o dinámico: ID del capacitador
+    const id_capacitador = 1; // puedes cambiar esto por quien esté logueado
+    const fecha = new Date().toISOString().slice(0, 19).replace("T", " ");
+
+    if (!titulo || !descripcion) {
+      alert("Completa todos los campos");
+      return;
+    }
+
+    fetch("http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/api/capacitaciones", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        titulo,
+        descripcion,
+        id_capacitador,
+        fecha,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Curso añadido:", data);
+        alert("Curso añadido exitosamente");
+        // limpiar inputs
+        document.getElementById("Course_name").value = "";
+        document.getElementById("course_description").value = "";
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+        alert("Error al añadir curso");
+      });
+  }
+</script>
+
 
     <!-- Script: Añadir curso dinámicamente 
     <script>
