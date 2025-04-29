@@ -136,18 +136,37 @@
 
     <!-- Script: Añadir curso dinámicamente -->
     <script>
-      // Verificar si el usuario está autenticado
-      fetch('/auth/restricted', { method: 'GET' })
-        .then((response) => {
-          if (!response.ok) {
-            // Si no está autenticado, redirigir al inicio de sesión
-            window.location.href = '../index.html';
-          }
-        })
-        .catch((error) => {
-          console.error('Error al verificar la sesión:', error);
-          window.location.href = '../index.html';
-        });
+      async function crearCurso() {
+        // 1. lee los campos
+        const titulo = document.getElementById("titulo").value.trim();
+        const codigo = document.getElementById("codigo").value.trim();
+        const descripcion = document.getElementById("descripcion").value.trim();
+        const img = document.getElementById("img").value.trim();
+        const link = `curso_${codigo}.html`; // o toma otro valor
+
+        if (!titulo || !codigo || !descripcion) {
+          alert("Falta llenar algo");
+          return;
+        }
+
+        // 2. manda al backend
+        try {
+          const res = await fetch("/api/cursos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ titulo, codigo, descripcion, img, link }),
+          });
+
+          if (!res.ok) throw new Error("error en servidor");
+
+          alert("Curso guardado ✔");
+          // opcional: limpia la forma o recarga la lista
+          location.reload();
+        } catch (err) {
+          console.error(err);
+          alert("No se pudo guardar");
+        }
+      }
     </script>
   </body>
 </html>
