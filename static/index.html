@@ -121,7 +121,7 @@
             "/" +
             contrasena
         );*/
-        fetch(
+        const datos = fetch(
           "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/" +
             correo +
             "/" +
@@ -134,20 +134,6 @@
           .then((response) => {
             if (!response.ok) throw new Error("Error en la autenticación");
             return response.json(); // ← aquí ya viene un objeto
-          })
-          .then((user) => {
-            // ← ‘user’ ES tu JSON
-            setUserCookiesForever(user); // 1. guardamos cookies
-
-            // 2. redirigimos según el tipo
-            if (user.tipo === "capacitador") {
-              window.location.href =
-                "vista-administrador/vistaAdministrador.html";
-            } else if (user.tipo === "alumno") {
-              window.location.href = "vista-estudiante/coursescreen.html";
-            } else {
-              alert("Tipo de usuario desconocido");
-            }
           })
           .catch((error) => {
             console.error(error);
@@ -163,6 +149,8 @@
             document.cookie = `${clave}=${valor}; max-age=${forever}; path=/; SameSite=Lax`;
           });
         }
+        setUserCookiesForever(datos);
+        // Redirigir a la página de inicio después de iniciar sesión
       }
     </script>
   </body>
