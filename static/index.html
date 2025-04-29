@@ -115,14 +115,17 @@
         console.log(
           "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${correo}/${contrasena}"
         );
-        console.log(
+        /*console.log(
           "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/" +
             correo +
             "/" +
             contrasena
-        );
+        );*/
         fetch(
-          "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/${correo}/${contrasena}",
+          "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/usario/" +
+            correo +
+            "/" +
+            contrasena,
           {
             method: "GET",
             headers: {
