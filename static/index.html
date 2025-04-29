@@ -64,8 +64,6 @@
                     >
                       <div class="mb-3">
                         <label class="form-label">Nombre de usuario</label>
-                        <div class="mb-3">
-                          <label class="form-label">Nombre de usuario</label>
                           <input
                             id="correo"
                             class="form-control form-control-lg"
@@ -112,31 +110,39 @@
     <!-- Dejar de hacer comentario cuando se quieran hacer pruebas con el inicio de sesion usando las credenciales. -->
     
 	<script>
-    	document.getElementById('login-form').addEventListener('submit', async function (event) {
-        event.preventDefault();
-
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-
-        try {
-          const response = await fetch('/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password }),
-          });
-
-          const result = await response.json();
-
-          if (response.ok && result.success) {
-            // Redirigir a vistaAdministrador.html si la autenticación es exitosa
-            window.location.href = 'vista-administrador/vistaAdministrador.html';
-          } else {
-            alert(result.message || 'Error al iniciar sesión');
+    document.getElementById("login-form").addEventListener("submit", async function(event) {
+	    event.preventDefault();
+	    // Obtiene los valores 
+	    const correo = document.getElementById("correo").value;
+	    const contrasena = document.getElementById("contrasena").value;
+	    // POST al backend
+	    try {
+	    	const response = await fetch("http://akgosk4w0kkk4k8wcocg4wg8.4.172.252.35.sslip.i/login", {
+	    		method: "POST",
+	    		headers: {
+	    			"Content-Type": "application/json"
+	    		},
+	    		body: JSON.stringify({ correo, contrasena })
+	    	});
+	    	// Manejo de la respuesta
+	    	const result = await response.json();
+	    	if (response.ok && result.success) {
+	    		localStorage.setItem("token", result.token);
+          // Si la autenticación es exitosa, redirigir según el tipo de usuario
+          switch (result.userType) {
+            case "estudiante":
+                  window.location.href = "vista-estudiante/coursescreen.html";
+                  break;
+            default:
+                  alert("Tipo de usuario no reconocido.");
           }
-        } catch (error) {
-          console.error('Error:', error);
-          alert('Error al procesar la solicitud');
+        } else {
+          alert(result.error || "Correo o contraseña incorrectos.");
         }
+      } catch (error) {
+      console.error("Error en la solicitud:", error);
+      alert("Hubo un problema al procesar tu solicitud.");
+      }
       });
 	</script>
 </body>
