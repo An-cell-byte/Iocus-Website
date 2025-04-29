@@ -129,7 +129,7 @@
                           <input id="${questionId}" type="text" class="form-control" name="question" required>
                         </div>
                         <div class="mb-2">
-                          <label class="form-label">Opciones (máx 4)</label>
+                          <label class="form-label">Opciones</label>
 						  <div class="option-container">
 							<input id="${first_answerId}" type="text" className="form-control mb-1" name="option1" required=true></input>
 						  </div>
@@ -145,7 +145,7 @@
                         </div>
                         <div class="mb-2">
                           <label class="form-label">Índices de respuestas correctas (separados por coma)</label>
-                          <input type="text" class="form-control" name="correctIndexes" placeholder="Ej: 0,2">
+                          <input type="text" class="form-control" name="correctIndexes">
                         </div>
                         <button type="button" class="btn btn-danger btn-sm" onclick="removeQuestion('${questionId}')">Eliminar Pregunta</button>
                       </div>
@@ -198,112 +198,67 @@
                     alert("Quiz generado en consola (proximamente se integrará con API/backend)");
                   });
 
+				function getRandomInt(min, max) {
+					min = Math.ceil(min);
+					max = Math.floor(max);
+					return Math.floor(Math.random() * (max - min + 1)) + min;
+				}
 
-				  function addJson(){
-					const questionInputs=document.querySelectorAll('input[name="question"]');
-					const qInputs=[];
-					questionInputs.forEach(input => {
-						if(input.value.trim()!=''){
-							qInputs.push(input.value.trim());
-						}
-					});
+				let randomNumber = getRandomInt(1000, 999999);
 
-					const first_answerInputs=document.querySelectorAll('input[name="option1"]');
-					const a1Inputs=[];
-					first_answerInputs.forEach(input => {
-						if(input.value.trim()!=''){
-							a1Inputs.push(input.value.trim());
-						}
-					});
+				function addJson() {
+					const questionInputs = document.querySelectorAll('input[name="question"]');
+					const answerIndexesInputs = document.querySelectorAll('input[name="correctIndexes"]');
 
-					const second_answerInputs=document.querySelectorAll('input[name="option2"]');
-					const a2Inputs=[];
-					second_answerInputs.forEach(input => {
-						if(input.value.trim()!=''){
-							a2Inputs.push(input.value.trim());
-						}
-					});
+					const a1Inputs = document.querySelectorAll('input[name="option1"]');
+					const a2Inputs = document.querySelectorAll('input[name="option2"]');
+					const a3Inputs = document.querySelectorAll('input[name="option3"]');
+					const a4Inputs = document.querySelectorAll('input[name="option4"]');
 
-					const third_answerInputs=document.querySelectorAll('input[name="option3"]');
-					const a3Inputs=[];
-					third_answerInputs.forEach(input => {
-						if(input.value.trim()!=''){
-							a3Inputs.push(input.value.trim());
-						}
-					});
+					const questions = [];
 
-					const fourth_answerInputs=document.querySelectorAll('input[name="option4"]');
-					const a4Inputs=[];
-					fourth_answerInputs.forEach(input => {
-						if(input.value.trim()!=''){
-							a4Inputs.push(input.value.trim());
-						}
-					});
+					for (let i = 0; i < questionInputs.length; i++) {
+						const question = questionInputs[i].value.trim();
+						const rawAnswerIndex = answerIndexesInputs[i].value.trim();
+						const answerIndex = parseInt(rawAnswerIndex);
 
-					/*
-					const datos={}
-					rows.each(function(index){
-						var obj ={
-							qInputs:qInputs,
-							a1Inputs:a1Inputs,
-							a2Inputs:a2Inputs,
-							a3Inputs:a3Inputs,
-							a4Inputs:a4Inputs
-						};
-						datos.push(obj);
-					})
-					*/
-					/*
-					const datos={
-						question:qInputs,
-						correctAnswerIndex:,
-						answers:[a1Inputs,a2Inputs,a3Inputs,a4Inputs]
-						
-					}*/
-					
-					const datosStr=JSON.stringify(datos, null,2);
-					/*
-					const fs=require('fs');
-					const outputFolder=path.join(__dirname, 'componentes');
-					const outputPath=path.join(outputFolder,`Quiz${Date.now()}.json`);
-					
+						const answers = [
+							a1Inputs[i]?.value.trim() || "",
+							a2Inputs[i]?.value.trim() || "",
+							a3Inputs[i]?.value.trim() || "",
+							a4Inputs[i]?.value.trim() || ""
+						];
 
-					fs.writeFile(outputPath, datosStr, (err) => {
-						if(err){
-							console.error('Error al crear package.json', err);
-						} else{
-							console.log('package.json creado exitosamente en ${outputPath}');
-						}
-					});
-					*/
-					
-					const blob=new Blob([datosStr],{type:"application/json"});
-					const url=URL.createObjectURL(blob);
-					const a=document.createElement("a");
-					a.href=url;
-					a.download=`Quiz${Date.now()}.json`;
+						questions.push({
+							question: question,
+							correctAnswerIndex: String(answerIndex-1),
+							answers: answers
+						});
+					}
+
+					const quiz = {
+						quizInfo: {
+							tiempo: parseInt(document.getElementById("quiz-time").value),
+							tipo: document.getElementById("quiz-bar-type").value,
+							randomization: true
+						},
+						questions: questions
+					};
+
+					const quizStr = JSON.stringify(questions, null, 2);
+					const blob = new Blob([quizStr], { type: "application/json" });
+					const url = URL.createObjectURL(blob);
+					const a = document.createElement("a");
+					a.href = url;
+					a.download = `Quiz${randomNumber}.json`;
 					document.body.appendChild(a);
 					a.click();
 					document.body.removeChild(a);
 					URL.revokeObjectURL(url);
 
-					fetch('/guardar-json', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify(datos)
-					})
-					.then(response => response.text())
-					.then(data => {
-						console.log('Respuesta del servidor:', data);
-						alert('Archivo enviado y guardado correctamente.');
-					})
-					.catch(error => {
-						console.error('Error:', error);
-						alert('Error al enviar el archivo.');
-					});
-				  }
+					alert('Quiz guardado correctamente como archivo JSON.');
+				}
+
 
 
 				  file_num++;
