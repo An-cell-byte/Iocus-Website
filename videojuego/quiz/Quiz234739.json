@@ -1,0 +1,39 @@
+{
+  "quizInfo": {
+    "tiempo": 160,
+    "tipo": "1",
+    "randomization": true
+  },
+  "questions": [
+    {
+      "question": "¿Cuál es el mejor vocalista de Rock?",
+      "correctAnswerIndex": 1,
+      "answers": [
+        "Bryan Johnson",
+        "James Hetfield",
+        "Michael Jackson",
+        "Freddy Mercury"
+      ]
+    },
+    {
+      "question": "jfklsdfjlks",
+      "correctAnswerIndex": 3,
+      "answers": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ]
+    },
+    {
+      "question": "trtretre",
+      "correctAnswerIndex": null,
+      "answers": [
+        "1",
+        "3",
+        "4",
+        ""
+      ]
+    }
+  ]
+}

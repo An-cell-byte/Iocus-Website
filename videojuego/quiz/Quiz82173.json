@@ -1,0 +1,31 @@
+[  
+  {
+    "quizInfo": {
+      "tiempo": 12,
+      "tipo": "0",
+      "powerups": true
+    },
+    "questions": [
+      {
+        "question": "fdsfds",
+        "correctAnswerIndex": 432,
+        "answers": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      },
+      {
+        "question": "432432",
+        "correctAnswerIndex": 432,
+        "answers": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ]
+      }
+    ]
+  }
+]
