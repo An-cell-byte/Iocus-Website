@@ -16,7 +16,6 @@ app.use(express.json());
 
 const PORT = 5000;
 
-// ---------- conexión MySQL ----------
 const db = mysql.createConnection({
   host: "4.172.252.35",
   user: "root",
@@ -24,35 +23,34 @@ const db = mysql.createConnection({
   port: 3307,
   database: "dbreto",
 });
+
 db.connect((err) => {
   if (err) console.error("Error conectando MySQL:", err);
   else console.log("¡Conectado a MySQL!");
 });
 
 const storage = multer.diskStorage({
-  destination: "uploads/", // carpeta donde se guardan
+  destination: "uploads/",
   filename: (_, file, cb) => {
     const ext = path.extname(file.originalname);
-    cb(null, Date.now() + ext); // ej. 1714812390000.pdf
+    cb(null, Date.now() + ext);
   },
 });
 const upload = multer({
   storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10 MB máx
+  limits: { fileSize: 10 * 1024 * 1024 },
   fileFilter: (_, file, cb) => {
     const ok = /pdf|png|jpe?g|mp4|zip/i.test(path.extname(file.originalname));
     cb(null, ok);
   },
 });
 
-// ---------- documentación (ya lo tenías) ----------
 app.use(
   "/docs",
   express.static(path.join(__dirname, "../my-documentation/build"))
 );
 app.get("/", (_, res) => res.redirect("/docs"));
 
-// ---------- rutas existentes ----------
 app.get("/cursos/usuario/:id", (req, res) => {
   const id = req.params.id;
   db.query(
@@ -80,18 +78,16 @@ app.get("/usario/:user/:password", (req, res) => {
 
 app.get("/cursos/:id", (req, res) => {
   const id = req.params.id;
-
   db.query("SELECT * FROM capacitaciones WHERE id = ?", [id], (err, rCurso) => {
     if (err) return res.status(500).send("Error en la base de datos");
     if (!rCurso.length) return res.status(404).send("Curso no encontrado");
-
     db.query(
       "SELECT nombre_original, ruta FROM archivos WHERE curso_id = ?",
       [id],
       (e, rArch) => {
         if (e) return res.status(500).send("Error en la base de datos");
         const curso = rCurso[0];
-        curso.material = rArch; // agrega arreglo material
+        curso.material = rArch;
         res.json(curso);
       }
     );
@@ -101,9 +97,7 @@ app.get("/cursos/:id", (req, res) => {
 app.post("/cursos/:id/archivos", upload.single("archivo"), (req, res) => {
   const idCurso = req.params.id;
   const archivo = req.file;
-
   if (!archivo) return res.status(400).json({ error: "Archivo requerido" });
-
   db.query(
     "INSERT INTO archivos (curso_id, nombre_original, ruta) VALUES (?,?,?)",
     [idCurso, archivo.originalname, archivo.filename],
@@ -169,19 +163,11 @@ app.get("/api/usuarios/tipo/:correo", (req, res) => {
   const correo = decodeURIComponent(req.params.correo);
   db.query(
     "SELECT obtenerTipoPorCorreo(?) AS tipo_usuario",
-    [correoDecodificado],
-    (err, resultados) => {
-      if (err) {
-        console.error("Error al ejecutar función:", err);
-        return res.status(500).send("Error en la base de datos");
-      }
-
-      const tipo = resultados[0]?.tipo_usuario;
-
-      if (!tipo) {
-        return res.status(404).send("Correo no encontrado o tipo no definido");
-      }
-
+    [correo],
+    (err, r) => {
+      if (err) return res.status(500).send("Error en la base de datos");
+      const tipo = r[0]?.tipo_usuario;
+      if (!tipo) return res.status(404).send("Correo no encontrado");
       res.json({ tipo_usuario: tipo });
     }
   );
@@ -191,7 +177,6 @@ app.put("/api/capacitaciones", (req, res) => {
   const { titulo, descripcion, id_capacitador, fecha } = req.body;
   if (!titulo || !descripcion || !id_capacitador || !fecha)
     return res.status(400).json({ error: "Faltan campos obligatorios" });
-
   const sql =
     "INSERT INTO capacitaciones (titulo,descripcion,id_capacitador,fecha) VALUES (?,?,?,?)";
   db.query(sql, [titulo, descripcion, id_capacitador, fecha], (err, result) => {
