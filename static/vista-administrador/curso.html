@@ -2,267 +2,156 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta
-      name="description"
-      content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5"
-    />
-    <meta name="author" content="AdminKit" />
-    <meta
-      name="keywords"
-      content="adminkit, bootstrap, dashboard, responsive, web"
-    />
-
-    <!-- Favicon & Google Font -------------------------------------------------->
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="shortcut icon" href="/img/icons/icon-48x48.png" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- AdminKit core CSS ------------------------------------------------------->
-    <link href="/css/app.css" rel="stylesheet" />
-
-    <title>Detalle del Curso</title>
+    <title>Curso</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 800px;
+        margin: 2rem auto;
+      }
+      h1 {
+        margin-bottom: 0.2rem;
+      }
+      ul {
+        padding-left: 1.1rem;
+      }
+      #msg {
+        color: green;
+        font-weight: 600;
+      }
+    </style>
   </head>
 
   <body>
-    <div class="wrapper">
-      <!-- ====================== SIDEBAR ====================== -->
-      <nav id="sidebar" class="sidebar js-sidebar">
-        <div class="sidebar-content js-simplebar">
-          <a
-            class="sidebar-brand"
-            href="/vista-administrador/vistaAdministrador.html"
-          >
-            <span class="align-middle">Administrador</span>
-          </a>
+    <div id="contenedorCurso"></div>
 
-          <ul class="sidebar-nav">
-            <li class="sidebar-header">Componentes</li>
+    <script>
+      /* ---------- CONFIG ---------- */
+      const BACKEND = "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io";
 
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/pages-profile.html">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-user align-middle"
-                >
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                  <circle cx="12" cy="7" r="4" />
-                </svg>
-                <span class="align-middle">Mi cuenta</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a
-                class="sidebar-link"
-                href="/vista-administrador/vistaAdministrador.html"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-book align-middle"
-                >
-                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                  <path
-                    d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
-                  />
-                </svg>
-                <span class="align-middle">Cursos</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/faq.html">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-help-circle align-middle"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M9.09 9a3 3 0 1 1 5.83 1c0 1.5-1.34 2-2.34 2" />
-                  <line x1="12" y1="17" x2="12" y2="17" />
-                </svg>
-                <span class="align-middle">Ayuda</span>
-              </a>
-            </li>
-
-            <li class="sidebar-item">
-              <a class="sidebar-link" href="/index.html">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="feather feather-log-out align-middle"
-                >
-                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                  <polyline points="16 17 21 12 16 7" />
-                  <line x1="21" y1="12" x2="9" y2="12" />
-                </svg>
-                <span class="align-middle">Cerrar sesión</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-
-      <!-- ====================== MAIN ====================== -->
-      <div class="main">
-        <!-- Top navbar -->
-        <nav class="navbar navbar-expand navbar-light navbar-bg">
-          <a class="sidebar-toggle js-sidebar-toggle"
-            ><i class="hamburger align-self-center"></i
-          ></a>
-        </nav>
-
-        <!-- Main content -->
-        <main class="content">
-          <div class="container-fluid p-0">
-            <div
-              id="contenedorCurso"
-              class="row d-flex justify-content-center"
-            ></div>
-          </div>
-        </main>
-
-        <!-- Footer -->
-        <footer class="footer">
-          <div class="container-fluid">
-            <div class="row text-muted">
-              <div class="col-6 text-start">
-                <p class="mb-0">
-                  <strong>Whirlpool • Plataforma de Capacitación</strong> ©
-                </p>
-              </div>
-            </div>
-          </div>
-        </footer>
-      </div>
-    </div>
-
-    <!-- AdminKit core JS (bundle generado por Vite) -->
-    <script type="module" defer src="/js/app.js"></script>
-
-    <!-- ================= CUSTOM SCRIPT ================= -->
-    <script type="module">
-      // 1. Utilidad para cookies -------------------------------------------
+      /* ---------- helpers ---------- */
       function getCookie(nombre) {
         const fila = document.cookie
           .split("; ")
-          .find((row) => row.startsWith(nombre + "="));
+          .find((r) => r.startsWith(nombre + "="));
         return fila ? decodeURIComponent(fila.split("=")[1]) : null;
       }
 
-      // 2. Protección de ruta ----------------------------------------------
-      (function proteger() {
-        const token = getCookie("token");
-        const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
-        const esVistaCap = location.pathname.includes("/vista-administrador");
-
-        if (!token || !usuario) {
-          location.href = "/login.html";
-          return;
-        }
-        if (esVistaCap && usuario.tipo !== "capacitador") {
-          location.href = "/vista-estudiante/coursescreen.html";
-          return;
-        }
-        if (!esVistaCap && usuario.tipo !== "alumno") {
-          location.href = "/vista-administrador/vistaAdministrador.html";
-          return;
+      /* ---------- bloqueo por rol ---------- */
+      (function protegerCapacitador() {
+        const tipo = getCookie("tipo");
+        if (tipo !== "capacitador") {
+          if (tipo === "alumno") {
+            location.replace("/vista-estudiante/coursescreen.html");
+          } else {
+            location.replace("/index.html");
+          }
         }
       })();
 
-      // 3. Obtener ID del curso -------------------------------------------
+      /* ---------- obtener id del curso ---------- */
       const params = new URLSearchParams(location.search);
       const courseId = params.get("id");
-
       if (!courseId) {
-        document.getElementById("contenedorCurso").innerHTML =
-          '<p class="text-center">Curso no especificado.</p>';
+        document.body.innerHTML = "<p>Curso no especificado.</p>";
       } else {
         cargarCurso(courseId);
       }
 
-      // 4. Traer datos desde backend --------------------------------------
+      /* ---------- traer y dibujar ---------- */
       async function cargarCurso(id) {
         try {
-          const res = await fetch(`/cursos/${id}`);
+          const res = await fetch(`${BACKEND}/cursos/${id}`);
           if (!res.ok) throw new Error("No se encontró el curso");
           const curso = await res.json();
           dibujar(curso);
         } catch (err) {
-          document.getElementById(
-            "contenedorCurso"
-          ).innerHTML = `<p class='text-center'>${err.message}</p>`;
+          document.body.innerHTML = `<p>${err.message}</p>`;
         }
       }
 
-      // 5. Dibujar la tarjeta ---------------------------------------------
       function dibujar(c) {
-        const usuario = JSON.parse(localStorage.getItem("usuario"));
-        const esCap = usuario.tipo === "capacitador";
+        const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+        const esCap = usuario.rol === "capacitador";
 
-        const botones = esCap
-          ? `<button class="btn btn-primary me-2" onclick="editarCurso(${c.id})">Editar curso</button>
-             <button class="btn btn-secondary" onclick="verInscritos(${c.id})">Ver inscritos</button>`
-          : `<button class="btn btn-success" onclick="iniciarCurso(${c.id})">Comenzar</button>`;
+        /* lista de material */
+        let lista = "";
+        (c.material || []).forEach((m) => {
+          lista += `<li>
+                      <a href="${BACKEND}/uploads/${m.ruta}" target="_blank">
+                        ${m.nombre_original}
+                      </a>
+                    </li>`;
+        });
+        if (!lista) lista = "<li>No hay archivos aún</li>";
 
-        document.getElementById("contenedorCurso").innerHTML = `
-          <div class="col-md-8 col-lg-6">
-            <div class="card">
-              <div class="card-header"><h3 class="card-title mb-0">${
-                c.titulo
-              }</h3></div>
-              <div class="card-body">
-                <p class="mb-2">${c.descripcion}</p>
-                <p class="text-muted mb-4"><strong>Fecha de creación:</strong> ${new Date(
-                  c.fecha
-                ).toLocaleString()}</p>
-                ${botones}
-              </div>
-            </div>
-          </div>`;
+        const html = `
+          <h1>${c.titulo}</h1>
+          <p>${c.descripcion}</p>
+          <p><strong>Fecha:</strong> ${c.fecha}</p>
+
+          <h3>Material</h3>
+          <ul>${lista}</ul>
+
+          ${
+            esCap
+              ? `
+              <button onclick="editarCurso(${c.id})">Editar curso</button>
+              <button onclick="verInscritos(${c.id})">Ver inscritos</button>
+
+              <h3>Subir material</h3>
+              <form id="formSubirArchivo" enctype="multipart/form-data">
+                <input type="file" id="archivo" name="archivo" required />
+                <button type="submit">Subir</button>
+              </form>
+              <p id="msg"></p>
+            `
+              : `<button onclick="iniciarCurso(${c.id})">Comenzar</button>`
+          }
+        `;
+        document.getElementById("contenedorCurso").innerHTML = html;
+
+        if (esCap) {
+          document
+            .getElementById("formSubirArchivo")
+            .addEventListener("submit", (e) => subirArchivo(e, c.id));
+        }
       }
 
-      // 6. Funciones dummy -------------------------------------------------
-      window.editarCurso = (id) => alert("Ir a pantalla de edición " + id);
-      window.verInscritos = (id) => alert("Mostrar inscritos " + id);
-      window.iniciarCurso = (id) => alert("Lanzar contenido del curso " + id);
+      /* ---------- subir archivo ---------- */
+      async function subirArchivo(e, idCurso) {
+        e.preventDefault();
+        const input = document.getElementById("archivo");
+        const archivo = input.files[0];
+        if (!archivo) return;
+
+        const datos = new FormData();
+        datos.append("archivo", archivo);
+
+        try {
+          const res = await fetch(`${BACKEND}/cursos/${idCurso}/archivos`, {
+            method: "POST",
+            body: datos,
+          });
+          if (!res.ok) throw new Error("Error al subir");
+          document.getElementById("msg").textContent =
+            "¡Subido! Recarga para ver el archivo.";
+          input.value = "";
+        } catch (err) {
+          document.getElementById("msg").textContent = err.message;
+        }
+      }
+
+      /* ---------- extras ---------- */
+      function editarCurso(id) {
+        alert("Ir a edición " + id);
+      }
+      function verInscritos(id) {
+        alert("Mostrar inscritos " + id);
+      }
+      function iniciarCurso(id) {
+        alert("Lanzar contenido " + id);
+      }
     </script>
   </body>
 </html>
