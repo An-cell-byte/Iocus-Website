@@ -185,7 +185,7 @@
                 <button class="btn btn-sm btn-outline-primary" onclick="editarCurso(${c.id})">Editar curso</button>
                 <button class="btn btn-sm btn-outline-secondary" onclick="verInscritos(${c.id})">Ver inscritos</button>
                 <div id="quizDiv"></div>
-                <button class="btn btn-sm btn-outline-secondary" type="quizz">Crear quiz</button>
+                <button class="btn btn-sm btn-outline-secondary" onClick="abrirFormularioPregunta()">Crear quiz</button>
 
                 
               </div>
@@ -235,7 +235,6 @@
           document.getElementById("msg").textContent = err.message;
         }
       }
-      document.addEventListener("quizz", abrirFormularioPregunta(e));
       /* ---------- crear quiz ---------- */
       /* ---------- extras ---------- */
       function editarCurso(id) {
