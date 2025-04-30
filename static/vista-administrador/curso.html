@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <!-- Protección de ruta (capacitador) -->
+    <!-- Protección de ruta -->
     <script src="protegerCapacitador.js"></script>
 
     <meta charset="UTF-8" />
@@ -9,23 +9,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Detalle del Curso – Administrador</title>
 
-    <!-- Favicon & Google Font -->
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
-
-    <!-- Estilos base (AdminKit) -->
     <link href="css/app.css" rel="stylesheet" />
 
     <style>
-      /* color del mensaje después de subir archivos */
       #msg {
         color: #198754;
         font-weight: 600;
       }
-      /* Estilos tarjetas */
       #tarjetas {
         display: grid;
         gap: 1rem;
@@ -50,39 +45,34 @@
       <!-- ========== Sidebar ========== -->
       <nav id="sidebar" class="sidebar js-sidebar">
         <div class="sidebar-content js-simplebar">
-          <a class="sidebar-brand" href="vistaAdministrador.html">
-            <span class="align-middle">Administrador</span>
-          </a>
-
+          <a class="sidebar-brand" href="vistaAdministrador.html"
+            ><span class="align-middle">Administrador</span></a
+          >
           <ul class="sidebar-nav">
             <li class="sidebar-header">Componentes</li>
-
             <li class="sidebar-item">
-              <a class="sidebar-link" href="pages-profile2.html">
-                <i class="align-middle" data-feather="user"></i>
-                <span>Mi cuenta</span>
-              </a>
+              <a class="sidebar-link" href="pages-profile2.html"
+                ><i class="align-middle" data-feather="user"></i
+                ><span>Mi cuenta</span></a
+              >
             </li>
-
             <li class="sidebar-item active">
-              <a class="sidebar-link" href="vistaAdministrador.html">
-                <i class="align-middle" data-feather="book"></i>
-                <span>Cursos</span>
-              </a>
+              <a class="sidebar-link" href="vistaAdministrador.html"
+                ><i class="align-middle" data-feather="book"></i
+                ><span>Cursos</span></a
+              >
             </li>
-
             <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-typography2.html">
-                <i class="align-middle" data-feather="align-left"></i>
-                <span>Ayuda</span>
-              </a>
+              <a class="sidebar-link" href="ui-typography2.html"
+                ><i class="align-middle" data-feather="align-left"></i
+                ><span>Ayuda</span></a
+              >
             </li>
-
             <li class="sidebar-item">
-              <a class="sidebar-link" href="../index.html">
-                <i class="align-middle" data-feather="log-in"></i>
-                <span>Cerrar sesión</span>
-              </a>
+              <a class="sidebar-link" href="../index.html"
+                ><i class="align-middle" data-feather="log-in"></i
+                ><span>Cerrar sesión</span></a
+              >
             </li>
           </ul>
         </div>
@@ -90,21 +80,18 @@
 
       <!-- ========== Main Content ========== -->
       <div class="main">
-        <!-- Top bar -->
         <nav class="navbar navbar-expand navbar-light navbar-bg">
-          <a class="sidebar-toggle js-sidebar-toggle">
-            <i class="hamburger align-self-center"></i>
-          </a>
+          <a class="sidebar-toggle js-sidebar-toggle"
+            ><i class="hamburger align-self-center"></i
+          ></a>
         </nav>
 
         <main class="content">
           <div class="container-fluid p-0">
-            <!-- Contenedor dinámico del curso -->
             <div id="contenedorCurso"></div>
           </div>
         </main>
 
-        <!-- Footer -->
         <footer class="footer">
           <div class="container-fluid">
             <div class="row text-muted">
@@ -119,10 +106,8 @@
       </div>
     </div>
 
-    <!-- Librería JS base -->
     <script src="js/app.js"></script>
 
-    <!-- ====================== Lógica principal ====================== -->
     <script>
       /* ---------- CONFIG ---------- */
       const BACKEND = "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io";
@@ -139,31 +124,30 @@
       (function protegerCapacitador() {
         const tipo = getCookie("tipo");
         if (tipo !== "capacitador") {
-          if (tipo === "alumno") {
+          if (tipo === "alumno")
             location.replace("/vista-estudiante/coursescreen.html");
-          } else {
-            location.replace("/index.html");
-          }
+          else location.replace("/index.html");
         }
       })();
 
-      /* ---------- obtener id del curso ---------- */
+      /* ---------- obtener id y cargar curso ---------- */
       const params = new URLSearchParams(location.search);
-      const courseId = params.get("id");
-      if (!courseId) {
+      const cursoId = params.get("id");
+      if (!cursoId) {
         document.getElementById("contenedorCurso").innerHTML =
           "<p>Curso no especificado.</p>";
       } else {
-        cargarCurso(courseId);
+        cargarCurso(cursoId);
       }
 
-      /* ---------- traer curso y pintar ---------- */
+      /* ---------- carga curso + pinta + carga quiz ---------- */
       async function cargarCurso(id) {
         try {
           const res = await fetch(`${BACKEND}/cursos/${id}`);
           if (!res.ok) throw new Error("No se encontró el curso");
           const curso = await res.json();
-          dibujar(curso);
+          dibujar(curso); // pinta la página
+          obtenerQuizExistente(id); // y AHORA sí, carga el quiz
         } catch (err) {
           document.getElementById(
             "contenedorCurso"
@@ -172,54 +156,49 @@
       }
 
       function dibujar(c) {
-        const usuario = getCookie("tipo");
-        const esCap = usuario === "capacitador";
+        const esCap = getCookie("tipo") === "capacitador";
 
         /* lista de material */
-        let lista = "";
-        (c.material || []).forEach((m) => {
-          lista += `<li class="mb-1">
-                      <a href="${BACKEND}/uploads/${m.ruta}" target="_blank">
-                        ${m.nombre_original}
-                      </a>
-                    </li>`;
-        });
-        if (!lista) lista = "<li>No hay archivos aún</li>";
+        const lista =
+          (c.material || [])
+            .map(
+              (m) => `
+      <li class="mb-1"><a href="${BACKEND}/uploads/${m.ruta}" target="_blank">${m.nombre_original}</a></li>`
+            )
+            .join("") || "<li>No hay archivos aún</li>";
 
-        const html = `
-          <h1 class="h3 mb-3">${c.titulo}</h1>
-          <p class="mb-2">${c.descripcion}</p>
-          <p class="mb-4"><strong>Fecha:</strong> ${c.fecha}</p>
+        document.getElementById("contenedorCurso").innerHTML = `
+    <h1 class="h3 mb-3">${c.titulo}</h1>
+    <p class="mb-2">${c.descripcion}</p>
+    <p class="mb-4"><strong>Fecha:</strong> ${c.fecha}</p>
 
-          <h3 class="h5">Material</h3>
-          <ul class="mb-4">${lista}</ul>
+    <h3 class="h5">Material</h3>
+    <ul class="mb-4">${lista}</ul>
 
-          ${
-            esCap
-              ? `
-              <div class="mb-4 d-flex gap-2">
-                <button class="btn btn-sm btn-outline-primary" onclick="editarCurso(${c.id})">Editar curso</button>
-                <button class="btn btn-sm btn-outline-secondary" onclick="verInscritos(${c.id})">Ver inscritos</button>
-                <button class="btn btn-sm btn-outline-secondary" onClick="abrirFormularioPregunta()">Crear quiz</button>
-              </div>
+    ${
+      esCap
+        ? `
+    <div class="mb-4 d-flex gap-2">
+      <button class="btn btn-sm btn-outline-primary" onclick="editarCurso(${c.id})">Editar curso</button>
+      <button class="btn btn-sm btn-outline-secondary" onclick="verInscritos(${c.id})">Ver inscritos</button>
+      <button class="btn btn-sm btn-outline-secondary" onclick="abrirFormularioPregunta()">Crear quiz</button>
+    </div>
+    <div id="quizDiv"></div>
+    <div id="tarjetas"></div>
+    <pre id="salidaJson"></pre>
 
-              <div id="quizDiv"></div>
-              <div id="tarjetas"></div>
-              <pre id="salidaJson"></pre>
-
-              <h3 class="h5">Subir material</h3>
-              <form id="formSubirArchivo" class="mb-3" enctype="multipart/form-data">
-                <div class="input-group">
-                  <input type="file" class="form-control" id="archivo" name="archivo" required />
-                  <button class="btn btn-primary" type="submit">Subir</button>
-                </div>
-              </form>
-              <p id="msg"></p>
-            `
-              : `<button class="btn btn-primary" onclick="iniciarCurso(${c.id})">Comenzar</button>`
-          }
-        `;
-        document.getElementById("contenedorCurso").innerHTML = html;
+    <h3 class="h5">Subir material</h3>
+    <form id="formSubirArchivo" class="mb-3" enctype="multipart/form-data">
+      <div class="input-group">
+        <input type="file" class="form-control" id="archivo" name="archivo" required />
+        <button class="btn btn-primary" type="submit">Subir</button>
+      </div>
+    </form>
+    <p id="msg"></p>
+    `
+        : `<button class="btn btn-primary" onclick="iniciarCurso(${c.id})">Comenzar</button>`
+    }
+  `;
 
         if (esCap) {
           document
@@ -264,36 +243,29 @@
       }
     </script>
 
-    <!-- ====================== Quiz y tarjetas ====================== -->
+    <!-- ====================== QUIZ ====================== -->
     <script>
-      // 🔹Array donde guardaremos todas las preguntas nuevas
       const bancoPreguntas = [];
 
-      /*----------- Mostrar formulario para nueva pregunta -----------*/
+      /* ------ muestra formulario para nueva pregunta ------ */
       function abrirFormularioPregunta() {
-        const contenedor = document.getElementById("quizDiv");
-        contenedor.innerHTML = `
-        <div id="formPregunta" style="border:1px solid #ccc;padding:1rem;margin-top:1rem;">
-          <label>Pregunta:
-            <input type="text" id="inputPregunta" placeholder="Escribe la pregunta" />
-          </label><br><br>
-
-          ${[0, 1, 2, 3]
-            .map(
-              (i) => `
-            <div style="margin-bottom:.5rem;">
-              <input type="radio" name="correcta" value="${i}" id="radio${i}" />
-              <input type="text" id="resp${i}" placeholder="Respuesta ${
-                i + 1
-              }" />
-            </div>`
-            )
-            .join("")}
-
-          <button id="btnListo">Listo</button>
-          <button id="mandarFormulario">Mandar Formulario</button>
-        </div>`;
-
+        document.getElementById("quizDiv").innerHTML = `
+    <div id="formPregunta" style="border:1px solid #ccc;padding:1rem;margin-top:1rem;">
+      <label>Pregunta:
+        <input type="text" id="inputPregunta" placeholder="Escribe la pregunta" />
+      </label><br><br>
+      ${[0, 1, 2, 3]
+        .map(
+          (i) => `
+        <div style="margin-bottom:.5rem;">
+          <input type="radio" name="correcta" value="${i}" id="radio${i}" />
+          <input type="text" id="resp${i}" placeholder="Respuesta ${i + 1}" />
+        </div>`
+        )
+        .join("")}
+      <button id="btnListo">Listo</button>
+      <button id="mandarFormulario">Mandar Formulario</button>
+    </div>`;
         document
           .getElementById("btnListo")
           .addEventListener("click", guardarPregunta);
@@ -302,37 +274,27 @@
           .addEventListener("click", mandarformulario);
       }
 
-      /*----------- Guarda la pregunta en el array -----------*/
+      /* ------ guarda la pregunta en array ------ */
       function guardarPregunta(e) {
         e.preventDefault();
-
         const pregunta = document.getElementById("inputPregunta").value.trim();
         const respuestas = [0, 1, 2, 3].map((i) =>
           document.getElementById("resp" + i).value.trim()
         );
-        const radioMarcado = document.querySelector(
-          'input[name="correcta"]:checked'
-        );
-        const indiceCorrecto = radioMarcado ? Number(radioMarcado.value) : -1;
+        const radio = document.querySelector('input[name="correcta"]:checked');
+        const idx = radio ? +radio.value : -1;
 
-        if (!pregunta || respuestas.some((r) => !r) || indiceCorrecto === -1) {
-          alert("Llena todo y marca cuál es la correcta 😉");
+        if (!pregunta || respuestas.some((r) => !r) || idx === -1) {
+          alert("Llena todo y marca la correcta 😉");
           return;
         }
-
-        bancoPreguntas.push({
-          pregunta,
-          correctAnswerIndex: indiceCorrecto,
-          respuestas,
-        });
-
+        bancoPreguntas.push({ pregunta, correctAnswerIndex: idx, respuestas });
         document.getElementById("salidaJson").textContent = JSON.stringify(
           bancoPreguntas,
           null,
           2
         );
-
-        // limpia inputs
+        // limpia
         document.getElementById("inputPregunta").value = "";
         [0, 1, 2, 3].forEach((i) => {
           document.getElementById("resp" + i).value = "";
@@ -340,70 +302,61 @@
         });
       }
 
-      /*----------- Envía todo el quiz al backend -----------*/
+      /* ------ envía todo el quiz ------ */
       function mandarformulario() {
-        const id = params.get("id");
-        fetch(`${BACKEND}/api/capacitaciones/${id}/preguntas`, {
+        fetch(`${BACKEND}/api/capacitaciones/${cursoId}/preguntas`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(bancoPreguntas),
         })
-          .then((res) => {
-            if (!res.ok) throw new Error("Error al enviar el formulario");
-            alert("Formulario enviado con éxito");
+          .then((r) => {
+            if (!r.ok) throw new Error("Error al enviar");
+          })
+          .then(() => {
+            alert("Enviado con éxito");
             bancoPreguntas.length = 0;
             document.getElementById("salidaJson").textContent = "";
           })
-          .catch((err) => alert(err.message));
+          .catch((e) => alert(e.message));
       }
 
-      /*----------- Pinta tarjetas con preguntas existentes -----------*/
+      /* ------ pinta tarjetas ------ */
       function mostrarTarjetas(lista) {
-        const contenedor = document.getElementById("tarjetas");
-        contenedor.innerHTML = "";
-
+        const cont = document.getElementById("tarjetas");
+        if (!cont) return; // por si se llama muy temprano
+        cont.innerHTML = "";
         lista.forEach((item, i) => {
-          const tarjeta = document.createElement("div");
-          tarjeta.className = "tarjeta";
-          tarjeta.dataset.index = i;
-
-          tarjeta.innerHTML = `
-            <h3>${item.pregunta}</h3>
-            <ul>
-              ${item.respuestas
-                .map((resp, idx) =>
-                  idx === item.correctAnswerIndex
-                    ? `<li><strong>${resp}</strong> ✅</li>`
-                    : `<li>${resp}</li>`
-                )
-                .join("")}
-            </ul>
-            <button class="borrar">Borrar</button>
-          `;
-
-          tarjeta
+          const div = document.createElement("div");
+          div.className = "tarjeta";
+          div.innerHTML = `
+      <h3>${item.pregunta}</h3>
+      <ul>${item.respuestas
+        .map((r, idx) =>
+          idx === item.correctAnswerIndex
+            ? `<li><strong>${r}</strong> ✅</li>`
+            : `<li>${r}</li>`
+        )
+        .join("")}</ul>
+      <button class="borrar">Borrar</button>`;
+          div
             .querySelector(".borrar")
-            .addEventListener("click", () => tarjeta.remove());
-
-          contenedor.appendChild(tarjeta);
+            .addEventListener("click", () => div.remove());
+          cont.appendChild(div);
         });
       }
 
-      /*----------- Trae el quiz ya guardado y lo muestra -----------*/
-      (function obtenerQuizExistente() {
-        const id = params.get("id");
-        if (!id) return;
-
-        fetch(`${BACKEND}/quiz/${id}`, { method: "GET" })
-          .then((res) => {
-            if (!res.ok) throw new Error("No se encontró el quiz");
-            return res.json();
+      /* ------ trae quiz ya guardado ------ */
+      function obtenerQuizExistente(id) {
+        fetch(`${BACKEND}/quiz/${id}`)
+          .then((r) => {
+            if (!r.ok) throw new Error("No se encontró el quiz");
+            return r.json();
           })
           .then((data) => {
-            if (data && data.length) mostrarTarjetas(data);
+            if (data.length) mostrarTarjetas(data);
           })
-          .catch((err) => console.error(err));
-      })();
+          .catch(console.error);
+      }
     </script>
   </body>
 </html>
