@@ -154,6 +154,73 @@ app.get("/cursos/alumnos/:id", (req, res) => {
   });
 });
 
+app.post("/api/capacitaciones/:idCap/preguntas", async (req, res) => {
+  const { idCap } = req.params; // viene en la URL
+  const preguntas = req.body; // viene en el JSON
+
+  // 1) Validación rápida
+  if (!Array.isArray(preguntas) || preguntas.length === 0) {
+    return res.status(400).json({ error: "Manda al menos una pregunta 🥲" });
+  }
+
+  // 2) Pasamos la conexión a modo promesa para usar async/await
+  const dbP = db.promise();
+
+  try {
+    // 🔒  Empezamos transacción (todo o nada)
+    await dbP.query("START TRANSACTION");
+
+    // 3) Recorremos las preguntas del JSON
+    for (const p of preguntas) {
+      const { pregunta, respuestas, correctAnswerIndex } = p;
+
+      if (!pregunta || !Array.isArray(respuestas) || respuestas.length === 0) {
+        throw new Error("Formato de pregunta inválido");
+      }
+
+      // Texto de la opción correcta
+      const textoCorrecto = respuestas[correctAnswerIndex];
+
+      // 3-a) Guardamos la fila en la tabla
+      await dbP.query(
+        `INSERT INTO preguntas
+           (id_capacitacion, pregunta, respuestas, respuesta_correcta)
+         VALUES (?,?,?,?)`,
+        [idCap, pregunta, JSON.stringify(respuestas), textoCorrecto]
+      );
+    }
+
+    // ✅  Todo salió OK
+    await dbP.query("COMMIT");
+    res.status(201).json({ msg: "Preguntas guardadas 👌" });
+  } catch (err) {
+    // ⛔  Algo falló → revertimos
+    await dbP.query("ROLLBACK");
+    console.error(err);
+    res.status(500).json({ error: "No se pudieron guardar las preguntas 😖" });
+  }
+});
+
+app.delete("/api/quiz/:id", (req, res) => {
+  const id = req.params.id;
+  db.query("DELETE FROM preguntas WHERE id_capacitacion = ?", [id], (err) => {
+    if (err) return res.status(500).send("Error en la base de datos");
+    res.json({ mensaje: "Quizz Eliminado" });
+  });
+});
+
+app.delete("/api/quiz/:idcapacitacion/:nombre", (req, res) => {
+  const { idcapacitacion, nombre } = req.params;
+  db.query(
+    "DELETE FROM preguntas WHERE id_capacitacion = ? AND nombre = ?",
+    [idcapacitacion, nombre],
+    (err) => {
+      if (err) return res.status(500).send("Error en la base de datos");
+      res.json({ mensaje: "Pregunta Elimnada" });
+    }
+  );
+});
+
 app.get("/api/usuarios/tipo/:correo", (req, res) => {
   const correo = decodeURIComponent(req.params.correo);
   db.query(
@@ -168,6 +235,20 @@ app.get("/api/usuarios/tipo/:correo", (req, res) => {
   );
 });
 //xdd
+
+app.get("/quiz/:id_capacitacion", (req, res) => {
+  const id_capacitacion = req.params.id_capacitacion;
+  db.query(
+    "SELECT * FROM preguntas WHERE id_capacitacion = ?",
+    [id_capacitacion],
+    (err, r) => {
+      if (err) return res.status(500).send("Error en la base de datos");
+      if (!r.length) return res.status(404).send("Preguntas no encontradas");
+      res.json(r);
+    }
+  );
+});
+
 app.put("/api/capacitaciones", (req, res) => {
   const { titulo, descripcion, id_capacitador, fecha } = req.body;
   if (!titulo || !descripcion || !id_capacitador || !fecha)
