@@ -41,8 +41,6 @@
   <body>
     <div class="wrapper">
       <!-- ========== Sidebar ========== -->
-      <!-- …(el sidebar no cambió)… -->
-      <!-- ========== Main Content ========== -->
       <div class="main">
         <nav class="navbar navbar-expand navbar-light navbar-bg">
           <a class="sidebar-toggle js-sidebar-toggle">
@@ -154,6 +152,7 @@
         contenedorCurso.innerHTML = `
           <h1 class="h3 mb-3">${c.titulo}</h1>
           <p class="mb-2">${c.descripcion}</p>
+          <p class="mb-4"><strong>Id del curso:</strong> ${id}</p>
           <p class="mb-4"><strong>Fecha:</strong> ${c.fecha}</p>
 
           <h3 class="h5">Material del curso</h3>
