@@ -31,9 +31,6 @@ db.connect((err) => {
   }
 });
 
-// Sirve la documentación Docusaurus desde /docs
-app.use('/docs', express.static(path.join(__dirname, '..', 'my-documentation', 'build')));
-
 app.get("/cursos/usuario/:id", (req, res) => {
   const id = req.params.id;
   db.query(
