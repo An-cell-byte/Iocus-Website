@@ -184,8 +184,12 @@
               <div class="mb-4 d-flex gap-2">
                 <button class="btn btn-sm btn-outline-primary" onclick="editarCurso(${c.id})">Editar curso</button>
                 <button class="btn btn-sm btn-outline-secondary" onclick="verInscritos(${c.id})">Ver inscritos</button>
-              </div>
+                <div id="quizDiv"></div>
+                <button class="btn btn-sm btn-outline-secondary" type="quizz">Crear quiz</button>
 
+                
+              </div>
+              <pre id="salidaJson"></pre>
               <h3 class="h5">Subir material</h3>
               <form id="formSubirArchivo" class="mb-3" enctype="multipart/form-data">
                 <div class="input-group">
@@ -194,6 +198,7 @@
                 </div>
               </form>
               <p id="msg"></p>
+
             `
               : `<button class="btn btn-primary" onclick="iniciarCurso(${c.id})">Comenzar</button>`
           }
@@ -230,7 +235,8 @@
           document.getElementById("msg").textContent = err.message;
         }
       }
-
+      document.addEventListener("quizz", abrirFormularioPregunta);
+      /* ---------- crear quiz ---------- */
       /* ---------- extras ---------- */
       function editarCurso(id) {
         alert("Ir a edición " + id);
@@ -240,6 +246,102 @@
       }
       function iniciarCurso(id) {
         alert("Lanzar contenido " + id);
+      }
+      function crearQuiz(id) {
+        alert("Crear quiz " + id);
+      }
+    </script>
+    <script>
+      // 🔹Array donde guardaremos todas las preguntas
+      const bancoPreguntas = [];
+
+      /*-------------------------------------------------
+    Muestra el formulario dentro de #quizDiv
+  -------------------------------------------------*/
+      function abrirFormularioPregunta() {
+        const contenedor = document.getElementById("quizDiv");
+
+        // 👇 Insertamos el formulario con 5 inputs y radios para marcar la correcta
+        contenedor.innerHTML = `
+      <div id="formPregunta" style="border:1px solid #ccc;padding:1rem;margin-top:1rem;">
+        <label>Pregunta:
+          <input type="text" id="inputPregunta" placeholder="Escribe la pregunta" />
+        </label><br><br>
+
+        ${[0, 1, 2, 3]
+          .map(
+            (i) => `
+          <div style="margin-bottom:.5rem;">
+            <input type="radio" name="correcta" value="${i}" id="radio${i}"/>
+            <input type="text" id="resp${i}" placeholder="Respuesta ${i + 1}" />
+          </div>
+        `
+          )
+          .join("")}
+
+        <button id="btnListo">Listo</button>
+        <button id="btnSiguiente">Siguiente pregunta</button>
+      </div>
+    `;
+
+        // 🎯 Eventos de los botones
+        document
+          .getElementById("btnListo")
+          .addEventListener("click", guardarPregunta);
+        document
+          .getElementById("btnSiguiente")
+          .addEventListener("click", limpiarFormulario);
+      }
+
+      /*-------------------------------------------------
+    Crea el objeto-pregunta y lo mete en bancoPreguntas
+  -------------------------------------------------*/
+      function guardarPregunta(e) {
+        e.preventDefault(); // evita que el botón recargue la página
+
+        const pregunta = document.getElementById("inputPregunta").value.trim();
+        const respuestas = [0, 1, 2, 3].map((i) =>
+          document.getElementById("resp" + i).value.trim()
+        );
+
+        // índice de la respuesta correcta
+        const radioMarcado = document.querySelector(
+          'input[name="correcta"]:checked'
+        );
+        const indiceCorrecto = radioMarcado ? Number(radioMarcado.value) : -1;
+
+        // 🛑 Validación rápida
+        if (!pregunta || respuestas.some((r) => !r) || indiceCorrecto === -1) {
+          alert("Llena todo y marca cuál respuesta es la correcta 😉");
+          return;
+        }
+
+        // Objeto tal cual tu formato de ejemplo
+        bancoPreguntas.push({
+          question: pregunta,
+          correctAnswerIndex: indiceCorrecto,
+          answers: respuestas,
+        });
+
+        // Muestra el JSON en pantalla para que veas el avance
+        document.getElementById("salidaJson").textContent = JSON.stringify(
+          bancoPreguntas,
+          null,
+          2
+        );
+
+        alert("¡Pregunta guardada!");
+      }
+
+      /*-------------------------------------------------
+    Limpia el formulario para otra pregunta
+  -------------------------------------------------*/
+      function limpiarFormulario() {
+        document.getElementById("inputPregunta").value = "";
+        [0, 1, 2, 3].forEach((i) => {
+          document.getElementById("resp" + i).value = "";
+          document.getElementById("radio" + i).checked = false;
+        });
       }
     </script>
   </body>
