@@ -158,11 +158,11 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        titulo,
-        descripcion,
-        id_capacitador,
-        fecha,
-      }),
+      titulo: titulo,
+      descripcion: descripcion,
+      id_capacitador: id_capacitador,
+      fecha: fecha,
+    }),
     })
       .then((res) => res.json())
       .then((data) => {
