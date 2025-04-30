@@ -45,11 +45,6 @@ const upload = multer({
   },
 });
 
-app.use(
-  "/docs",
-  express.static(path.join(__dirname, "../my-documentation/build"))
-);
-app.get("/", (_, res) => res.redirect("/docs"));
 
 app.get("/cursos/usuario/:id", (req, res) => {
   const id = req.params.id;
