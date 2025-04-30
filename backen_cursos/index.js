@@ -172,7 +172,7 @@ app.get("/api/usuarios/tipo/:correo", (req, res) => {
     }
   );
 });
-
+//xdd
 app.put("/api/capacitaciones", (req, res) => {
   const { titulo, descripcion, id_capacitador, fecha } = req.body;
   if (!titulo || !descripcion || !id_capacitador || !fecha)
