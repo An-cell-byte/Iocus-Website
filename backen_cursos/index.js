@@ -45,7 +45,6 @@ const upload = multer({
   },
 });
 
-
 app.get("/cursos/usuario/:id", (req, res) => {
   const id = req.params.id;
   db.query(
@@ -209,11 +208,11 @@ app.delete("/api/quiz/:id", (req, res) => {
   });
 });
 
-app.delete("/api/quiz/:idcapacitacion/:nombre", (req, res) => {
-  const { idcapacitacion, nombre } = req.params;
+app.delete("/api/quiz/:idcapacitacion/:pregunta", (req, res) => {
+  const { idcapacitacion, pregunta } = req.params;
   db.query(
-    "DELETE FROM preguntas WHERE id_capacitacion = ? AND nombre = ?",
-    [idcapacitacion, nombre],
+    "DELETE FROM preguntas WHERE id_capacitacion = ? AND pregunta = ?",
+    [idcapacitacion, pregunta],
     (err) => {
       if (err) return res.status(500).send("Error en la base de datos");
       res.json({ mensaje: "Pregunta Elimnada" });
