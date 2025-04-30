@@ -190,7 +190,7 @@ app.post("/api/capacitaciones/:idCap/preguntas", async (req, res) => {
       await dbP.query(
         `INSERT INTO preguntas
            (id_capacitacion, pregunta, respuestas, respuesta_correcta)
-         VALUES (?,?,?,?)`,
+         VALUES (?,?,json_array(?),?)`,
         [idCap, pregunta, JSON.stringify(respuestas), textoCorrecto]
       );
     }
