@@ -289,11 +289,11 @@
           return;
         }
         bancoPreguntas.push({ pregunta, correctAnswerIndex: idx, respuestas });
-        document.getElementById("salidaJson").textContent = JSON.stringify(
-          bancoPreguntas,
-          null,
-          2
-        );
+        // document.getElementById("salidaJson").textContent = JSON.stringify(
+        //   bancoPreguntas,
+        //   null,
+        //   2
+        //);
         // limpia
         document.getElementById("inputPregunta").value = "";
         [0, 1, 2, 3].forEach((i) => {
