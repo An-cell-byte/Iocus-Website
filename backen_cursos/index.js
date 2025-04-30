@@ -110,6 +110,17 @@ app.get("/api/usuarios/:id/contrasena", (req, res) => {
   );
 });
 
+app.get("/cursos/alumnos/:id", (req, res) => {
+  const id = req.params.id;
+  db.query("CALL sp_cursos_por_alumno(?)", [id], (err, resultados) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send("Error en la base de datos");
+    }
+    res.json(resultados[0]);
+  });
+});
+
 // obtiene tipos de usuario
 app.get("/api/usuarios/tipo/:correo", (req, res) => {
   const correo = req.params.correo;
