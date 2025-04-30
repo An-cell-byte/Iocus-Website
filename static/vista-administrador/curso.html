@@ -132,7 +132,6 @@
           else location.replace("/index.html");
         }
       })();
-      const id = params.get("id"); //params
 
       /* ---------- obtener id y cargar curso ---------- */
       const params = new URLSearchParams(location.search);
@@ -143,6 +142,7 @@
       } else {
         cargarCurso(cursoId);
       }
+      const id = params.get("id"); //params
 
       /* ---------- carga curso + pinta + carga quiz ---------- */
       async function cargarCurso(id) {
