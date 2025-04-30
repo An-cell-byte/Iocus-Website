@@ -1,7 +1,7 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
-const path = require('path');
+const path = require("path");
 
 const app = express();
 app.use(
@@ -33,11 +33,14 @@ db.connect((err) => {
 });
 
 // Sirve la carpeta de documentación en /docs
-app.use('/docs', express.static(path.join(__dirname, '../my-documentation/build')));
+app.use(
+  "/docs",
+  express.static(path.join(__dirname, "../my-documentation/build"))
+);
 
 // Ruta raíz del sitio
-app.get('/', (req, res) => {
-  res.redirect('/docs'); // o res.send('Bienvenido a mi app');
+app.get("/", (req, res) => {
+  res.redirect("/docs"); // o res.send('Bienvenido a mi app');
 });
 
 app.get("/cursos/usuario/:id", (req, res) => {
@@ -115,6 +118,21 @@ app.get("/api/usuarios/:id/contrasena", (req, res) => {
         return res.status(404).send("Usuario no encontrado");
 
       res.json({ contrasena: resultados[0].contrasena });
+    }
+  );
+});
+
+app.get("/api/inscribir/:id_usuario/:id_capacitacion", (req, res) => {
+  const { id_usuario, id_capacitacion } = req.params;
+  db.query(
+    "INSERT INTO inscripciones (id_usuario, id_capacitacion) VALUES (?, ?)",
+    [id_usuario, id_capacitacion],
+    (err, resultados) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send("Error en la base de datos");
+      }
+      res.json({ mensaje: "Inscripción exitosa" });
     }
   );
 });
