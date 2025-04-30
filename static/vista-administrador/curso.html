@@ -16,15 +16,31 @@
       rel="stylesheet"
     />
 
-    <!-- Hoja de estilos principal de AdminKit -->
+    <!-- Estilos base (AdminKit) -->
     <link href="css/app.css" rel="stylesheet" />
 
-    <!-- Estilos puntuales de la página -->
     <style>
       /* color del mensaje después de subir archivos */
       #msg {
-        color: #198754; /* verde bootstrap */
+        color: #198754;
         font-weight: 600;
+      }
+      /* Estilos tarjetas */
+      #tarjetas {
+        display: grid;
+        gap: 1rem;
+      }
+      .tarjeta {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+      }
+      .tarjeta h3 {
+        margin-top: 0;
+      }
+      .borrar {
+        margin-top: 0.5rem;
+        cursor: pointer;
       }
     </style>
   </head>
@@ -103,10 +119,10 @@
       </div>
     </div>
 
-    <!-- Librería JS de AdminKit (sidebar, feather icons, etc.) -->
+    <!-- Librería JS base -->
     <script src="js/app.js"></script>
 
-    <!-- ====================== Lógica de la página ====================== -->
+    <!-- ====================== Lógica principal ====================== -->
     <script>
       /* ---------- CONFIG ---------- */
       const BACKEND = "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io";
@@ -141,7 +157,7 @@
         cargarCurso(courseId);
       }
 
-      /* ---------- traer y dibujar ---------- */
+      /* ---------- traer curso y pintar ---------- */
       async function cargarCurso(id) {
         try {
           const res = await fetch(`${BACKEND}/cursos/${id}`);
@@ -185,14 +201,12 @@
                 <button class="btn btn-sm btn-outline-primary" onclick="editarCurso(${c.id})">Editar curso</button>
                 <button class="btn btn-sm btn-outline-secondary" onclick="verInscritos(${c.id})">Ver inscritos</button>
                 <button class="btn btn-sm btn-outline-secondary" onClick="abrirFormularioPregunta()">Crear quiz</button>
-
-
-                
               </div>
+
               <div id="quizDiv"></div>
-              
-              <div id="tarjetas"></div>              
+              <div id="tarjetas"></div>
               <pre id="salidaJson"></pre>
+
               <h3 class="h5">Subir material</h3>
               <form id="formSubirArchivo" class="mb-3" enctype="multipart/form-data">
                 <div class="input-group">
@@ -201,7 +215,6 @@
                 </div>
               </form>
               <p id="msg"></p>
-
             `
               : `<button class="btn btn-primary" onclick="iniciarCurso(${c.id})">Comenzar</button>`
           }
@@ -238,7 +251,7 @@
           document.getElementById("msg").textContent = err.message;
         }
       }
-      /* ---------- crear quiz ---------- */
+
       /* ---------- extras ---------- */
       function editarCurso(id) {
         alert("Ir a edición " + id);
@@ -249,44 +262,38 @@
       function iniciarCurso(id) {
         alert("Lanzar contenido " + id);
       }
-      function crearQuiz(id) {
-        alert("Crear quiz " + id);
-      }
     </script>
+
+    <!-- ====================== Quiz y tarjetas ====================== -->
     <script>
-      // 🔹Array donde guardaremos todas las preguntas
+      // 🔹Array donde guardaremos todas las preguntas nuevas
       const bancoPreguntas = [];
 
-      /*-------------------------------------------------
-    Muestra el formulario dentro de #quizDiv
-  -------------------------------------------------*/
+      /*----------- Mostrar formulario para nueva pregunta -----------*/
       function abrirFormularioPregunta() {
         const contenedor = document.getElementById("quizDiv");
-
-        // 👇 Insertamos el formulario con 5 inputs y radios para marcar la correcta
         contenedor.innerHTML = `
-      <div id="formPregunta" style="border:1px solid #ccc;padding:1rem;margin-top:1rem;">
-        <label>Pregunta:
-          <input type="text" id="inputPregunta" placeholder="Escribe la pregunta" />
-        </label><br><br>
+        <div id="formPregunta" style="border:1px solid #ccc;padding:1rem;margin-top:1rem;">
+          <label>Pregunta:
+            <input type="text" id="inputPregunta" placeholder="Escribe la pregunta" />
+          </label><br><br>
 
-        ${[0, 1, 2, 3]
-          .map(
-            (i) => `
-          <div style="margin-bottom:.5rem;">
-            <input type="radio" name="correcta" value="${i}" id="radio${i}"/>
-            <input type="text" id="resp${i}" placeholder="Respuesta ${i + 1}" />
-          </div>
-        `
-          )
-          .join("")}
+          ${[0, 1, 2, 3]
+            .map(
+              (i) => `
+            <div style="margin-bottom:.5rem;">
+              <input type="radio" name="correcta" value="${i}" id="radio${i}" />
+              <input type="text" id="resp${i}" placeholder="Respuesta ${
+                i + 1
+              }" />
+            </div>`
+            )
+            .join("")}
 
-        <button id="btnListo">Listo</button>
-        <button id="mandarFormulario">Mandar Formulario</button>
-      </div>
-    `;
+          <button id="btnListo">Listo</button>
+          <button id="mandarFormulario">Mandar Formulario</button>
+        </div>`;
 
-        // 🎯 Eventos de los botones
         document
           .getElementById("btnListo")
           .addEventListener("click", guardarPregunta);
@@ -295,39 +302,37 @@
           .addEventListener("click", mandarformulario);
       }
 
-      /*-------------------------------------------------
-    Crea el objeto-pregunta y lo mete en bancoPreguntas
-  -------------------------------------------------*/
+      /*----------- Guarda la pregunta en el array -----------*/
       function guardarPregunta(e) {
-        e.preventDefault(); // evita que el botón recargue la página
+        e.preventDefault();
 
         const pregunta = document.getElementById("inputPregunta").value.trim();
         const respuestas = [0, 1, 2, 3].map((i) =>
           document.getElementById("resp" + i).value.trim()
         );
-
-        // índice de la respuesta correcta
         const radioMarcado = document.querySelector(
           'input[name="correcta"]:checked'
         );
         const indiceCorrecto = radioMarcado ? Number(radioMarcado.value) : -1;
 
-        // 🛑 Validación rápida
         if (!pregunta || respuestas.some((r) => !r) || indiceCorrecto === -1) {
-          alert("Llena todo y marca cuál respuesta es la correcta 😉");
+          alert("Llena todo y marca cuál es la correcta 😉");
           return;
         }
 
-        // Objeto tal cual tu formato de ejemplo
         bancoPreguntas.push({
-          pregunta: pregunta,
+          pregunta,
           correctAnswerIndex: indiceCorrecto,
-          respuestas: respuestas,
+          respuestas,
         });
 
-        // Muestra el JSON en pantalla para que veas el avance
-        const jsonOutput = JSON.stringify(bancoPreguntas, null, 2);
-        document.getElementById("salidaJson").textContent = jsonOutput;
+        document.getElementById("salidaJson").textContent = JSON.stringify(
+          bancoPreguntas,
+          null,
+          2
+        );
+
+        // limpia inputs
         document.getElementById("inputPregunta").value = "";
         [0, 1, 2, 3].forEach((i) => {
           document.getElementById("resp" + i).value = "";
@@ -335,14 +340,10 @@
         });
       }
 
-      /*-------------------------------------------------
-    Limpia el formulario para otra pregunta
-  -------------------------------------------------*/
+      /*----------- Envía todo el quiz al backend -----------*/
       function mandarformulario() {
         const id = params.get("id");
-        console.log(bancoPreguntas);
-        console.log(BACKEND + "/api/capacitaciones/" + id + "/preguntas");
-        fetch(BACKEND + "/api/capacitaciones/" + id + "/preguntas", {
+        fetch(`${BACKEND}/api/capacitaciones/${id}/preguntas`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(bancoPreguntas),
@@ -350,84 +351,59 @@
           .then((res) => {
             if (!res.ok) throw new Error("Error al enviar el formulario");
             alert("Formulario enviado con éxito");
-            bancoPreguntas.length = 0; // Limpiar el array
-            document.getElementById("salidaJson").textContent = ""; // Limpiar el JSON mostrado
+            bancoPreguntas.length = 0;
+            document.getElementById("salidaJson").textContent = "";
           })
-          .catch((err) => {
-            alert(err.message);
-          });
+          .catch((err) => alert(err.message));
       }
+
+      /*----------- Pinta tarjetas con preguntas existentes -----------*/
       function mostrarTarjetas(lista) {
         const contenedor = document.getElementById("tarjetas");
-        contenedor.innerHTML = ""; // Limpia lo que hubiera antes
+        contenedor.innerHTML = "";
 
         lista.forEach((item, i) => {
-          // --- Crea la tarjeta ---
           const tarjeta = document.createElement("div");
-          tarjeta.className = "tarjeta"; // Clase para estilos opcionales
-          tarjeta.dataset.index = i; // Guarda su posición por si la necesitas
+          tarjeta.className = "tarjeta";
+          tarjeta.dataset.index = i;
 
-          // --- Cuerpo de la tarjeta ---
           tarjeta.innerHTML = `
-      <h3>${item.pregunta}</h3>
-      <ul>
-        ${item.respuestas
-          .map((resp, idx) =>
-            idx === item.correctAnswerIndex
-              ? `<li><strong>${resp}</strong> ✅</li>` // Destaca la correcta
-              : `<li>${resp}</li>`
-          )
-          .join("")}
-      </ul>
-      <button class="borrar">Borrar</button>
-    `;
+            <h3>${item.pregunta}</h3>
+            <ul>
+              ${item.respuestas
+                .map((resp, idx) =>
+                  idx === item.correctAnswerIndex
+                    ? `<li><strong>${resp}</strong> ✅</li>`
+                    : `<li>${resp}</li>`
+                )
+                .join("")}
+            </ul>
+            <button class="borrar">Borrar</button>
+          `;
 
-          // --- Botón de borrado ---
-          tarjeta.querySelector(".borrar").addEventListener("click", () => {
-            tarjeta.remove(); // Quita la tarjeta del DOM
-            // Si también quieres borrarla del array:
-            // lista.splice(i, 1);
-          });
+          tarjeta
+            .querySelector(".borrar")
+            .addEventListener("click", () => tarjeta.remove());
 
-          // --- Agrega la tarjeta al contenedor ---
           contenedor.appendChild(tarjeta);
         });
       }
-      const _courseId = params.get("id");
-      /* 3) Llama la función cuando quieras */
-      fetch(
-        BACKEND + "/quiz/" + _courseId,
-        {
-          method: "GET",
-        }
-          .then((res) => res.json())
-          .then((data) => {
-            // Agrega las preguntas al array
-            mostrarTarjetas(data); // Muestra las tarjetas
-          })
-          .catch((err) => console.error(err))
-      );
-      mostrarTarjetas(data); // Muestra las tarjetas
-    </script>
 
-    <style>
-      /* Estilos muy básicos: cambia a tu gusto */
-      #tarjetas {
-        display: grid;
-        gap: 1rem;
-      }
-      .tarjeta {
-        padding: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 0.5rem;
-      }
-      .tarjeta h3 {
-        margin-top: 0;
-      }
-      .borrar {
-        margin-top: 0.5rem;
-        cursor: pointer;
-      }
-    </style>
+      /*----------- Trae el quiz ya guardado y lo muestra -----------*/
+      (function obtenerQuizExistente() {
+        const id = params.get("id");
+        if (!id) return;
+
+        fetch(`${BACKEND}/quiz/${id}`, { method: "GET" })
+          .then((res) => {
+            if (!res.ok) throw new Error("No se encontró el quiz");
+            return res.json();
+          })
+          .then((data) => {
+            if (data && data.length) mostrarTarjetas(data);
+          })
+          .catch((err) => console.error(err));
+      })();
+    </script>
   </body>
 </html>
