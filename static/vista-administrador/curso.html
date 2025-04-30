@@ -289,7 +289,7 @@
           .addEventListener("click", guardarPregunta);
         document
           .getElementById("btnSiguiente")
-          .addEventListener("click", limpiarFormulario);
+          .addEventListener("click", mandarformulario);
       }
 
       /*-------------------------------------------------
@@ -328,20 +328,17 @@
           null,
           2
         );
-
-        alert("¡Pregunta guardada!");
-      }
-
-      /*-------------------------------------------------
-    Limpia el formulario para otra pregunta
-  -------------------------------------------------*/
-      function limpiarFormulario() {
         document.getElementById("inputPregunta").value = "";
         [0, 1, 2, 3].forEach((i) => {
           document.getElementById("resp" + i).value = "";
           document.getElementById("radio" + i).checked = false;
         });
       }
+
+      /*-------------------------------------------------
+    Limpia el formulario para otra pregunta
+  -------------------------------------------------*/
+      function mandarformulario() {}
     </script>
   </body>
 </html>
