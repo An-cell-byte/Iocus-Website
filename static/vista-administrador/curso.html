@@ -48,7 +48,7 @@
           <a class="sidebar-brand" href="vistaAdministrador.html"
             ><span class="align-middle">Administrador</span></a
           >
-          
+
           <ul class="sidebar-nav">
             <li class="sidebar-header">Componentes</li>
             <!-- 
@@ -132,6 +132,7 @@
           else location.replace("/index.html");
         }
       })();
+      const id = params.get("id"); //params
 
       /* ---------- obtener id y cargar curso ---------- */
       const params = new URLSearchParams(location.search);
