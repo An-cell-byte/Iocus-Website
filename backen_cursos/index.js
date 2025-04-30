@@ -1,6 +1,7 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+const path = require('path');
 
 const app = express();
 app.use(
@@ -29,6 +30,14 @@ db.connect((err) => {
   } else {
     console.log("¡Conectado a MySQL!");
   }
+});
+
+// Sirve la carpeta de documentación en /docs
+app.use('/docs', express.static(path.join(__dirname, '../my-documentation/build')));
+
+// Ruta raíz del sitio
+app.get('/', (req, res) => {
+  res.redirect('/docs'); // o res.send('Bienvenido a mi app');
 });
 
 app.get("/cursos/usuario/:id", (req, res) => {
