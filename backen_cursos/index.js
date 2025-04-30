@@ -248,6 +248,18 @@ app.get("/quiz/:id_capacitacion", (req, res) => {
   );
 });
 
+app.put("api/cursos/:id_alumno/:id_capacitacion", (req, res) => {
+  const { id_alumno, id_capacitacion } = req.params;
+  db.query(
+    "UPDATE inscripciones SET estado = 'completado' WHERE id_alumno = ? AND id_capacitacion = ?",
+    [id_alumno, id_capacitacion],
+    (err) => {
+      if (err) return res.status(500).send("Error en la base de datos");
+      res.json({ mensaje: "Curso completado" });
+    }
+  );
+});
+
 app.put("/api/capacitaciones", (req, res) => {
   const { titulo, descripcion, id_capacitador, fecha } = req.body;
   if (!titulo || !descripcion || !id_capacitador || !fecha)
