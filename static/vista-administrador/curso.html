@@ -279,7 +279,7 @@
           .join("")}
 
         <button id="btnListo">Listo</button>
-        <button id="btnSiguiente">Siguiente pregunta</button>
+        <button id="mandarFormulario">Mandar Formulario</button>
       </div>
     `;
 
@@ -323,11 +323,8 @@
         });
 
         // Muestra el JSON en pantalla para que veas el avance
-        document.getElementById("salidaJson").textContent = JSON.stringify(
-          bancoPreguntas,
-          null,
-          2
-        );
+        const jsonOutput = JSON.stringify(bancoPreguntas, null, 2);
+        document.getElementById("salidaJson").textContent = jsonOutput;
         document.getElementById("inputPregunta").value = "";
         [0, 1, 2, 3].forEach((i) => {
           document.getElementById("resp" + i).value = "";
@@ -338,7 +335,24 @@
       /*-------------------------------------------------
     Limpia el formulario para otra pregunta
   -------------------------------------------------*/
-      function mandarformulario() {}
+      function mandarformulario(id) {
+        fetch(`${BACKEND}/api/capacitaciones/${id}/preguntas`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(bancoPreguntas),
+        })
+          .then((res) => {
+            if (!res.ok) throw new Error("Error al enviar el formulario");
+            alert("Formulario enviado con éxito");
+            bancoPreguntas.length = 0; // Limpiar el array
+            document.getElementById("salidaJson").textContent = ""; // Limpiar el JSON mostrado
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
+      }
     </script>
   </body>
 </html>
