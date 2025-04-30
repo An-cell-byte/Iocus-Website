@@ -206,6 +206,26 @@ app.post("/api/capacitaciones/:idCap/preguntas", async (req, res) => {
   }
 });
 
+app.delete("/api/quiz/:id", (req, res) => {
+  const id = req.params.id;
+  db.query("DELETE FROM preguntas WHERE id_capacitacion = ?", [id], (err) => {
+    if (err) return res.status(500).send("Error en la base de datos");
+    res.json({ mensaje: "Quizz Eliminado" });
+  });
+});
+
+app.delete("/api/quiz/:idcapacitacion/:nombre", (req, res) => {
+  const { idcapacitacion, nombre } = req.params;
+  db.query(
+    "DELETE FROM preguntas WHERE id_capacitacion = ? AND nombre = ?",
+    [idcapacitacion, nombre],
+    (err) => {
+      if (err) return res.status(500).send("Error en la base de datos");
+      res.json({ mensaje: "Pregunta Elimnada" });
+    }
+  );
+});
+
 app.get("/api/usuarios/tipo/:correo", (req, res) => {
   const correo = decodeURIComponent(req.params.correo);
   db.query(
@@ -220,6 +240,7 @@ app.get("/api/usuarios/tipo/:correo", (req, res) => {
   );
 });
 //xdd
+
 app.put("/api/capacitaciones", (req, res) => {
   const { titulo, descripcion, id_capacitador, fecha } = req.body;
   if (!titulo || !descripcion || !id_capacitador || !fecha)

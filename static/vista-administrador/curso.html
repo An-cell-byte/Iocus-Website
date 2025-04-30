@@ -188,7 +188,7 @@
 
                 
               </div>
-                <div id="quizDiv"></div>              
+              <div id="quizDiv"></div>              
               <pre id="salidaJson"></pre>
               <h3 class="h5">Subir material</h3>
               <form id="formSubirArchivo" class="mb-3" enctype="multipart/form-data">
@@ -336,6 +336,7 @@
     Limpia el formulario para otra pregunta
   -------------------------------------------------*/
       function mandarformulario(id) {
+        console.log(bancoPreguntas);
         fetch(BACKEND + "/api/capacitaciones/" + id + "/preguntas", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
