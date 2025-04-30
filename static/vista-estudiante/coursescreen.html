@@ -128,18 +128,11 @@
 	<script>
 		// Aquí puedes agregar el código JavaScript que necesites para la funcionalidad de tu página
 		function añadirCurso() {
+			const idUsuario = getCookie("id"); // Obtener el ID del usuario desde la cookie
+			const idCapacitacion = document.getElementById("codedecurso").value; // Obtener el ID de la capacitación desde el input
 			// Lógica para añadir un curso
-			alert("Curso añadido exitosamente.");
-			fetch("http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/api/inscribir/:id_usuario/:id_capacitacion" , {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					id_usuario: 1,
-					id_capacitacion: document.getElementById("codedecurso").value,
-				}),
-			})
+
+			fetch("http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/api/inscribir/"+idUsuario+"/"+idCapacitacion)
 				.then((response) => {
 					if (response.ok) {
 						alert("Curso añadido exitosamente.");
