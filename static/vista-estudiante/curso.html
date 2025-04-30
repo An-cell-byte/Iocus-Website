@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
+    <!-- Script que protege la ruta para alumnos (ya define getCookie) -->
     <script src="protegerAlumno.js"></script>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -15,6 +16,7 @@
     <link href="../css/app.css" rel="stylesheet" />
 
     <style>
+      /* Layout simple para las tarjetas */
       #tarjetas {
         display: grid;
         gap: 1rem;
@@ -25,7 +27,7 @@
         border-radius: 0.5rem;
       }
 
-      /* visor interno */
+      /* Visor interno de material */
       #visorArchivo {
         margin-top: 1.5rem;
       }
@@ -57,7 +59,7 @@
             </li>
 
             <li class="sidebar-item">
-              <a class="sidebar-link" href="ayuda.html">
+              <a class="sidebar-link" href="faq.html">
                 <i class="align-middle" data-feather="help-circle"></i>
                 <span>Ayuda</span>
               </a>
@@ -74,16 +76,15 @@
           <div class="sidebar-cta">
             <div class="sidebar-cta-content">
               <strong class="d-inline-block mb-2"
-                >¿Quieres probar el juego del curso?
-              </strong>
+                >¿Quieres probar el juego del curso?</strong
+              >
 
               <div class="mb-3 text-sm" style="text-align: justify">
                 En este juego podrás poner en práctica los aprendizajes
                 adquiridos en esta plataforma, además de desarrollar habilidades
                 indispensables para formar parte del personal técnico de
-                Whirlpool. De entre dichas habilidades se encuentran:
-                Conocimiento técnico, velocidad de respuesta, y resolución de
-                problemas.
+                Whirlpool. Entre dichas habilidades están: Conocimiento técnico,
+                velocidad de respuesta y resolución de problemas.
               </div>
               <div class="d-grid">
                 <a href="game/juego.html" class="btn btn-primary">JUGAR</a>
@@ -128,19 +129,19 @@
       const BACKEND = "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io";
 
       /* ---------- helpers ---------- */
-      const getCookie = (nombre) =>
-        document.cookie
-          .split("; ")
-          .find((r) => r.startsWith(nombre + "="))
-          ?.split("=")[1] || null;
+      // getCookie ya viene de protegerAlumno.js → alias con decodificación
+      const leerCookie = (nombre) =>
+        decodeURIComponent(getCookie(nombre) || "");
 
       /* ---------- bloqueo por rol (solo alumno) ---------- */
       (function protegerAlumno() {
-        const tipo = decodeURIComponent(getCookie("tipo") || "");
+        const tipo = leerCookie("tipo");
         if (tipo !== "alumno") {
-          if (tipo === "capacitador")
+          if (tipo === "capacitador") {
             location.replace("/vistaAdministrador.html");
-          else location.replace("/index.html");
+          } else {
+            location.replace("/index.html");
+          }
         }
       })();
 
@@ -193,8 +194,7 @@
               .map(
                 (m) => `
               <li class="mb-1">
-                <button type="button" class="btn btn-link p-0 archivo"
-                        data-url="${BACKEND}/uploads/${m.ruta}">
+                <button type="button" class="btn btn-link p-0 archivo" data-url="${BACKEND}/uploads/${m.ruta}">
                   ${m.nombre_original}
                 </button>
               </li>`
@@ -205,7 +205,7 @@
         contenedorCurso.innerHTML = `
           <h1 class="h3 mb-3">${c.titulo}</h1>
           <p class="mb-2">${c.descripcion}</p>
-          <p class="mb-4"><strong>Id del curso:</strong> ${id}</p>
+          <p class="mb-4"><strong>Id del curso:</strong> ${c.id}</p>
           <p class="mb-4"><strong>Fecha:</strong> ${c.fecha}</p>
 
           <h3 class="h5">Material del curso</h3>
@@ -213,9 +213,7 @@
 
           <div id="visorArchivo"></div>
 
-          <button class="btn btn-primary" onclick="iniciarCurso(${c.id})">
-            Marcar curso como terminado
-          </button>
+          <button class="btn btn-primary" onclick="iniciarCurso(${c.id})">Marcar curso como terminado</button>
         `;
 
         /* une cada botón con el visor */
@@ -228,13 +226,13 @@
 
       /* ---------- iniciar curso (simple placeholder) ---------- */
       function iniciarCurso(id) {
-        const _idAlumno = decodeURIComponent(getCookie("id") || "");
-        fetch(`${BACKEND}/api/cursos/${_idAlumno}/${id}`, {
+        const idAlumno = leerCookie("id");
+        fetch(`${BACKEND}/api/cursos/${idAlumno}/${id}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
         })
           .then((res) => {
-            if (!res.ok) throw new Error("Error al Completar el curso");
+            if (!res.ok) throw new Error("Error al completar el curso");
             return res.json();
           })
           .then(() => {
