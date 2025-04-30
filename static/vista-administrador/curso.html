@@ -14,32 +14,32 @@
     <meta name="author" content="AdminKit" />
     <meta
       name="keywords"
-      content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web"
+      content="adminkit, bootstrap, dashboard, responsive, web"
     />
 
-    <!-- Favicon & Google Font -->
+    <!-- Favicon & Google Font -------------------------------------------------->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
+    <link rel="shortcut icon" href="/img/icons/icon-48x48.png" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
 
-    <!-- AdminKit core CSS -->
-    <link href="css/app.css" rel="stylesheet" />
-
-    <!-- Protección de ruta -->
-    <script src="protegerCapacitador.js"></script>
+    <!-- AdminKit core CSS ------------------------------------------------------->
+    <link href="/css/app.css" rel="stylesheet" />
 
     <title>Detalle del Curso</title>
   </head>
 
   <body>
     <div class="wrapper">
-      <!-- ===== SIDEBAR ===== -->
+      <!-- ====================== SIDEBAR ====================== -->
       <nav id="sidebar" class="sidebar js-sidebar">
         <div class="sidebar-content js-simplebar">
-          <a class="sidebar-brand" href="vistaAdministrador.html">
+          <a
+            class="sidebar-brand"
+            href="/vista-administrador/vistaAdministrador.html"
+          >
             <span class="align-middle">Administrador</span>
           </a>
 
@@ -47,7 +47,7 @@
             <li class="sidebar-header">Componentes</li>
 
             <li class="sidebar-item">
-              <a class="sidebar-link" href="pages-profile.html">
+              <a class="sidebar-link" href="/pages-profile.html">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -68,7 +68,10 @@
             </li>
 
             <li class="sidebar-item">
-              <a class="sidebar-link" href="vistaAdministrador.html">
+              <a
+                class="sidebar-link"
+                href="/vista-administrador/vistaAdministrador.html"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -91,7 +94,7 @@
             </li>
 
             <li class="sidebar-item">
-              <a class="sidebar-link" href="faq.html">
+              <a class="sidebar-link" href="/faq.html">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -113,7 +116,7 @@
             </li>
 
             <li class="sidebar-item">
-              <a class="sidebar-link" href="../index.html">
+              <a class="sidebar-link" href="/index.html">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="24"
@@ -137,7 +140,7 @@
         </div>
       </nav>
 
-      <!-- ===== MAIN ===== -->
+      <!-- ====================== MAIN ====================== -->
       <div class="main">
         <!-- Top navbar -->
         <nav class="navbar navbar-expand navbar-light navbar-bg">
@@ -171,12 +174,12 @@
       </div>
     </div>
 
-    <!-- AdminKit core JS -->
-    <script src="js/app.js"></script>
+    <!-- AdminKit core JS (bundle generado por Vite) -->
+    <script type="module" defer src="/js/app.js"></script>
 
     <!-- ================= CUSTOM SCRIPT ================= -->
-    <script>
-      // 1. Función utilitaria para leer cookies
+    <script type="module">
+      // 1. Utilidad para cookies -------------------------------------------
       function getCookie(nombre) {
         const fila = document.cookie
           .split("; ")
@@ -184,37 +187,38 @@
         return fila ? decodeURIComponent(fila.split("=")[1]) : null;
       }
 
-      // 2. Protección por rol
+      // 2. Protección de ruta ----------------------------------------------
       (function proteger() {
         const token = getCookie("token");
         const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
-        const esCap = location.pathname.includes("/vista-administrador");
+        const esVistaCap = location.pathname.includes("/vista-administrador");
 
         if (!token || !usuario) {
           location.href = "/login.html";
           return;
         }
-        if (esCap && usuario.rol !== "capacitador") {
+        if (esVistaCap && usuario.tipo !== "capacitador") {
           location.href = "/vista-estudiante/coursescreen.html";
           return;
         }
-        if (!esCap && usuario.rol !== "alumno") {
+        if (!esVistaCap && usuario.tipo !== "alumno") {
           location.href = "/vista-administrador/vistaAdministrador.html";
           return;
         }
       })();
 
-      // 3. Obtener ID del curso
+      // 3. Obtener ID del curso -------------------------------------------
       const params = new URLSearchParams(location.search);
       const courseId = params.get("id");
+
       if (!courseId) {
         document.getElementById("contenedorCurso").innerHTML =
-          "<p class='text-center'>Curso no especificado.</p>";
+          '<p class="text-center">Curso no especificado.</p>';
       } else {
         cargarCurso(courseId);
       }
 
-      // 4. Traer datos al backend
+      // 4. Traer datos desde backend --------------------------------------
       async function cargarCurso(id) {
         try {
           const res = await fetch(`/cursos/${id}`);
@@ -228,17 +232,17 @@
         }
       }
 
-      // 5. Pintar info con AdminKit
+      // 5. Dibujar la tarjeta ---------------------------------------------
       function dibujar(c) {
         const usuario = JSON.parse(localStorage.getItem("usuario"));
-        const esCap = usuario.rol === "capacitador";
+        const esCap = usuario.tipo === "capacitador";
 
         const botones = esCap
           ? `<button class="btn btn-primary me-2" onclick="editarCurso(${c.id})">Editar curso</button>
              <button class="btn btn-secondary" onclick="verInscritos(${c.id})">Ver inscritos</button>`
           : `<button class="btn btn-success" onclick="iniciarCurso(${c.id})">Comenzar</button>`;
 
-        const html = `
+        document.getElementById("contenedorCurso").innerHTML = `
           <div class="col-md-8 col-lg-6">
             <div class="card">
               <div class="card-header"><h3 class="card-title mb-0">${
@@ -253,20 +257,12 @@
               </div>
             </div>
           </div>`;
-
-        document.getElementById("contenedorCurso").innerHTML = html;
       }
 
-      // 6. Funciones dummy
-      function editarCurso(id) {
-        alert("Ir a pantalla de edición " + id);
-      }
-      function verInscritos(id) {
-        alert("Mostrar inscritos " + id);
-      }
-      function iniciarCurso(id) {
-        alert("Lanzar contenido del curso " + id);
-      }
+      // 6. Funciones dummy -------------------------------------------------
+      window.editarCurso = (id) => alert("Ir a pantalla de edición " + id);
+      window.verInscritos = (id) => alert("Mostrar inscritos " + id);
+      window.iniciarCurso = (id) => alert("Lanzar contenido del curso " + id);
     </script>
   </body>
 </html>
