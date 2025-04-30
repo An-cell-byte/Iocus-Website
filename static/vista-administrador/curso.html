@@ -335,7 +335,8 @@
       /*-------------------------------------------------
     Limpia el formulario para otra pregunta
   -------------------------------------------------*/
-      function mandarformulario(id) {
+      function mandarformulario() {
+        const id = params.get("id");
         console.log(bancoPreguntas);
         fetch(BACKEND + "/api/capacitaciones/" + id + "/preguntas", {
           method: "POST",
