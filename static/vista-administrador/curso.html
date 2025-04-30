@@ -288,7 +288,7 @@
           .getElementById("btnListo")
           .addEventListener("click", guardarPregunta);
         document
-          .getElementById("btnSiguiente")
+          .getElementById("mandarFormulario")
           .addEventListener("click", mandarformulario);
       }
 
@@ -336,11 +336,8 @@
     Limpia el formulario para otra pregunta
   -------------------------------------------------*/
       function mandarformulario(id) {
-        fetch(`${BACKEND}/api/capacitaciones/${id}/preguntas`, {
+        fetch(BACKEND + "/api/capacitaciones/" + id + "/preguntas", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
           body: JSON.stringify(bancoPreguntas),
         })
           .then((res) => {
