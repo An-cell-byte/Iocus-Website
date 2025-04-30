@@ -163,7 +163,7 @@ app.get("/api/usuarios/tipo/:correo", (req, res) => {
         console.error("Error al ejecutar función:", err);
         return res.status(500).send("Error en la base de datos");
       }
-
+      
       const tipo = resultados[0]?.tipo_usuario;
 
       if (!tipo) {

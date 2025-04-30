@@ -14,11 +14,11 @@
         const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
         const esCap = location.pathname.includes("/vista-administrador");
 
-        /* Sin sesión → login */
+        /* Sin sesión → login 
         if (!token || !usuario) {
           location.href = "/login.html";
           return;
-        }
+        }*/
         /* Rol equivocado → a su área */
         if (esCap && usuario.rol !== "capacitador") {
           location.href = "/vista-estudiante/coursescreen.html";
