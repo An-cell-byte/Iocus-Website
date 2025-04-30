@@ -338,6 +338,7 @@
       function mandarformulario() {
         const id = params.get("id");
         console.log(bancoPreguntas);
+        console.log(BACKEND + "/api/capacitaciones/" + id + "/preguntas");
         fetch(BACKEND + "/api/capacitaciones/" + id + "/preguntas", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
