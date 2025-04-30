@@ -156,8 +156,8 @@
       }
 
       function dibujar(c) {
-        const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
-        const esCap = usuario.rol === "capacitador";
+        const usuario = getCookie("tipo");
+        const esCap = usuario === "capacitador";
 
         /* lista de material */
         let lista = "";
