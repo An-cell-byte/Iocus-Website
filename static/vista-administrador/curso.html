@@ -338,6 +338,7 @@
       function mandarformulario(id) {
         fetch(BACKEND + "/api/capacitaciones/" + id + "/preguntas", {
           method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(bancoPreguntas),
         })
           .then((res) => {
