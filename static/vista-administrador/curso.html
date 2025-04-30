@@ -260,9 +260,7 @@
                 (i) => `
               <div style="margin-bottom:.5rem;">
                 <input type="radio" name="correcta" value="${i}" id="radio${i}" />
-                <input type="text" id="resp${i}" placeholder="Respuesta ${
-                  i + 1
-                }" />
+                <input type="text" id="resp${i}" placeholder="Respuesta ${i}" />
               </div>`
               )
               .join("")}
@@ -297,7 +295,7 @@
         //   null,
         //   2
         //);
-        // limpia
+        limpia;
         document.getElementById("inputPregunta").value = "";
         [0, 1, 2, 3].forEach((i) => {
           document.getElementById("resp" + i).value = "";
