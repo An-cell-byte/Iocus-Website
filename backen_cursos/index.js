@@ -5,8 +5,9 @@ const cors = require("cors");
 const app = express();
 app.use(
   cors({
-    methods: ["POST", "GET"],
-    credentials: true,
+    origin: "http://zwwk4ocg8k0ko4g08wkgoo00.4.172.252.35.sslip.io", // tu frontend
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
   })
 );
 app.use(express.json());
