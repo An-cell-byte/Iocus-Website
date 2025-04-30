@@ -1,28 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
-    <script src ="protegerCapacitador.js"> </script>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Interfaz de administrador</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="Responsive Admin &amp; Dashboard Template based on Bootstrap 5"
+    />
+    <meta name="author" content="AdminKit" />
+    <meta
+      name="keywords"
+      content="adminkit, bootstrap, bootstrap 5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web"
+    />
 
-    <!-- Favicon & fonts -->
+    <!-- Favicon & Google Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link rel="shortcut icon" href="img/icons/icon-48x48.png" />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Core CSS -->
+    <!-- AdminKit core CSS -->
     <link href="css/app.css" rel="stylesheet" />
+
+    <!-- Protección de ruta -->
+    <script src="protegerAlumno.js"></script>
+
+    <title>Detalle del Curso</title>
   </head>
+
   <body>
     <div class="wrapper">
-      <!-- ========== Sidebar ========== -->
+      <!-- ===== SIDEBAR ===== -->
       <nav id="sidebar" class="sidebar js-sidebar">
         <div class="sidebar-content js-simplebar">
-          <a class="sidebar-brand" href="vistaAdministrador.html">
+          <a class="sidebar-brand" href="coursescreen.html">
             <span class="align-middle">Administrador</span>
           </a>
 
@@ -30,81 +47,112 @@
             <li class="sidebar-header">Componentes</li>
 
             <li class="sidebar-item">
-              <a class="sidebar-link" href="pages-profile2.html">
-                <i class="align-middle" data-feather="user"></i>
-                <span>Mi cuenta</span>
+              <a class="sidebar-link" href="pages-profile.html">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-user align-middle"
+                >
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                <span class="align-middle">Mi cuenta</span>
               </a>
             </li>
 
             <li class="sidebar-item">
-              <a class="sidebar-link" href="vistaAdministrador.html">
-                <i class="align-middle" data-feather="book"></i>
-                <span>Cursos</span>
+              <a class="sidebar-link" href="coursescreen.html">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-book align-middle"
+                >
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                  <path
+                    d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+                  />
+                </svg>
+                <span class="align-middle">Cursos</span>
               </a>
             </li>
 
             <li class="sidebar-item">
-              <a class="sidebar-link" href="ui-typography2.html">
-                <i class="align-middle" data-feather="align-left"></i>
-                <span>Ayuda</span>
+              <a class="sidebar-link" href="faq.html">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-help-circle align-middle"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.09 9a3 3 0 1 1 5.83 1c0 1.5-1.34 2-2.34 2" />
+                  <line x1="12" y1="17" x2="12" y2="17" />
+                </svg>
+                <span class="align-middle">Ayuda</span>
               </a>
             </li>
 
             <li class="sidebar-item">
               <a class="sidebar-link" href="../index.html">
-                <i class="align-middle" data-feather="log-in"></i>
-                <span>Cerrar sesión</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="feather feather-log-out align-middle"
+                >
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                  <polyline points="16 17 21 12 16 7" />
+                  <line x1="21" y1="12" x2="9" y2="12" />
+                </svg>
+                <span class="align-middle">Cerrar sesión</span>
               </a>
             </li>
           </ul>
         </div>
       </nav>
 
-      <!-- ========== Main Content ========== -->
+      <!-- ===== MAIN ===== -->
       <div class="main">
-        <!-- Top bar -->
+        <!-- Top navbar -->
         <nav class="navbar navbar-expand navbar-light navbar-bg">
-          <a class="sidebar-toggle js-sidebar-toggle">
-            <i class="hamburger align-self-center"></i>
-          </a>
+          <a class="sidebar-toggle js-sidebar-toggle"
+            ><i class="hamburger align-self-center"></i
+          ></a>
         </nav>
 
+        <!-- Main content -->
         <main class="content">
           <div class="container-fluid p-0">
-            <!--div de cursos existentes-->
-            <div id="root"></div>
-            <script src="cursos.js"></script>
-
-            <!-- ===== Crear curso ===== -->
-            <h2 class="h3 mb-3 mt-4">Creación de Cursos</h2>
-            <div class="card">
-              <div class="card-body">
-                <div id="namecurso" class="mb-3">
-                  <label class="form-label">Nombre del curso</label>
-                  <input
-                    class="form-control form-control-lg"
-                    id="Course_name"
-                    placeholder="Ingresa el nombre del curso"
-                  />
-                </div>
-                <div id="descriptioncurso" class="mb-3">
-                  <label class="form-label">Descripción del curso</label>
-                  <input
-                    class="form-control form-control-lg"
-                    id="course_description"
-                    placeholder="Ingresa la descripción del curso"
-                  />
-                </div>
-                <div class="d-grid gap-2 mt-3">
-                  <button
-                    onclick="añadirCurso()"
-                    class="btn btn-lg btn-primary"
-                  >
-                    Añadir Curso
-                  </button>
-                </div>
-              </div>
-            </div>
+            <div
+              id="contenedorCurso"
+              class="row d-flex justify-content-center"
+            ></div>
           </div>
         </main>
 
@@ -112,9 +160,9 @@
         <footer class="footer">
           <div class="container-fluid">
             <div class="row text-muted">
-              <div class="col-12 text-center text-lg-start">
+              <div class="col-6 text-start">
                 <p class="mb-0">
-                  <strong>Whirlpool – Página de Capacitación</strong>
+                  <strong>Whirlpool • Plataforma de Capacitación</strong> ©
                 </p>
               </div>
             </div>
@@ -123,78 +171,102 @@
       </div>
     </div>
 
-    <!-- Core JS -->
+    <!-- AdminKit core JS -->
     <script src="js/app.js"></script>
- <script>
-  function añadirCurso() {
-    const titulo = document.getElementById("Course_name").value;
-    const descripcion = document.getElementById("course_description").value;
 
-    // ID del capacitador fijo = 99
-    const id_capacitador = getCookie("id");
-
-    // Fecha y hora actual en formato correcto
-    const ahora = new Date();
-    const fecha = ahora.getFullYear() + "-" +
-      String(ahora.getMonth() + 1).padStart(2, '0') + "-" +
-      String(ahora.getDate()).padStart(2, '0') + " " +
-      String(ahora.getHours()).padStart(2, '0') + ":" +
-      String(ahora.getMinutes()).padStart(2, '0') + ":" +
-      String(ahora.getSeconds()).padStart(2, '0');
-
-    if (!titulo || !descripcion) {
-      alert("Completa todos los campos");
-      return;
-    }
-    console.log("Título del curso:", titulo);
-    console.log("Descripción del curso:", descripcion);
-    console.log("ID del capacitador:", id_capacitador);
-    console.log("Fecha y hora actual:", fecha);
-    
-
-    fetch("http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/api/capacitaciones", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-      titulo: titulo,
-      descripcion: descripcion,
-      id_capacitador: id_capacitador,
-      fecha: fecha,
-    }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Curso añadido:", data);
-        alert("Curso añadido exitosamente");
-        // Limpiar los inputs
-        document.getElementById("Course_name").value = "";
-        document.getElementById("course_description").value = "";
-      })
-      .catch((err) => {
-        console.error("Error:", err);
-        alert("Error al añadir curso");
-      });
-  }
-</script>
-
-
-    <!-- Script: Añadir curso dinámicamente 
+    <!-- ================= CUSTOM SCRIPT ================= -->
     <script>
-      // Verificar si el usuario está autenticado
-      fetch("/auth/restricted", { method: "GET" })
-        .then((response) => {
-          if (!response.ok) {
-            // Si no está autenticado, redirigir al inicio de sesión
-            window.location.href = "../index.html";
-          }
-        })
-        .catch((error) => {
-          console.error("Error al verificar la sesión:", error);
-          window.location.href = "../index.html";
-        });
-    -->
+      // 1. Función utilitaria para leer cookies
+      function getCookie(nombre) {
+        const fila = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith(nombre + "="));
+        return fila ? decodeURIComponent(fila.split("=")[1]) : null;
+      }
+
+      // 2. Protección por rol
+      (function proteger() {
+        const token = getCookie("token");
+        const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+        const esCap = location.pathname.includes("/vista-administrador");
+
+        if (!token || !usuario) {
+          location.href = "/login.html";
+          return;
+        }
+        if (esCap && usuario.rol !== "capacitador") {
+          location.href = "/vista-estudiante/coursescreen.html";
+          return;
+        }
+        if (!esCap && usuario.rol !== "alumno") {
+          location.href = "/vista-administrador/vistaAdministrador.html";
+          return;
+        }
+      })();
+
+      // 3. Obtener ID del curso
+      const params = new URLSearchParams(location.search);
+      const courseId = params.get("id");
+      if (!courseId) {
+        document.getElementById("contenedorCurso").innerHTML =
+          "<p class='text-center'>Curso no especificado.</p>";
+      } else {
+        cargarCurso(courseId);
+      }
+
+      // 4. Traer datos al backend
+      async function cargarCurso(id) {
+        try {
+          const res = await fetch(`/cursos/${id}`);
+          if (!res.ok) throw new Error("No se encontró el curso");
+          const curso = await res.json();
+          dibujar(curso);
+        } catch (err) {
+          document.getElementById(
+            "contenedorCurso"
+          ).innerHTML = `<p class='text-center'>${err.message}</p>`;
+        }
+      }
+
+      // 5. Pintar info con AdminKit
+      function dibujar(c) {
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        const esCap = usuario.rol === "capacitador";
+
+        const botones = esCap
+          ? `<button class="btn btn-primary me-2" onclick="editarCurso(${c.id})">Editar curso</button>
+             <button class="btn btn-secondary" onclick="verInscritos(${c.id})">Ver inscritos</button>`
+          : `<button class="btn btn-success" onclick="iniciarCurso(${c.id})">Comenzar</button>`;
+
+        const html = `
+          <div class="col-md-8 col-lg-6">
+            <div class="card">
+              <div class="card-header"><h3 class="card-title mb-0">${
+                c.titulo
+              }</h3></div>
+              <div class="card-body">
+                <p class="mb-2">${c.descripcion}</p>
+                <p class="text-muted mb-4"><strong>Fecha de creación:</strong> ${new Date(
+                  c.fecha
+                ).toLocaleString()}</p>
+                ${botones}
+              </div>
+            </div>
+          </div>`;
+
+        document.getElementById("contenedorCurso").innerHTML = html;
+      }
+
+      // 6. Funciones dummy
+      function editarCurso(id) {
+        alert("Ir a pantalla de edición " + id);
+      }
+      function verInscritos(id) {
+        alert("Mostrar inscritos " + id);
+      }
+      function iniciarCurso(id) {
+        alert("Lanzar contenido del curso " + id);
+      }
     </script>
   </body>
 </html>
