@@ -354,6 +354,77 @@
             alert(err.message);
           });
       }
+      function mostrarTarjetas(lista) {
+        const contenedor = document.getElementById("tarjetas");
+        contenedor.innerHTML = ""; // Limpia lo que hubiera antes
+
+        lista.forEach((item, i) => {
+          // --- Crea la tarjeta ---
+          const tarjeta = document.createElement("div");
+          tarjeta.className = "tarjeta"; // Clase para estilos opcionales
+          tarjeta.dataset.index = i; // Guarda su posición por si la necesitas
+
+          // --- Cuerpo de la tarjeta ---
+          tarjeta.innerHTML = `
+      <h3>${item.pregunta}</h3>
+      <ul>
+        ${item.respuestas
+          .map((resp, idx) =>
+            idx === item.correctAnswerIndex
+              ? `<li><strong>${resp}</strong> ✅</li>` // Destaca la correcta
+              : `<li>${resp}</li>`
+          )
+          .join("")}
+      </ul>
+      <button class="borrar">Borrar</button>
+    `;
+
+          // --- Botón de borrado ---
+          tarjeta.querySelector(".borrar").addEventListener("click", () => {
+            tarjeta.remove(); // Quita la tarjeta del DOM
+            // Si también quieres borrarla del array:
+            // lista.splice(i, 1);
+          });
+
+          // --- Agrega la tarjeta al contenedor ---
+          contenedor.appendChild(tarjeta);
+        });
+      }
+      const _courseId = params.get("id");
+      /* 3) Llama la función cuando quieras */
+      fetch(
+        BACKEND + "/quiz/" + _courseId,
+        {
+          method: "GET",
+        }
+          .then((res) => res.json())
+          .then((data) => {
+            // Agrega las preguntas al array
+            mostrarTarjetas(data); // Muestra las tarjetas
+          })
+          .catch((err) => console.error(err))
+      );
+      mostrarTarjetas(data); // Muestra las tarjetas
     </script>
+
+    <style>
+      /* Estilos muy básicos: cambia a tu gusto */
+      #tarjetas {
+        display: grid;
+        gap: 1rem;
+      }
+      .tarjeta {
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 0.5rem;
+      }
+      .tarjeta h3 {
+        margin-top: 0;
+      }
+      .borrar {
+        margin-top: 0.5rem;
+        cursor: pointer;
+      }
+    </style>
   </body>
 </html>

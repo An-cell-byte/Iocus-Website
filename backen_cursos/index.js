@@ -241,6 +241,19 @@ app.get("/api/usuarios/tipo/:correo", (req, res) => {
 });
 //xdd
 
+app.get("/quiz/:id_capacitacion", (req, res) => {
+  const id_capacitacion = req.params.id_capacitacion;
+  db.query(
+    "SELECT * FROM preguntas WHERE id_capacitacion = ?",
+    [id_capacitacion],
+    (err, r) => {
+      if (err) return res.status(500).send("Error en la base de datos");
+      if (!r.length) return res.status(404).send("Preguntas no encontradas");
+      res.json(r);
+    }
+  );
+});
+
 app.put("/api/capacitaciones", (req, res) => {
   const { titulo, descripcion, id_capacitador, fecha } = req.body;
   if (!titulo || !descripcion || !id_capacitador || !fecha)
