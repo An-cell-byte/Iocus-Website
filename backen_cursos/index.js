@@ -169,11 +169,19 @@ app.get("/api/usuarios/tipo/:correo", (req, res) => {
   const correo = decodeURIComponent(req.params.correo);
   db.query(
     "SELECT obtenerTipoPorCorreo(?) AS tipo_usuario",
-    [correo],
-    (err, r) => {
-      if (err) return res.status(500).send("Error en la base de datos");
-      const tipo = r[0]?.tipo_usuario;
-      if (!tipo) return res.status(404).send("Correo no encontrado");
+    [correoDecodificado],
+    (err, resultados) => {
+      if (err) {
+        console.error("Error al ejecutar función:", err);
+        return res.status(500).send("Error en la base de datos");
+      }
+
+      const tipo = resultados[0]?.tipo_usuario;
+
+      if (!tipo) {
+        return res.status(404).send("Correo no encontrado o tipo no definido");
+      }
+
       res.json({ tipo_usuario: tipo });
     }
   );
