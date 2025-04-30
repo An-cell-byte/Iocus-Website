@@ -131,7 +131,7 @@
     const descripcion = document.getElementById("course_description").value;
 
     // ID del capacitador fijo = 99
-    const id_capacitador = 99;
+    const id_capacitador = getCookie("id");
 
     // Fecha y hora actual en formato correcto
     const ahora = new Date();
@@ -146,6 +146,11 @@
       alert("Completa todos los campos");
       return;
     }
+    console.log("Título del curso:", titulo);
+    console.log("Descripción del curso:", descripcion);
+    console.log("ID del capacitador:", id_capacitador);
+    console.log("Fecha y hora actual:", fecha);
+    
 
     fetch("http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/api/capacitaciones", {
       method: "PUT",
@@ -153,11 +158,11 @@
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        titulo,
-        descripcion,
-        id_capacitador,
-        fecha,
-      }),
+      titulo: titulo,
+      descripcion: descripcion,
+      id_capacitador: id_capacitador,
+      fecha: fecha,
+    }),
     })
       .then((res) => res.json())
       .then((data) => {

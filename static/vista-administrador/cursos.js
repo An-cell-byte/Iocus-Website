@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     try {
       // ❗ Cambia la URL por la de tu API real
+      console.log(
+        "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/cursos/usuario/" +
+          idCapacitador
+      );
       const respuesta = await fetch(
         "http://dcwck8048o4ocowkwwwkksck.4.172.252.35.sslip.io/cursos/usuario/" +
           idCapacitador
