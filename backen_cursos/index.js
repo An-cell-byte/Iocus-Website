@@ -33,7 +33,7 @@ db.connect((err) => {
 app.get("/cursos/usuario/:id", (req, res) => {
   const id = req.params.id;
   db.query(
-    "SELECT * FROM capacitaciones WHERE id_usuario = ?",
+    "SELECT * FROM capacitaciones WHERE id_capacitador = ?",
     [id],
     (err, resultados) => {
       if (err) {
