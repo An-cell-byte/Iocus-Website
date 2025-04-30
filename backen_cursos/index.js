@@ -125,7 +125,7 @@ app.get("/api/usuarios/:id/contrasena", (req, res) => {
 app.get("/api/inscribir/:id_usuario/:id_capacitacion", (req, res) => {
   const { id_usuario, id_capacitacion } = req.params;
   db.query(
-    "INSERT INTO inscripciones (id_usuario, id_capacitacion) VALUES (?, ?)",
+    "INSERT INTO inscripciones (id_alumno, id_capacitacion) VALUES (?, ?);",
     [id_usuario, id_capacitacion],
     (err, resultados) => {
       if (err) {
