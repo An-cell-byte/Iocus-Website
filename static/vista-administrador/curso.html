@@ -184,8 +184,7 @@
       esCap
         ? `
     <div class="mb-4 d-flex gap-2">
-      <button class="btn btn-sm btn-outline-primary" onclick="editarCurso(${c.id})">Editar curso</button>
-      <button class="btn btn-sm btn-outline-secondary" onclick="verInscritos(${c.id})">Ver inscritos</button>
+
       <button class="btn btn-sm btn-outline-secondary" onclick="abrirFormularioPregunta()">Crear quiz</button>
     </div>
     <div id="quizDiv"></div>
@@ -255,28 +254,28 @@
       /* ------ muestra formulario para nueva pregunta ------ */
       function abrirFormularioPregunta() {
         document.getElementById("quizDiv").innerHTML = `
-          <div id="formPregunta" style="border:1px solid #ccc;padding:1rem;margin-top:1rem;">
-            <label>Pregunta:
-              <input type="text" id="inputPregunta" placeholder="Escribe la pregunta" />
-            </label><br><br>
-            ${[0, 1, 2, 3]
-              .map(
-                (i) => `
-              <div style="margin-bottom:.5rem;">
-                <input type="radio" name="correcta" value="${i}" id="radio${i}" />
-                <input type="text" id="resp${i}" placeholder="Respuesta ${i}" />
-              </div>`
-              )
-              .join("")}
-            <button id="btnListo">Guardar Pregunta</button>
-            <button id="mandarFormulario">Mandar Preguntas</button>
-          </div>`;
-        document
-          .getElementById("btnListo")
-          .addEventListener("click", guardarPregunta);
+    <div id="formPregunta" style="border:1px solid #ccc;padding:1rem;margin-top:1rem;">
+      <label>Pregunta:
+        <input type="text" id="inputPregunta" placeholder="Escribe la pregunta" />
+      </label><br><br>
+      ${[0, 1, 2, 3]
+        .map(
+          (i) => `
+        <div style="margin-bottom:.5rem;">
+          <input type="radio" name="correcta" value="${i}" id="radio${i}" />
+          <input type="text" id="resp${i}" placeholder="Respuesta ${i}" />
+        </div>`
+        )
+        .join("")}
+      <button id="mandarFormulario">Mandar Preguntas</button>
+    </div>`;
+
         document
           .getElementById("mandarFormulario")
-          .addEventListener("click", mandarformulario);
+          .addEventListener("click", function (e) {
+            guardarPregunta(e);
+            mandarformulario();
+          });
       }
 
       /* ------ guarda la pregunta en array ------ */
@@ -291,15 +290,11 @@
 
         if (!pregunta || respuestas.some((r) => !r) || idx === -1) {
           alert("Llena todo y marca la correcta 😉");
-          return;
+          throw new Error("Formulario incompleto");
         }
+
         bancoPreguntas.push({ pregunta, correctAnswerIndex: idx, respuestas });
-        // document.getElementById("salidaJson").textContent = JSON.stringify(
-        //   bancoPreguntas,
-        //   null,
-        //   2
-        //);
-        limpia;
+
         document.getElementById("inputPregunta").value = "";
         [0, 1, 2, 3].forEach((i) => {
           document.getElementById("resp" + i).value = "";
